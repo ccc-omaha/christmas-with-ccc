@@ -8,8 +8,8 @@ settings:
     identity: user
 
 media:
-  input: public/assets/uploads
-  output: /assets/uploads
+  input: public/assets
+  output: /assets
   rename: safe
   extensions: [jpg, jpeg, png, webp]
 
@@ -189,6 +189,8 @@ content:
           - name: image
             label: Photo
             type: image
+            options:
+              path: public/assets/gallery
             description: "Keep files under 2 MB. Larger photos are shrunk automatically after upload."
           - { name: alt, label: Description for screen readers and Google, type: string }
           - { name: caption, label: Caption in the photo viewer, type: string }
@@ -275,11 +277,15 @@ content:
       - name: shareImageTall
         label: Social preview image (tall, 1080 × 1350)
         type: image
+        options:
+          path: public/assets
         description: The times are part of the graphic, so make a new one if times change.
       - { name: shareImageTallAlt, label: Tall image description, type: text }
       - name: shareImageWide
         label: Social preview image (wide, 1200 × 630)
         type: image
+        options:
+          path: public/assets
       - { name: shareImageWideAlt, label: Wide image description, type: text }
       - { name: eventDescription, label: Google event description, type: text }
       - { name: calendarDescription, label: Calendar event description, type: text, description: "What appears in someone's calendar when they tap Add to calendar." }
