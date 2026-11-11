@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Text a Friend | Christmas with CCC</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#390025">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-120 -120 240 240'%3E%3Crect x='-120' y='-120' width='240' height='240' rx='48' fill='%23390025'/%3E%3Cpath fill='%23D6AC4E' d='M0 -100 L3.4 -8.3 L24 -24 L8.3 -3.4 L88 0 L8.3 3.4 L24 24 L3.4 8.3 L0 118 L-3.4 8.3 L-24 24 L-8.3 3.4 L-88 0 L-8.3 -3.4 L-24 -24 L-3.4 -8.3Z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+{% raw %}<style>
+:root{--cream:#fbefda;--gold:#c9a040;--gold-2:#e8c87a;--ink:#2a001b}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{min-height:100vh;min-height:100svh;display:flex;align-items:center;justify-content:center;padding:32px 20px;
+  background:radial-gradient(70% 50% at 70% 15%, #5e1146, transparent 70%), radial-gradient(60% 40% at 20% 100%, #1d0a40, transparent 70%), #390025;
+  color:var(--cream);font-family:'proxima-nova','Montserrat',system-ui,sans-serif;text-align:center}
+main{width:100%;max-width:420px;display:flex;flex-direction:column;align-items:center;gap:18px}
+.star{width:54px;filter:drop-shadow(0 0 14px rgba(239,190,90,.7))}
+.wm{width:min(86%,320px);height:auto}
+h1{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:34px;line-height:1.1;margin:8px 0 0}
+h1 em{color:var(--gold-2)}
+p{margin:0;color:rgba(251,239,218,.82);font-size:16px;line-height:1.55}
+.msg{width:100%;border:1px solid rgba(201,160,64,.6);padding:16px 18px;text-align:left;font-size:15.5px;line-height:1.5;color:var(--cream);background:rgba(20,2,22,.45)}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;padding:14px 32px;border:0;cursor:pointer;text-decoration:none;
+  font:700 16px 'Montserrat',sans-serif;letter-spacing:.04em;
+  clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,16px 100%,0 50%)}
+.primary{background:linear-gradient(135deg,#f3d891,#c9a040 55%,#e6c46f);color:var(--ink)}
+.ghost{background:rgba(251,239,218,.12);color:var(--cream)}
+.small{font-size:13px;color:rgba(251,239,218,.65)}
+.small a{color:var(--gold-2)}
+#toast{min-height:20px;font-size:14px;color:var(--gold-2)}
+</style>{% endraw %}
+</head>
+<body>
+<main>
+  <svg class="star" viewBox="-110 -110 220 240" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dc95"/><stop offset=".5" stop-color="#c9a040"/><stop offset="1" stop-color="#f1d084"/></linearGradient></defs><path fill="url(#g)" d="M0 -100 L3.4 -8.3 L24 -24 L8.3 -3.4 L88 0 L8.3 3.4 L24 24 L3.4 8.3 L0 118 L-3.4 8.3 L-24 24 L-8.3 3.4 L-88 0 L-8.3 -3.4 L-24 -24 L-3.4 -8.3Z"/></svg>
+  <img class="wm" src="/assets/wordmark.webp" width="1400" height="393" alt="Christmas with CCC">
+  <h1>{{ invite.textPageHeading | md }}</h1>
+  <p>{{ invite.textPageLede | md }}</p>
+  <div class="msg" id="msg"></div>
+  <a class="btn primary" id="send" href="#">Text a friend</a>
+  <button class="btn ghost" id="copy" type="button">Copy the invite</button>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <p class="small">See service times and details at <a href="/">christmaswithccc.com</a></p>
+</main>
+<script>
+(() => {
+  // Edit the invite here. Keep the link last so it shows the preview card.
+  const MESSAGE = {{ textMessage | jsonscript }};
+  const sms = 'sms:?&body=' + encodeURIComponent(MESSAGE);
+  const msg = document.getElementById('msg'), send = document.getElementById('send'), toast = document.getElementById('toast');
+  msg.textContent = MESSAGE;
+  send.href = sms;
+  // Open Messages right away on phones; the button stays as a backup.
+  if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) && !sessionStorageGet()) {
+    sessionStorageSet();
+    setTimeout(() => { location.href = sms; }, 350);
+  }
+  document.getElementById('copy').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(MESSAGE); toast.textContent = 'Copied. Paste it anywhere.'; }
+    catch (e) { toast.textContent = 'Press and hold the message above to copy it.'; }
+  });
+  function sessionStorageGet(){ try { return sessionStorage.getItem('ccc-sms-opened'); } catch(e){ return null; } }
+  function sessionStorageSet(){ try { sessionStorage.setItem('ccc-sms-opened', '1'); } catch(e){} }
+})();
+</script>
+</body>
+</html>

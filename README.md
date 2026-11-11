@@ -1,0 +1,28 @@
+# Christmas with CCC
+
+Live site: https://christmaswithccc.com
+
+## Editing
+Staff edit at https://app.pagescms.org → `cccomaha/christmas-with-ccc`.
+The sidebar follows the page from top to bottom:
+
+1. Service times (enter once; cards, calendar buttons, invite options and Google event listings update automatically)
+2. Top of page and story
+3. What to expect
+4. Photo gallery
+5. Watch online
+6. FAQ
+7. Invite
+8. Closing (Bethlehem)
+9. Links, sharing and Google
+
+Hand-written text that mentions times (FAQ answers, Google description,
+text-a-friend message, social preview graphics) needs updating by hand.
+
+Formatting in text fields: `*italic*` and `[link text](https://...)`.
+Photos: keep uploads under 2 MB; larger ones are shrunk automatically.
+
+## How it builds
+Netlify runs `npm run build` (see `netlify.toml`), which fills the
+templates in `src/` with `content/*.json` and writes the site to `dist/`.
+Static files (images, the Quest game) live in `public/` and are copied as-is.

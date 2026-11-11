@@ -1,0 +1,105 @@
+{
+ "church": {
+  "@type": "Church",
+  "@id": "https://christmaswithccc.com/#church",
+  "name": "Christ Community Church",
+  "alternateName": "CCC Omaha",
+  "url": "https://cccomaha.org",
+  "logo": "https://christmaswithccc.com/assets/ccc-logo-cream.svg",
+  "address": {
+   "@type": "PostalAddress",
+   "streetAddress": "404 S 108th Ave",
+   "addressLocality": "Omaha",
+   "addressRegion": "NE",
+   "postalCode": "68154",
+   "addressCountry": "US"
+  },
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=Christ+Community+Church+404+S+108th+Ave+Omaha+NE+68154",
+  "areaServed": [
+   {
+    "@type": "City",
+    "name": "Omaha, NE"
+   },
+   {
+    "@type": "City",
+    "name": "Elkhorn, NE"
+   },
+   {
+    "@type": "City",
+    "name": "Millard, NE"
+   },
+   {
+    "@type": "City",
+    "name": "Ralston, NE"
+   },
+   {
+    "@type": "City",
+    "name": "La Vista, NE"
+   },
+   {
+    "@type": "City",
+    "name": "Papillion, NE"
+   },
+   {
+    "@type": "City",
+    "name": "Bellevue, NE"
+   }
+  ],
+  "sameAs": [
+   "https://www.youtube.com/c/cccomaha",
+   "https://cccomaha.org"
+  ]
+ },
+ "page": {
+  "@type": "WebPage",
+  "@id": "https://christmaswithccc.com/",
+  "url": "https://christmaswithccc.com/",
+  "name": "Christmas Eve Services in Omaha, NE | Christmas with CCC",
+  "about": {
+   "@id": "https://christmaswithccc.com/#church"
+  },
+  "inLanguage": "en-US"
+ },
+ "eventTemplate": {
+  "@type": "Event",
+  "name": "Christmas Service in Omaha, NE: Wednesday, Dec 23, 6 PM (ASL interpreted on-site)",
+  "startDate": "2026-12-23T18:00:00-06:00",
+  "endDate": "2026-12-23T19:00:00-06:00",
+  "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+  "eventStatus": "https://schema.org/EventScheduled",
+  "location": [
+   {
+    "@type": "Place",
+    "name": "Christ Community Church",
+    "address": {
+     "@type": "PostalAddress",
+     "streetAddress": "404 S 108th Ave",
+     "addressLocality": "Omaha",
+     "addressRegion": "NE",
+     "postalCode": "68154",
+     "addressCountry": "US"
+    }
+   },
+   {
+    "@type": "VirtualLocation",
+    "url": "https://www.youtube.com/c/cccomaha"
+   }
+  ],
+  "image": [
+   "https://christmaswithccc.com/assets/share-4x5.jpg",
+   "https://christmaswithccc.com/assets/gallery/christmas-eve-candlelight-omaha.webp"
+  ],
+  "description": "A free, one-hour, family-friendly Christmas Eve service in Omaha, NE with carols, candlelight and the story of the birth of Jesus.",
+  "isAccessibleForFree": true,
+  "organizer": {
+   "@id": "https://christmaswithccc.com/#church"
+  },
+  "offers": {
+   "@type": "Offer",
+   "price": "0",
+   "priceCurrency": "USD",
+   "availability": "https://schema.org/InStock",
+   "url": "https://christmaswithccc.com/"
+  }
+ }
+}

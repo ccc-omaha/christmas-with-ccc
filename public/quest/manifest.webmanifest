@@ -1,0 +1,14 @@
+{
+  "name": "Quest of the Magi",
+  "short_name": "Magi Quest",
+  "description": "A short paper-craft adventure from Christmas with CCC.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#07082f",
+  "theme_color": "#07082f",
+  "icons": [
+    { "src": "../assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}

@@ -1,0 +1,286 @@
+# Pages CMS configuration for christmaswithccc.com
+# Saving commits to GitHub; Netlify rebuilds the page (about 1 minute).
+# Service times are entered once and update the cards, calendar buttons,
+# invite options and Google search listings automatically.
+
+settings:
+  commit:
+    identity: user
+
+media:
+  input: public/assets/uploads
+  output: /assets/uploads
+  rename: safe
+  extensions: [jpg, jpeg, png, webp]
+
+content:
+  # ---------------------------------------------------------------
+  - name: services
+    label: "1. Service times"
+    type: file
+    path: content/services.json
+    format: json
+    fields:
+      - name: nights
+        label: Nights
+        description: One card per night. Changing a time here updates the service cards, calendar buttons, invite options and Google listings. FAQ answers and the Google description (section 9) are written by hand, so update those too.
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{dayLabel} ({date})"
+        fields:
+          - name: date
+            label: Date
+            type: date
+            required: true
+            options:
+              format: yyyy-MM-dd
+          - name: dayLabel
+            label: Day label
+            type: string
+            description: "Small gold line at the top of the card, for example: Thursday · Christmas Eve"
+          - name: subtitle
+            label: Subtitle
+            type: string
+            description: Italic line under the date.
+          - name: services
+            label: Services
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: "{time}"
+            fields:
+              - name: time
+                label: Time
+                type: string
+                required: true
+                description: "Format like 6:00 PM. Central time."
+                pattern:
+                  regex: "^(1[0-2]|[1-9]):[0-5][0-9] (AM|PM)$"
+                  message: "Use a format like 6:00 PM"
+              - name: notes
+                label: Notes under the time
+                type: string
+                list: true
+                description: "For example: Childcare for ages 3 & under"
+              - name: searchNote
+                label: Note for Google listing (optional)
+                type: string
+                description: "Added in parentheses to this service's Google event, for example: ASL interpreted on-site"
+              - name: preselect
+                label: Preselect in the invite section
+                type: boolean
+                description: Check one service. It's the default choice in "Bring someone."
+          - name: streamNote
+            label: Streaming note
+            type: string
+            description: "Line at the bottom of the card, for example: Also streaming live online"
+      - name: eyebrow
+        label: Section label
+        type: string
+      - name: heading
+        label: Section heading
+        type: string
+        description: Wrap words in *asterisks* for the gold italic.
+      - name: lede
+        label: Intro paragraph
+        type: text
+      - name: whereNote
+        label: '"Where" column note'
+        type: string
+        description: The line under the address.
+      - name: doorsHeading
+        label: Middle column heading
+        type: string
+      - name: doorsText
+        label: Middle column text
+        type: text
+      - name: accessHeading
+        label: Right column heading
+        type: string
+      - name: accessText
+        label: Right column text
+        type: text
+      - name: planKicker
+        label: '"Plan your visit" card: small label'
+        type: string
+      - name: planHeading
+        label: '"Plan your visit" card: heading'
+        type: string
+      - name: planText
+        label: '"Plan your visit" card: text'
+        type: text
+
+  # ---------------------------------------------------------------
+  - name: top
+    label: "2. Top of page and story"
+    type: file
+    path: content/top.json
+    format: json
+    fields:
+      - name: heroWhere
+        label: Location line under the dates
+        type: string
+        description: The dates above it come from Service times automatically.
+      - name: scrollCue
+        label: Scroll prompt
+        type: string
+      - name: storyEyebrow
+        label: Story label
+        type: string
+      - name: storyLines
+        label: Story lines
+        type: string
+        list: true
+        description: The lines that fade in one by one.
+      - name: storyBigLine
+        label: Story closing line (large)
+        type: string
+      - name: storyVerse
+        label: Verse
+        type: text
+      - name: storyVerseRef
+        label: Verse reference
+        type: string
+
+  # ---------------------------------------------------------------
+  - name: expect
+    label: "3. What to expect"
+    type: file
+    path: content/expect.json
+    format: json
+    fields:
+      - { name: eyebrow, label: Section label, type: string }
+      - { name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic." }
+      - { name: lede, label: Intro paragraph, type: text, description: "Links: [link text](https://example.com)" }
+      - name: panels
+        label: Panels
+        description: The four boxes. Icons stay in this order.
+        type: object
+        list:
+          max: 4
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - { name: title, label: Title, type: string }
+          - { name: text, label: Text, type: text }
+
+  # ---------------------------------------------------------------
+  - name: gallery
+    label: "4. Photo gallery"
+    type: file
+    path: content/gallery.json
+    format: json
+    fields:
+      - { name: eyebrow, label: Section label, type: string }
+      - { name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic." }
+      - name: photos
+        label: Photos
+        description: Photos alternate between the two scrolling rows. Tall photos get the arched frame automatically.
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{index}. {caption}"
+        fields:
+          - name: image
+            label: Photo
+            type: image
+            description: "Keep files under 2 MB. Larger photos are shrunk automatically after upload."
+          - { name: alt, label: Description for screen readers and Google, type: string }
+          - { name: caption, label: Caption in the photo viewer, type: string }
+
+  # ---------------------------------------------------------------
+  - name: online
+    label: "5. Watch online"
+    type: file
+    path: content/online.json
+    format: json
+    fields:
+      - { name: eyebrow, label: Section label, type: string }
+      - { name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic." }
+      - { name: lede, label: Intro paragraph, type: text }
+      - { name: youtubeUrl, label: YouTube link, type: string }
+      - { name: appUrl, label: CCC app link, type: string, description: "On phones, this is swapped for the App Store or Google Play link automatically." }
+      - { name: appNote, label: Note under the buttons, type: text }
+      - { name: checklistHeading, label: Checklist heading, type: string }
+      - { name: checklistNote, label: Checklist note, type: string }
+      - { name: checklist, label: Checklist items, type: string, list: true, description: "The last item is checked automatically when someone lights the candle." }
+      - { name: candleNote, label: Candle note, type: string }
+
+  # ---------------------------------------------------------------
+  - name: faq
+    label: "6. FAQ"
+    type: file
+    path: content/faq.json
+    format: json
+    fields:
+      - { name: eyebrow, label: Section label, type: string }
+      - { name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic." }
+      - name: items
+        label: Questions
+        description: These also feed Google's FAQ results. If service times change, update the answers here.
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{question}"
+        fields:
+          - { name: question, label: Question, type: string }
+          - { name: answer, label: Answer, type: text }
+      - { name: footnote, label: Note under the questions, type: string, description: "Links: [link text](https://example.com)" }
+
+  # ---------------------------------------------------------------
+  - name: invite
+    label: "7. Invite"
+    type: file
+    path: content/invite.json
+    format: json
+    fields:
+      - { name: eyebrow, label: Section label, type: string }
+      - { name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic." }
+      - { name: lede, label: Intro paragraph, type: text }
+      - { name: message, label: Invite message, type: text, description: "{service} becomes the service they pick. {link} becomes the site address." }
+      - { name: textPageHeading, label: "Text-a-friend page (/text): heading", type: string }
+      - { name: textPageLede, label: "Text-a-friend page: intro", type: text }
+      - { name: textPageMessage, label: "Text-a-friend page: message", type: text, description: "Lists service times by hand, so update it if times change. {link} becomes the site address." }
+
+  # ---------------------------------------------------------------
+  - name: closing
+    label: "8. Closing (Bethlehem)"
+    type: file
+    path: content/closing.json
+    format: json
+    fields:
+      - { name: eyebrow, label: Section label, type: string }
+      - { name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic." }
+      - { name: lede, label: Paragraph, type: text }
+      - { name: scripture, label: Scripture, type: text }
+      - { name: scriptureRef, label: Scripture reference, type: string }
+
+  # ---------------------------------------------------------------
+  - name: settings
+    label: "9. Links, sharing and Google"
+    type: file
+    path: content/settings.json
+    format: json
+    fields:
+      - { name: planVisitUrl, label: '"Plan your visit" form link', type: string, description: Used by all three Plan your visit buttons. }
+      - { name: seoTitle, label: Google title, type: string }
+      - { name: seoDescription, label: Google description, type: text, description: "Shown under the title in Google. Lists service times by hand, so update it if times change." }
+      - { name: shareDescription, label: Text-message and social preview text, type: text }
+      - name: shareImageTall
+        label: Social preview image (tall, 1080 × 1350)
+        type: image
+        description: The times are part of the graphic, so make a new one if times change.
+      - { name: shareImageTallAlt, label: Tall image description, type: text }
+      - name: shareImageWide
+        label: Social preview image (wide, 1200 × 630)
+        type: image
+      - { name: shareImageWideAlt, label: Wide image description, type: text }
+      - { name: eventDescription, label: Google event description, type: text }
+      - { name: calendarDescription, label: Calendar event description, type: text, description: "What appears in someone's calendar when they tap Add to calendar." }
+      - { name: footerNote, label: Footer note, type: string, description: "Links: [link text](https://example.com)" }

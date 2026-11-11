@@ -1,0 +1,1135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Quest of the Magi | Christmas with CCC</title>
+<meta name="description" content="A short paper-craft adventure. Follow the star with the magi, from Babylon to Bethlehem.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#07082f">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Quest of the Magi">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-120 -120 240 240'%3E%3Crect x='-120' y='-120' width='240' height='240' rx='48' fill='%23390025'/%3E%3Cpath fill='%23D6AC4E' d='M0 -100 L3.4 -8.3 L24 -24 L8.3 -3.4 L88 0 L8.3 3.4 L24 24 L3.4 8.3 L0 118 L-3.4 8.3 L-24 24 L-8.3 3.4 L-88 0 L-8.3 -3.4 L-24 -24 L-3.4 -8.3Z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#fbefda;--gold:#c9a040;--gold-2:#e8c87a;--ink:#2a001b;--aub:#390025}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#07082f;color:var(--cream);font-family:'Montserrat',system-ui,sans-serif;overflow:hidden;overscroll-behavior:none;touch-action:none;-webkit-user-select:none;user-select:none}
+#app{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(80% 60% at 50% 30%,#1d0b3a,#07082f)}
+#stage{position:relative;line-height:0}
+canvas{display:block;border-radius:6px;box-shadow:0 0 0 2px rgba(201,160,64,.5),0 30px 60px rgba(0,0,0,.6)}
+#pad{display:none;width:100%;max-width:560px;padding:14px 20px calc(14px + env(safe-area-inset-bottom));justify-content:space-between;align-items:center;gap:16px}
+.touch #pad{display:flex}
+.pbtn{width:74px;height:74px;border:0;background:rgba(251,239,218,.12);color:var(--cream);display:grid;place-items:center;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);touch-action:none}
+.pbtn svg{width:26px;height:26px}
+.pbtn.on{background:rgba(232,200,122,.5)}
+#act{width:auto;min-width:130px;height:66px;padding:0 28px;font:700 16px 'Montserrat',sans-serif;letter-spacing:.06em;background:linear-gradient(135deg,#f3d891,#c9a040 55%,#e6c46f);color:var(--ink);clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,16px 100%,0 50%)}
+#act.on{filter:brightness(1.15)}
+.arrows{display:flex;gap:10px}
+/* landscape phones: overlay the pad on the canvas */
+@media (orientation:landscape){.touch #pad{position:fixed;left:0;right:0;bottom:0;max-width:none;pointer-events:none;padding:10px calc(18px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(18px + env(safe-area-inset-left))}
+ .touch #pad > *{pointer-events:auto}.touch .pbtn{opacity:.85}}
+.screen{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;background:radial-gradient(70% 55% at 50% 30%,rgba(94,17,70,.92),rgba(7,8,47,.97));overflow:auto}
+.screen[hidden]{display:none}
+.card{max-width:560px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.screen h1{font-family:'Fraunces',Georgia,serif;font-weight:400;font-style:italic;font-size:clamp(48px,9vw,84px);line-height:.95;margin:0}
+.screen h1 small{display:block;font-family:'Montserrat',sans-serif;font-style:normal;font-weight:600;font-size:13px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold-2);margin-top:14px}
+.screen p{margin:0;color:rgba(251,239,218,.85);line-height:1.55;font-size:16px}
+.screen .verse{font-family:'Fraunces',Georgia,serif;font-style:italic;font-size:19px;color:var(--cream)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;min-width:220px;padding:14px 34px;border:0;cursor:pointer;text-decoration:none;font:700 15px 'Montserrat',sans-serif;letter-spacing:.06em;clip-path:polygon(16px 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,16px 100%,0 50%)}
+.btn.primary{background:linear-gradient(135deg,#f3d891,#c9a040 55%,#e6c46f);color:var(--ink)}
+.btn.ghost{background:rgba(251,239,218,.13);color:var(--cream)}
+.btn[hidden]{display:none}
+#rotate{z-index:20}
+.touch:not(.playing) #pad,.touch.rot #pad{display:none}
+#rotate h2{font-family:'Fraunces',Georgia,serif;font-weight:400;font-style:italic;font-size:36px;line-height:1.1;margin:0}
+.phone{width:64px;height:104px;border:3px solid var(--gold-2);border-radius:14px;position:relative;margin:10px 0 18px;animation:rot 2.6s ease-in-out infinite}
+.phone::after{content:"";position:absolute;left:50%;bottom:7px;width:14px;height:3px;margin-left:-7px;border-radius:2px;background:var(--gold-2)}
+@keyframes rot{0%,25%{transform:rotate(0)}55%,100%{transform:rotate(-90deg)}}
+@media (orientation:landscape){
+  .touch #app{background:#000}
+  .touch canvas{border-radius:0;box-shadow:none}
+  .touch .pbtn{width:62px;height:62px;opacity:.8}
+  .touch #act{min-width:112px;height:56px;padding:0 22px;font-size:14px}
+}
+.btn:focus-visible{outline:2px solid var(--gold-2);outline-offset:4px}
+.small{font-size:13px!important;color:rgba(251,239,218,.65)!important}
+.small a{color:var(--gold-2)}
+.keys{display:inline-block;padding:2px 8px;border:1px solid rgba(232,200,122,.6);font-size:12px;letter-spacing:.06em;margin:0 2px}
+.star{width:64px;filter:drop-shadow(0 0 16px rgba(239,190,90,.75))}
+.btns{display:flex;flex-direction:column;gap:12px;align-items:center;margin-top:8px}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage"><canvas id="c" aria-label="Quest of the Magi game"></canvas></div>
+  <div id="pad" aria-hidden="true">
+    <div class="arrows">
+      <button class="pbtn" id="bl" aria-label="Walk left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button class="pbtn" id="br" aria-label="Walk right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <button class="pbtn" id="act" aria-label="Action">ACTION</button>
+  </div>
+</div>
+
+<section class="screen" id="title">
+  <div class="card">
+    <svg class="star" viewBox="-110 -110 220 240" aria-hidden="true"><defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dc95"/><stop offset=".5" stop-color="#c9a040"/><stop offset="1" stop-color="#f1d084"/></linearGradient></defs><path fill="url(#sg)" d="M0 -100 L3.4 -8.3 L24 -24 L8.3 -3.4 L88 0 L8.3 3.4 L24 24 L3.4 8.3 L0 118 L-3.4 8.3 L-24 24 L-8.3 3.4 L-88 0 L-8.3 -3.4 L-24 -24 L-3.4 -8.3Z"/></svg>
+    <h1>Quest of the Magi<small>A Christmas with CCC adventure</small></h1>
+    <p>Follow the star from Babylon to Bethlehem. About ten minutes.</p>
+    <div class="btns">
+      <button class="btn primary" id="startBtn">Begin the journey</button>
+      <button class="btn ghost" id="contBtn" hidden>Continue</button>
+    </div>
+    <p class="small" id="howto"></p>
+    <p class="small" id="iosTip" hidden>On iPhone, Safari can't go full screen. For the full-screen version, tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>, and play from the new icon.</p>
+    <p class="small"><a href="../">Back to christmaswithccc.com</a></p>
+  </div>
+</section>
+
+<section class="screen" id="rotate" hidden>
+  <div class="card">
+    <div class="phone" aria-hidden="true"></div>
+    <h2>Turn your phone sideways</h2>
+    <p>Quest of the Magi plays best in landscape, full screen.</p>
+    <p class="small ios-only" hidden>Want it truly full screen on iPhone? Tap Share, then Add to Home Screen.</p>
+    <button class="btn ghost" id="rotSkip">Play this way anyway</button>
+  </div>
+</section>
+
+<section class="screen" id="end" hidden>
+  <div class="card">
+    <svg class="star" viewBox="-110 -110 220 240" aria-hidden="true"><path fill="url(#sg)" d="M0 -100 L3.4 -8.3 L24 -24 L8.3 -3.4 L88 0 L8.3 3.4 L24 24 L3.4 8.3 L0 118 L-3.4 8.3 L-24 24 L-8.3 3.4 L-88 0 L-8.3 -3.4 L-24 -24 L-3.4 -8.3Z"/></svg>
+    <h1>They went home<br>another way.<small>The End</small></h1>
+    <p class="verse">They came looking for a King.<br>He came looking for them.</p>
+    <p>Christmas is still an invitation to come and see, and to leave changed. Join us Wednesday, Dec 23 at 6 PM or Christmas Eve, Thursday, Dec 24 at 2, 4 and 6 PM.</p>
+    <div class="btns">
+      <a class="btn primary" href="../#services">See service times</a>
+      <a class="btn ghost" href="https://cccomaha.churchcenter.com/people/forms/340750" target="_blank" rel="noopener">Plan your visit</a>
+      <button class="btn ghost" id="againBtn">Play again</button>
+    </div>
+    <p class="small"><a href="../">Back to christmaswithccc.com</a></p>
+  </div>
+</section>
+
+<script>
+(() => {
+'use strict';
+/* =========================================================
+   QUEST OF THE MAGI  ·  a small paper-craft adventure
+   ========================================================= */
+let VW = 1280; const VH = 720, GROUND = 600;
+const P = { aub:'#390025', navy:'#07082f', burg:'#6e0a24', teal:'#00626b', teal2:'#4a8f9a', green:'#12503f', orange:'#d9541a',
+  saffron:'#efa51a', gold:'#c9a040', gold2:'#e8c87a', cream:'#fbefda', ink:'#2a001b', sand:'#c98d4e', sand2:'#a86a3a', blue:'#2f5d8a', skin:'#e2b48a', skin2:'#b07a52', skin3:'#7a4a2e' };
+const $ = s => document.querySelector(s);
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const lerp = (a,b,t) => a + (b-a)*t;
+const ease = t => t<.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+const backOut = t => { const c1=1.70158, c3=c1+1; return 1 + c3*Math.pow(t-1,3) + c1*Math.pow(t-1,2); };
+const store = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} } };
+const isTouch = matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
+const isIOS = /iPhone|iPod/.test(navigator.userAgent);
+const standalone = navigator.standalone === true || matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches;
+if (isIOS && !standalone){ document.querySelectorAll('#iosTip, .ios-only').forEach(el => el.hidden = false); }
+if (isTouch) document.body.classList.add('touch');
+$('#howto').innerHTML = isTouch
+  ? 'Best played sideways, full screen. Use the arrows to walk, or tap where you want to go. Tap the gold button to talk and act.'
+  : 'Walk with <span class="keys">←</span><span class="keys">→</span> or click where you want to go. Talk and act with <span class="keys">Space</span>. <span class="keys">M</span> mutes sound.';
+
+/* ---------- canvas sizing ---------- */
+const C = $('#c'), ctx = C.getContext('2d');
+let DPR = 1, cssW = VW, cssH = VH;
+function resize(){
+  DPR = Math.min(devicePixelRatio || 1, 2);
+  const portrait = innerHeight > innerWidth;
+  const padH = isTouch && portrait ? 110 : 0, edge = isTouch && !portrait ? 0 : 24;
+  const availW = innerWidth - (portrait ? 0 : edge), availH = innerHeight - padH - edge;
+  VW = Math.round(clamp(VH * availW / Math.max(1, availH), 1280, 1920));
+  cssW = Math.min(availW, availH * VW / VH); cssH = cssW * VH / VW;
+  C.style.width = cssW + 'px'; C.style.height = cssH + 'px';
+  C.width = Math.round(cssW * DPR); C.height = Math.round(cssH * DPR);
+}
+addEventListener('resize', () => { resize(); checkRotate(); }); addEventListener('orientationchange', () => setTimeout(() => { resize(); checkRotate(); }, 250)); resize();
+const toLogical = (cx, cy) => { const r = C.getBoundingClientRect(); return { x: (cx - r.left) / r.width * VW, y: (cy - r.top) / r.height * VH }; };
+
+/* ---------- audio ---------- */
+let AC = null, muted = store.get('qotm-mute') === '1', windNode = null;
+function audio(){ if (!AC){ try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){} } if (AC && AC.state === 'suspended') AC.resume(); return AC; }
+function tone(f, dur, type='sine', vol=.06, when=0){
+  if (muted || !AC) return;
+  const t = AC.currentTime + when, o = AC.createOscillator(), g = AC.createGain();
+  o.type = type; o.frequency.value = f;
+  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .012); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(g).connect(AC.destination); o.start(t); o.stop(t + dur + .05);
+}
+const sfx = {
+  blip(){ tone(560 + Math.random()*90, .05, 'triangle', .02); },
+  chime(){ [784, 988, 1319].forEach((f,i) => tone(f, .55, 'sine', .055, i*.09)); },
+  pick(){ [659, 880, 1175].forEach((f,i) => tone(f, .4, 'triangle', .045, i*.07)); },
+  thud(){ tone(150, .28, 'sine', .09); tone(98, .3, 'triangle', .05); },
+  step(){ tone(220 + Math.random()*30, .04, 'sine', .012); },
+  wind(on){
+    if (!AC) return;
+    if (on && !windNode && !muted){
+      const len = AC.sampleRate * 2, buf = AC.createBuffer(1, len, AC.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random()*2 - 1;
+      const src = AC.createBufferSource(); src.buffer = buf; src.loop = true;
+      const bp = AC.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 500; bp.Q.value = .6;
+      const g = AC.createGain(); g.gain.value = .0001; g.gain.exponentialRampToValueAtTime(.05, AC.currentTime + 1);
+      src.connect(bp).connect(g).connect(AC.destination); src.start(); windNode = { src, g };
+    } else if (!on && windNode){
+      const w = windNode; windNode = null; w.g.gain.exponentialRampToValueAtTime(.0001, AC.currentTime + .8); setTimeout(() => { try { w.src.stop(); } catch(e){} }, 900);
+    }
+  }
+};
+
+/* ---------- input ---------- */
+const input = { left:false, right:false, act:false, actEdge:false, upEdge:false, downEdge:false, tap:null };
+addEventListener('keydown', e => {
+  const k = e.key;
+  if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' '].includes(k)) e.preventDefault();
+  if (k === 'ArrowLeft' || k === 'a' || k === 'A') input.left = true;
+  if (k === 'ArrowRight' || k === 'd' || k === 'D') input.right = true;
+  if (k === 'ArrowUp' || k === 'w' || k === 'W') input.upEdge = true;
+  if (k === 'ArrowDown' || k === 's' || k === 'S') input.downEdge = true;
+  if ((k === ' ' || k === 'Enter' || k === 'e' || k === 'E' || k === 'z' || k === 'Z') && !e.repeat){ input.actEdge = true; input.act = true; }
+  if (k === 'm' || k === 'M') toggleMute();
+});
+addEventListener('keyup', e => {
+  const k = e.key;
+  if (k === 'ArrowLeft' || k === 'a' || k === 'A') input.left = false;
+  if (k === 'ArrowRight' || k === 'd' || k === 'D') input.right = false;
+  if (k === ' ' || k === 'Enter' || k === 'e' || k === 'E' || k === 'z' || k === 'Z') input.act = false;
+});
+C.addEventListener('pointerdown', e => { audio(); input.tap = toLogical(e.clientX, e.clientY); });
+function holdBtn(el, key){
+  const on = e => { e.preventDefault(); audio(); input[key] = true; el.classList.add('on'); if (key === 'act') input.actEdge = true; };
+  const off = e => { input[key] = false; el.classList.remove('on'); };
+  el.addEventListener('pointerdown', on); el.addEventListener('pointerup', off); el.addEventListener('pointercancel', off); el.addEventListener('pointerleave', off);
+}
+holdBtn($('#bl'), 'left'); holdBtn($('#br'), 'right'); holdBtn($('#act'), 'act');
+function toggleMute(){ muted = !muted; store.set('qotm-mute', muted ? '1' : '0'); if (muted) sfx.wind(false); }
+
+/* ---------- patterns ---------- */
+function makePat(size, draw){ const c = document.createElement('canvas'); c.width = c.height = size; const g = c.getContext('2d'); draw(g, size); return ctx.createPattern(c, 'repeat'); }
+const pat = {};
+function buildPatterns(){
+  pat.rug = makePat(28, (g,s) => { g.fillStyle = P.burg; g.fillRect(0,0,s,s); g.fillStyle = P.saffron; g.beginPath(); g.moveTo(s/2,4); g.lineTo(s-4,s/2); g.lineTo(s/2,s-4); g.lineTo(4,s/2); g.fill(); g.fillStyle = P.burg; g.fillRect(s/2-3,s/2-3,6,6); g.fillStyle = P.teal2; [[0,0],[s,0],[0,s],[s,s]].forEach(([x,y]) => { g.beginPath(); g.arc(x,y,3,0,7); g.fill(); }); });
+  pat.tile = makePat(36, (g,s) => { g.fillStyle = P.teal; g.fillRect(0,0,s,s); g.strokeStyle = P.cream; g.lineWidth = 1.6; g.globalAlpha = .7; g.strokeRect(s/2-8, s/2-8, 16, 16); g.save(); g.translate(s/2,s/2); g.rotate(Math.PI/4); g.strokeRect(-8,-8,16,16); g.restore(); g.globalAlpha = 1; g.fillStyle = P.saffron; g.beginPath(); g.arc(s/2,s/2,2.5,0,7); g.fill(); });
+  pat.blue = makePat(32, (g,s) => { g.fillStyle = '#2b5a86'; g.fillRect(0,0,s,s); g.fillStyle = '#e9f0f2'; g.beginPath(); g.ellipse(s/2, s/2, 6, 11, 0, 0, 7); g.fill(); g.fillStyle = '#d9541a'; g.beginPath(); g.arc(s/2, s/2, 3, 0, 7); g.fill(); g.strokeStyle = '#9cc7d6'; g.lineWidth = 2; g.strokeRect(1,1,s-2,s-2); });
+  pat.purple = makePat(30, (g,s) => { g.fillStyle = '#4a0f4a'; g.fillRect(0,0,s,s); g.fillStyle = P.gold2; for (const [x,y] of [[s/2,s/2],[0,0],[s,0],[0,s],[s,s]]){ g.beginPath(); g.moveTo(x,y-5); g.lineTo(x+3,y); g.lineTo(x,y+5); g.lineTo(x-3,y); g.fill(); } });
+  pat.stripe = makePat(24, (g,s) => { g.fillStyle = P.green; g.fillRect(0,0,s,s); g.fillStyle = P.saffron; g.fillRect(0,0,s,5); g.fillStyle = P.cream; g.fillRect(0,10,s,2); });
+  pat.sand = makePat(64, (g,s) => { g.fillStyle = P.sand; g.fillRect(0,0,s,s); for (let i = 0; i < 70; i++){ g.fillStyle = Math.random() < .5 ? 'rgba(255,230,190,.25)' : 'rgba(110,50,30,.18)'; g.fillRect(Math.random()*s, Math.random()*s, 2, 2); } });
+  pat.stone = makePat(60, (g,s) => { g.fillStyle = '#b8935e'; g.fillRect(0,0,s,s); g.strokeStyle = 'rgba(70,40,20,.35)'; g.lineWidth = 2; for (let y = 0; y <= s; y += 20){ g.beginPath(); g.moveTo(0,y); g.lineTo(s,y); g.stroke(); const off = (y/20)%2 ? 15 : 0; for (let x = off; x <= s; x += 30){ g.beginPath(); g.moveTo(x,y); g.lineTo(x,y+20); g.stroke(); } } });
+  pat.court = makePat(48, (g,s) => { g.fillStyle = '#2a1b46'; g.fillRect(0,0,s,s); g.strokeStyle = 'rgba(232,200,122,.35)'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(s/2,2); g.lineTo(s-2,s/2); g.lineTo(s/2,s-2); g.lineTo(2,s/2); g.closePath(); g.stroke(); g.fillStyle = 'rgba(0,98,107,.55)'; g.beginPath(); g.arc(s/2,s/2,5,0,7); g.fill(); });
+  pat.floor = makePat(56, (g,s) => { g.fillStyle = '#5a1020'; g.fillRect(0,0,s,s); g.fillStyle = '#7a2030'; g.beginPath(); g.moveTo(s/2,0); g.lineTo(s,s/2); g.lineTo(s/2,s); g.lineTo(0,s/2); g.fill(); g.strokeStyle = P.gold; g.globalAlpha = .6; g.lineWidth = 1.5; g.stroke(); g.globalAlpha = 1; g.fillStyle = P.saffron; g.beginPath(); g.arc(s/2,s/2,3,0,7); g.fill(); });
+  pat.wall = makePat(80, (g,s) => { g.fillStyle = '#3a1a2a'; g.fillRect(0,0,s,s); g.strokeStyle = 'rgba(232,200,122,.18)'; g.lineWidth = 1.4; g.strokeRect(s/2-14, s/2-14, 28, 28); g.save(); g.translate(s/2,s/2); g.rotate(Math.PI/4); g.strokeRect(-14,-14,28,28); g.restore(); });
+}
+
+/* ---------- paper drawing helpers ---------- */
+function paper(path, fill, o = {}){
+  const sh = o.shadow !== false, lw = o.lw ?? 3, outline = o.outline ?? P.cream;
+  if (sh){ ctx.save(); ctx.translate(o.sx ?? 5, o.sy ?? 6); path(); ctx.fillStyle = 'rgba(8,0,12,.35)'; ctx.fill(); ctx.restore(); }
+  path(); ctx.fillStyle = fill; ctx.fill();
+  if (outline && lw){ ctx.lineWidth = lw; ctx.strokeStyle = outline; ctx.lineJoin = 'round'; ctx.stroke(); }
+}
+const STAR_PTS = (() => { const R = [100,34,88,34,118,34,88,34], r = 9, pts = []; for (let i = 0; i < 8; i++){ const a = (-90 + 45*i) * Math.PI/180, b = (-90 + 45*i + 22.5) * Math.PI/180; pts.push([R[i]*Math.cos(a), R[i]*Math.sin(a)], [r*Math.cos(b), r*Math.sin(b)]); } return pts; })();
+function drawStar(x, y, s, t = 0, glow = 1){
+  ctx.save(); ctx.translate(x, y);
+  const gr = ctx.createRadialGradient(0,0,0,0,0,140*s);
+  gr.addColorStop(0, `rgba(255,236,180,${.55*glow})`); gr.addColorStop(.35, `rgba(239,190,90,${.2*glow})`); gr.addColorStop(1, 'rgba(239,190,90,0)');
+  ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(0,0,140*s,0,7); ctx.fill();
+  const k = s * (1 + Math.sin(t*2.2)*.04);
+  ctx.scale(k, k); ctx.rotate(Math.sin(t*.8)*.04);
+  ctx.beginPath(); STAR_PTS.forEach(([px,py], i) => i ? ctx.lineTo(px,py) : ctx.moveTo(px,py)); ctx.closePath();
+  const lg = ctx.createLinearGradient(-90,-100,90,110); lg.addColorStop(0,'#f6dc95'); lg.addColorStop(.5,'#c9a040'); lg.addColorStop(1,'#f1d084');
+  ctx.fillStyle = lg; ctx.shadowColor = 'rgba(255,220,140,.9)'; ctx.shadowBlur = 24; ctx.fill();
+  ctx.restore();
+}
+function roundRect(x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function cartouche(x,y,w,h){ const k = h/2; ctx.beginPath(); ctx.moveTo(x+k,y); ctx.lineTo(x+w-k,y); ctx.lineTo(x+w,y+h/2); ctx.lineTo(x+w-k,y+h); ctx.lineTo(x+k,y+h); ctx.lineTo(x,y+h/2); ctx.closePath(); }
+function wrapText(text, maxW){ const words = text.split(' '); const lines = []; let line = ''; for (const w of words){ const test = line ? line + ' ' + w : w; if (ctx.measureText(test).width > maxW && line){ lines.push(line); line = w; } else line = test; } if (line) lines.push(line); return lines; }
+
+/* ---------- people (Marie-style paper profiles) ---------- */
+function person(x, y, h, o, t = 0){
+  ctx.save(); ctx.translate(x, y); ctx.scale(o.face || 1, 1);
+  const bob = o.still ? 0 : Math.sin(t*1.6 + (o.seed||0)) * 1.5;
+  ctx.translate(0, bob);
+  // robe
+  paper(() => { ctx.beginPath(); ctx.moveTo(-.30*h, 0); ctx.bezierCurveTo(-.31*h, -.32*h, -.21*h, -.56*h, -.13*h, -.67*h); ctx.quadraticCurveTo(0, -.77*h, .12*h, -.67*h); ctx.bezierCurveTo(.16*h, -.45*h, .2*h, -.24*h, .27*h, 0); ctx.closePath(); }, o.robe);
+  if (o.robe2) paper(() => { ctx.beginPath(); ctx.moveTo(.0, -.68*h); ctx.lineTo(.11*h, -.66*h); ctx.bezierCurveTo(.15*h, -.42*h, .19*h, -.22*h, .25*h, 0); ctx.lineTo(.05*h, 0); ctx.bezierCurveTo(.07*h, -.25*h, .03*h, -.48*h, 0, -.68*h); ctx.closePath(); }, o.robe2, { shadow:false, lw:2 });
+  // veil behind head
+  if (o.head === 'veil') paper(() => { ctx.beginPath(); ctx.moveTo(.09*h, -.9*h); ctx.quadraticCurveTo(.02*h, -.99*h, -.07*h, -.9*h); ctx.bezierCurveTo(-.16*h, -.78*h, -.2*h, -.6*h, -.24*h, -.42*h); ctx.lineTo(-.12*h, -.62*h); ctx.quadraticCurveTo(-.02*h, -.7*h, .1*h, -.72*h); ctx.closePath(); }, o.headColor || P.blue, { lw:2.5 });
+  // head
+  paper(() => { ctx.beginPath(); ctx.ellipse(.03*h, -.8*h, .07*h, .085*h, 0, 0, 7); ctx.moveTo(.095*h, -.81*h); ctx.lineTo(.125*h, -.79*h); ctx.lineTo(.095*h, -.775*h); }, o.skin || P.skin, { shadow:false, lw:2.5 });
+  if (o.beard) paper(() => { ctx.beginPath(); ctx.moveTo(-.02*h, -.79*h); ctx.quadraticCurveTo(.09*h, -.775*h, .1*h, -.74*h); ctx.quadraticCurveTo(.07*h, -.6*h, -.03*h, -.6*h); ctx.quadraticCurveTo(-.04*h, -.7*h, -.02*h, -.79*h); ctx.closePath(); }, o.beard, { shadow:false, lw:2 });
+  // headwear
+  const hc = o.headColor || P.gold;
+  if (o.head === 'turban') paper(() => { ctx.beginPath(); ctx.ellipse(.01*h, -.89*h, .095*h, .055*h, -.15, 0, 7); }, o.headPat || hc, { shadow:false, lw:2.5 });
+  if (o.head === 'crown'){ paper(() => { ctx.beginPath(); ctx.moveTo(-.07*h, -.86*h); ctx.lineTo(-.08*h, -.99*h); ctx.lineTo(-.04*h, -.92*h); ctx.lineTo(0, -1.03*h); ctx.lineTo(.04*h, -.92*h); ctx.lineTo(.08*h, -.99*h); ctx.lineTo(.08*h, -.86*h); ctx.closePath(); }, P.gold2, { shadow:false, lw:2.2 }); ctx.fillStyle = P.burg; ctx.beginPath(); ctx.arc(0, -.885*h, .012*h, 0, 7); ctx.fill(); }
+  if (o.head === 'helmet') paper(() => { ctx.beginPath(); ctx.ellipse(.02*h, -.86*h, .085*h, .065*h, 0, Math.PI, 0); ctx.lineTo(.11*h, -.84*h); ctx.lineTo(-.07*h, -.84*h); ctx.closePath(); ctx.moveTo(-.03*h, -.92*h); ctx.quadraticCurveTo(-.11*h, -1.01*h, -.12*h, -.9*h); }, hc, { shadow:false, lw:2.2 });
+  if (o.head === 'hood') paper(() => { ctx.beginPath(); ctx.moveTo(.1*h, -.87*h); ctx.quadraticCurveTo(.03*h, -.99*h, -.08*h, -.9*h); ctx.quadraticCurveTo(-.14*h, -.76*h, -.12*h, -.66*h); ctx.lineTo(-.05*h, -.7*h); ctx.quadraticCurveTo(-.03*h, -.84*h, .1*h, -.87*h); ctx.closePath(); }, hc, { shadow:false, lw:2.2 });
+  if (o.head === 'veil') paper(() => { ctx.beginPath(); ctx.moveTo(.1*h, -.86*h); ctx.quadraticCurveTo(.04*h, -.96*h, -.06*h, -.9*h); ctx.lineTo(-.04*h, -.85*h); ctx.quadraticCurveTo(.03*h, -.89*h, .1*h, -.86*h); ctx.closePath(); }, o.headColor || P.blue, { shadow:false, lw:2 });
+  // items
+  if (o.item === 'spear'){ ctx.strokeStyle = '#5a3a20'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(.2*h, .02*h); ctx.lineTo(.2*h, -1.1*h); ctx.stroke(); paper(() => { ctx.beginPath(); ctx.moveTo(.2*h, -1.22*h); ctx.lineTo(.235*h, -1.1*h); ctx.lineTo(.165*h, -1.1*h); ctx.closePath(); }, '#cfd6d8', { shadow:false, lw:1.5 }); }
+  if (o.item === 'scroll') paper(() => { roundRect(.08*h, -.5*h, .16*h, .07*h, .02*h); }, P.cream, { shadow:false, lw:0 });
+  if (o.item === 'staff'){ ctx.strokeStyle = '#6a4424'; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(.18*h, .02*h); ctx.lineTo(.18*h, -.95*h); ctx.quadraticCurveTo(.18*h, -1.04*h, .1*h, -1.02*h); ctx.stroke(); }
+  if (o.item === 'lantern'){
+    if (o.lit){ const gr = ctx.createRadialGradient(.24*h, -.42*h, 2, .24*h, -.42*h, .5*h); gr.addColorStop(0,'rgba(255,214,120,.7)'); gr.addColorStop(1,'rgba(255,214,120,0)'); ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(.24*h, -.42*h, .5*h, 0, 7); ctx.fill(); }
+    ctx.strokeStyle = P.gold; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(.14*h, -.5*h); ctx.lineTo(.24*h, -.5*h); ctx.lineTo(.24*h, -.47*h); ctx.stroke();
+    paper(() => { roundRect(.2*h, -.47*h, .08*h, .1*h, 4); }, o.lit ? '#ffd27a' : '#6a4a2a', { shadow:false, lw:2, outline:P.gold });
+  }
+  if (o.item === 'child'){
+    const gr = ctx.createRadialGradient(.13*h, -.47*h, 2, .13*h, -.47*h, .28*h); gr.addColorStop(0,'rgba(255,240,200,.85)'); gr.addColorStop(1,'rgba(255,220,150,0)'); ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(.13*h, -.47*h, .28*h, 0, 7); ctx.fill();
+    paper(() => { ctx.beginPath(); ctx.ellipse(.11*h, -.46*h, .12*h, .055*h, -.25, 0, 7); }, P.cream, { shadow:false, lw:2, outline:P.gold2 });
+    paper(() => { ctx.beginPath(); ctx.arc(.2*h, -.5*h, .035*h, 0, 7); }, o.skin || P.skin, { shadow:false, lw:1.5, outline:P.gold2 });
+  }
+  ctx.restore();
+}
+const PEOPLE = {
+  scholar:  { robe:P.teal, robe2:pat => pat.tile, skin:P.skin2, beard:'#efe6d8', head:'hood', headColor:'#e9dcc2' },
+  traveler: { robe:'#7a4a2a', robe2:pat => pat.stripe, skin:P.skin2, beard:'#3a2216', head:'turban', headColor:P.green },
+  citizen:  { robe:'#6b6a3a', robe2:pat => pat.rug, skin:P.skin, head:'veil', headColor:'#8a3a3a' },
+  guard:    { robe:'#8a1a20', robe2:'#c9a040', skin:P.skin2, beard:'#2a1a10', head:'helmet', headColor:'#b08a3a', item:'spear' },
+  scribe:   { robe:'#5a6a86', robe2:'#e9dcc2', skin:P.skin, beard:'#bdb4a8', head:'hood', headColor:'#3e4a66', item:'scroll' },
+  herod:    { robe:pat => pat.purple, robe2:P.gold, skin:P.skin, beard:'#4a2a1a', head:'crown' },
+  joseph:   { robe:'#7a5a3a', robe2:'#c9b48a', skin:P.skin2, beard:'#2a1a10', head:'hood', headColor:'#5a3a22', item:'staff' },
+  mary:     { robe:'#e9dcc2', robe2:'#2f5d8a', skin:P.skin2, head:'veil', headColor:'#2f5d8a', item:'child', still:true },
+  watch:    { robe:'#5a1018', robe2:'#8a6a3a', skin:P.skin2, beard:'#1a0e08', head:'helmet', headColor:'#8a7a5a', item:'lantern' },
+};
+function drawPerson(kind, x, y, h, face, t, extra = {}){
+  const base = PEOPLE[kind], o = { ...base, ...extra, face };
+  for (const k of ['robe','robe2']) if (typeof o[k] === 'function') o[k] = o[k](pat);
+  person(x, y, h, o, t);
+}
+
+/* ---------- props ---------- */
+function archShape(x, y, w, h){ const r = w/2; ctx.beginPath(); ctx.moveTo(x - r, y); ctx.lineTo(x - r, y - h + r*1.1); ctx.bezierCurveTo(x - r, y - h + r*.3, x - r*.25, y - h + r*.2, x, y - h); ctx.bezierCurveTo(x + r*.25, y - h + r*.2, x + r, y - h + r*.3, x + r, y - h + r*1.1); ctx.lineTo(x + r, y); ctx.closePath(); }
+const PROPS = {
+  astrolabe(x, y, t, done){
+    paper(() => { ctx.beginPath(); ctx.moveTo(x-50, y); ctx.lineTo(x-14, y-120); ctx.lineTo(x+14, y-120); ctx.lineTo(x+50, y); ctx.closePath(); }, '#5a3a20');
+    ctx.save(); ctx.translate(x, y-200);
+    for (const [r, sp] of [[78, .3],[60, -.45],[42, .7]]){ ctx.save(); ctx.rotate(done ? 0 : t*sp); paper(() => { ctx.beginPath(); ctx.arc(0,0,r,0,7); ctx.arc(0,0,r-9,0,7,true); }, P.gold, { lw:1.5 }); ctx.fillStyle = P.cream; ctx.beginPath(); ctx.arc(0, -r+4.5, 4, 0, 7); ctx.fill(); ctx.restore(); }
+    ctx.fillStyle = P.saffron; ctx.beginPath(); ctx.arc(0,0,9,0,7); ctx.fill();
+    ctx.restore();
+  },
+  chest(x, y, t, taken){
+    paper(() => { roundRect(x-60, y-70, 120, 70, 6); }, '#6a3a1a');
+    paper(() => { ctx.beginPath(); ctx.moveTo(x-62, y-70); ctx.quadraticCurveTo(x, y-118, x+62, y-70); ctx.closePath(); }, '#7a4a22', { shadow:false });
+    ctx.fillStyle = P.gold; ctx.fillRect(x-62, y-46, 124, 8); ctx.fillRect(x-6, y-74, 12, 30);
+    if (!taken){ for (let i = 0; i < 4; i++){ const a = t*2 + i*1.7; ctx.fillStyle = `rgba(255,230,150,${.5 + .5*Math.sin(a)})`; ctx.beginPath(); ctx.arc(x - 30 + i*20, y - 92 - Math.sin(a)*4, 3, 0, 7); ctx.fill(); } }
+  },
+  incense(x, y, t, taken){
+    ctx.strokeStyle = P.gold; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(x-30, y); ctx.lineTo(x-18, y-40); ctx.moveTo(x+30, y); ctx.lineTo(x+18, y-40); ctx.stroke();
+    paper(() => { ctx.beginPath(); ctx.ellipse(x, y-46, 40, 16, 0, 0, Math.PI); ctx.lineTo(x-40, y-50); ctx.lineTo(x+40, y-50); ctx.closePath(); }, '#b0802a');
+    if (!taken){ ctx.strokeStyle = 'rgba(251,239,218,.55)'; ctx.lineWidth = 3; for (let i = 0; i < 3; i++){ ctx.beginPath(); const ph = t*1.4 + i*2.1; for (let k = 0; k < 12; k++){ const yy = y - 56 - k*9, xx = x + Math.sin(ph + k*.5)*(6 + k*1.2) + (i-1)*10; k ? ctx.lineTo(xx, yy) : ctx.moveTo(xx, yy); } ctx.stroke(); } }
+  },
+  jar(x, y, t, taken){
+    paper(() => { ctx.beginPath(); ctx.moveTo(x-14, y-108); ctx.lineTo(x+14, y-108); ctx.lineTo(x+12, y-92); ctx.bezierCurveTo(x+46, y-80, x+40, y-10, x+20, y); ctx.lineTo(x-20, y); ctx.bezierCurveTo(x-40, y-10, x-46, y-80, x-12, y-92); ctx.closePath(); }, '#e6dccb');
+    ctx.strokeStyle = P.burg; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x-30, y-60); ctx.lineTo(x+30, y-60); ctx.stroke();
+    if (!taken){ ctx.fillStyle = P.burg; ctx.beginPath(); ctx.ellipse(x, y-110, 16, 6, 0, 0, 7); ctx.fill(); }
+  },
+  gate(x, y, t, open){
+    paper(() => { ctx.beginPath(); ctx.rect(x-120, y-330, 240, 330); archShape(x, y, 150, 260); }, pat.tile, { lw:3 });
+    ctx.save(); archShape(x, y, 150, 260); ctx.fillStyle = open ? 'rgba(255,220,150,.35)' : '#0a0a24'; ctx.fill(); ctx.restore();
+    ctx.strokeStyle = P.gold; ctx.lineWidth = 3; archShape(x, y, 150, 260); ctx.stroke();
+  },
+  door(x, y, t, lit){
+    paper(() => { archShape(x, y, 110, 200); }, lit ? '#ffcf7a' : '#2a1208', { lw:3, outline:P.gold2 });
+    if (lit){ const gr = ctx.createRadialGradient(x, y-80, 10, x, y-80, 160); gr.addColorStop(0,'rgba(255,220,140,.35)'); gr.addColorStop(1,'rgba(255,220,140,0)'); ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(x, y-80, 160, 0, 7); ctx.fill(); }
+  },
+  campfire(x, y, t){
+    const gr = ctx.createRadialGradient(x, y-30, 5, x, y-30, 220); gr.addColorStop(0,'rgba(255,170,80,.45)'); gr.addColorStop(1,'rgba(255,170,80,0)'); ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(x, y-30, 220, 0, 7); ctx.fill();
+    ctx.strokeStyle = '#5a3a20'; ctx.lineWidth = 8; ctx.beginPath(); ctx.moveTo(x-34, y-4); ctx.lineTo(x+30, y-14); ctx.moveTo(x+34, y-4); ctx.lineTo(x-30, y-14); ctx.stroke();
+    for (let i = 0; i < 3; i++){ const f = 1 + Math.sin(t*9 + i*2)*.12; paper(() => { ctx.beginPath(); ctx.moveTo(x - 20 + i*20, y-10); ctx.quadraticCurveTo(x - 30 + i*20, y - 40*f, x - 14 + i*14, y - 70*f + i*8); ctx.quadraticCurveTo(x - 4 + i*20, y - 40*f, x - 2 + i*20, y-10); ctx.closePath(); }, i === 1 ? P.saffron : P.orange, { shadow:false, lw:0 }); }
+  },
+  tent(x, y){
+    paper(() => { ctx.beginPath(); ctx.moveTo(x-150, y); ctx.lineTo(x, y-190); ctx.lineTo(x+150, y); ctx.closePath(); }, pat.stripe);
+    ctx.fillStyle = '#1a0a12'; ctx.beginPath(); ctx.moveTo(x-30, y); ctx.lineTo(x, y-90); ctx.lineTo(x+30, y); ctx.fill();
+  },
+  throne(x, y){
+    paper(() => { ctx.beginPath(); ctx.moveTo(x-90, y); ctx.lineTo(x-90, y-260); ctx.quadraticCurveTo(x, y-340, x+90, y-260); ctx.lineTo(x+90, y); ctx.closePath(); }, pat.rug, { outline:P.gold2 });
+    paper(() => { roundRect(x-110, y-110, 220, 110, 6); }, P.gold, { lw:2 });
+  },
+  pillar(x, y, h){
+    paper(() => { ctx.beginPath(); ctx.rect(x-28, y-h, 56, h); }, '#c9a96a', { lw:2, outline:'rgba(251,239,218,.6)' });
+    ctx.fillStyle = P.gold; ctx.fillRect(x-40, y-h-18, 80, 20); ctx.fillRect(x-40, y-18, 80, 18);
+  },
+  lamp(x, y, t){
+    const gr = ctx.createRadialGradient(x, y, 2, x, y, 120); gr.addColorStop(0,`rgba(255,210,120,${.45 + Math.sin(t*6)*.05})`); gr.addColorStop(1,'rgba(255,210,120,0)'); ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(x, y, 120, 0, 7); ctx.fill();
+    paper(() => { ctx.beginPath(); ctx.ellipse(x, y, 16, 7, 0, 0, Math.PI); ctx.lineTo(x-16, y); ctx.closePath(); }, '#b0802a', { shadow:false, lw:1.5 });
+    ctx.fillStyle = P.saffron; ctx.beginPath(); ctx.ellipse(x+10, y-8, 4, 8 + Math.sin(t*12)*1.5, 0, 0, 7); ctx.fill();
+  },
+  palm(x, y, s = 1){
+    ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+    ctx.strokeStyle = '#4a2a18'; ctx.lineWidth = 14; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(0,0); ctx.quadraticCurveTo(20, -120, 6, -240); ctx.stroke();
+    for (let i = 0; i < 6; i++){ const a = -Math.PI/2 + (i - 2.5)*.55; paper(() => { ctx.beginPath(); ctx.moveTo(6, -240); ctx.quadraticCurveTo(6 + Math.cos(a)*70, -240 + Math.sin(a)*70 - 20, 6 + Math.cos(a)*120, -240 + Math.sin(a)*60 + 40); ctx.quadraticCurveTo(6 + Math.cos(a)*60, -240 + Math.sin(a)*40, 6, -240); ctx.closePath(); }, P.green, { lw:2 }); }
+    ctx.restore();
+  },
+  house(x, y, w, h, lit){
+    paper(() => { ctx.beginPath(); ctx.rect(x - w/2, y - h, w, h); }, '#c9a06a', { lw:2.5 });
+    ctx.fillStyle = '#8a6a40'; ctx.fillRect(x - w/2 - 6, y - h - 10, w + 12, 12);
+    ctx.fillStyle = lit ? '#ffd27a' : '#2a1208'; roundRect(x - 16, y - 70, 32, 70, 14); ctx.fill();
+    ctx.fillStyle = lit ? 'rgba(255,210,120,.9)' : '#2a1a30'; ctx.fillRect(x - w/2 + 18, y - h + 26, 22, 22);
+  }
+};
+
+/* ---------- backgrounds ---------- */
+function sky(cols, extraTop){
+  const g = ctx.createLinearGradient(0, 0, 0, GROUND); cols.forEach((c, i) => g.addColorStop(i/(cols.length-1), c));
+  ctx.fillStyle = g; ctx.fillRect(0, 0, VW, VH);
+}
+const bgStars = Array.from({length: 140}, () => ({ x: Math.random()*VW*2, y: Math.random()*GROUND*.8, r: Math.random()*1.4 + .4, p: Math.random()*7 }));
+function starfield(camX, t, alpha = 1){
+  for (const s of bgStars){ let x = (s.x - camX*.04) % (VW*2); if (x < 0) x += VW*2; if (x > VW) continue; ctx.globalAlpha = alpha * (.4 + .6*Math.abs(Math.sin(t*.8 + s.p))); ctx.fillStyle = P.cream; ctx.beginPath(); ctx.arc(x, s.y, s.r, 0, 7); ctx.fill(); }
+  ctx.globalAlpha = 1;
+}
+function dunes(camX, layers){
+  layers.forEach(([base, amp, len, col, par, outlineA]) => {
+    ctx.beginPath(); ctx.moveTo(0, VH);
+    for (let x = 0; x <= VW + 20; x += 20){ const wx = x + camX*par; ctx.lineTo(x, base + Math.sin(wx/len)*amp + Math.sin(wx/(len*.37))*amp*.3); }
+    ctx.lineTo(VW, VH); ctx.closePath(); ctx.fillStyle = col; ctx.fill();
+    if (outlineA){ ctx.strokeStyle = `rgba(251,239,218,${outlineA})`; ctx.lineWidth = 2; ctx.stroke(); }
+  });
+}
+function ground(fill, camX, y = GROUND){
+  ctx.save(); ctx.translate(-camX % 600, 0);
+  paper(() => { ctx.beginPath(); ctx.rect(-600, y, VW + 1300, VH - y + 10); }, fill, { shadow:false, lw:3 });
+  ctx.restore();
+}
+function silhouette(camX, par, draw){ ctx.save(); ctx.translate(-camX*par, 0); draw(); ctx.restore(); }
+
+/* ---------- scenes ---------- */
+const state = { ch:0, gifts:{ gold:false, frank:false, myrrh:false }, flags:{} };
+let scene = null, camX = 0;
+const player = { x:200, vx:0, face:1, flip:1, walkT:0, target:null, onArrive:null, knock:0, hide:0, visible:true, kneel:0 };
+
+function makeThing(o){ return Object.assign({ range:120, prompt:'Talk', pop:0, enabled:() => true }, o); }
+
+const SCENES = {
+  babylon(){
+    return {
+      id:'babylon', width:2700, start:200, chapter:'Chapter 1 · The Star',
+      draw(t){
+        sky(['#06072a','#14103a','#2a1240','#390025']); starfield(camX, t);
+        if (state.flags.starOut) drawStar(VW*.82 - camX*.03, 120, .55, t, 1);
+        silhouette(camX, .25, () => { // ziggurat + city
+          ctx.fillStyle = '#1b0e33'; for (let i = 0; i < 5; i++){ const w = 520 - i*90; ctx.fillRect(700 - w/2, 470 - i*48, w, 50); }
+          ctx.strokeStyle = 'rgba(232,200,122,.25)'; ctx.lineWidth = 2; for (let i = 0; i < 5; i++){ const w = 520 - i*90; ctx.strokeRect(700 - w/2, 470 - i*48, w, 50); }
+          ctx.fillStyle = '#160b2c'; for (let i = 0; i < 9; i++){ const x = 80 + i*260, h = 80 + (i*53)%90; ctx.fillRect(x, 520 - h, 140, h + 80); ctx.beginPath(); ctx.arc(x + 70, 520 - h, 40, Math.PI, 0); ctx.fill(); }
+        });
+        silhouette(camX, .6, () => { for (let i = 0; i < 8; i++) PROPS.palm(120 + i*420, GROUND + 10, .75 + (i%3)*.1); });
+        ground(pat.court, camX);
+      }
+    };
+  },
+  desert(){
+    return {
+      id:'desert', width:4300, start:160, chapter:'Chapter 2 · The Long Way',
+      draw(t){
+        sky(['#070a2c','#1a1040','#4a1a40','#8a3a3a']); starfield(camX, t, .9);
+        drawStar(VW*.8 - camX*.02, 110, .5, t, 1);
+        ctx.fillStyle = 'rgba(251,239,218,.9)'; ctx.beginPath(); ctx.arc(220 - camX*.02, 140, 34, 0, 7); ctx.fill(); ctx.fillStyle = '#1a1040'; ctx.beginPath(); ctx.arc(234 - camX*.02, 132, 30, 0, 7); ctx.fill();
+        dunes(camX, [[430, 26, 260, '#5a2438', .15, .18],[480, 30, 200, '#7a3438', .3, .22],[540, 22, 150, '#9a5a3a', .55, .3]]);
+        if (camX > 3000) silhouette(camX, .55, () => { ctx.fillStyle = '#5a3a3a'; ctx.fillRect(2650*1.0, 440, 600, 110); for (let i = 0; i < 6; i++) ctx.fillRect(2660 + i*100, 410, 40, 40); });
+        ground(pat.sand, camX);
+      }
+    };
+  },
+  jerusalem(){
+    return {
+      id:'jerusalem', width:2300, start:160, chapter:'Chapter 3 · Another King?',
+      draw(t){
+        sky(['#120c34','#3a1640','#7a2a3a','#c25a3a']); starfield(camX, t, .6);
+        drawStar(VW*.75 - camX*.02, 100, .45, t, 1);
+        silhouette(camX, .2, () => { ctx.fillStyle = '#4a2236'; ctx.fillRect(500, 360, 520, 200); ctx.fillStyle = '#c9a040'; ctx.fillRect(560, 330, 400, 34); ctx.fillStyle = '#5a2a3a'; for (let i = 0; i < 6; i++) ctx.fillRect(520 + i*90, 300, 50, 70); });
+        silhouette(camX, .5, () => {
+          ctx.fillStyle = '#8a5a3a'; ctx.fillRect(-100, 420, 3200, 140);
+          ctx.fillStyle = '#7a4a32'; for (let x = -100; x < 3100; x += 60) ctx.fillRect(x, 400, 34, 24);
+          for (let i = 0; i < 6; i++){ ctx.fillStyle = '#6a3e2c'; ctx.fillRect(100 + i*520, 330, 110, 230); ctx.fillStyle = '#5a3424'; for (let k = 0; k < 3; k++) ctx.fillRect(100 + i*520 + k*40, 306, 26, 26); }
+          ctx.strokeStyle = 'rgba(251,239,218,.25)'; ctx.lineWidth = 2; ctx.strokeRect(-100, 420, 3200, 140);
+        });
+        ground(pat.stone, camX);
+      }
+    };
+  },
+  palace(){
+    return {
+      id:'palace', width:1900, start:160, chapter:'Chapter 3 · Another King?', indoor:true,
+      draw(t){
+        ctx.fillStyle = pat.wall; ctx.save(); ctx.translate(-camX*.5 % 80, 0); ctx.fillRect(-80, 0, VW + 160, GROUND); ctx.restore();
+        const g = ctx.createLinearGradient(0,0,0,GROUND); g.addColorStop(0,'rgba(7,8,47,.75)'); g.addColorStop(1,'rgba(7,8,47,0)'); ctx.fillStyle = g; ctx.fillRect(0,0,VW,GROUND);
+        silhouette(camX, .85, () => { for (let i = 0; i < 6; i++) PROPS.pillar(150 + i*360, GROUND, 470); });
+        silhouette(camX, .85, () => { for (let i = 0; i < 5; i++){ PROPS.lamp(330 + i*360, 250, t + i); } });
+        ground(pat.floor, camX);
+      }
+    };
+  },
+  bethlehem(){
+    return {
+      id:'bethlehem', width:2400, start:160, chapter:'Chapter 4 · Bethlehem',
+      draw(t){
+        sky(['#04061f','#0f1036','#22123a','#3a1838']); starfield(camX, t);
+        silhouette(camX, .3, () => { ctx.fillStyle = '#1a0f2c'; ctx.beginPath(); ctx.moveTo(-100, 540); for (let x = -100; x < 3000; x += 100) ctx.lineTo(x, 470 + Math.sin(x/300)*40); ctx.lineTo(3000, 600); ctx.lineTo(-100, 600); ctx.fill(); });
+        silhouette(camX, .65, () => { for (let i = 0; i < 9; i++) PROPS.house(160 + i*300, GROUND, 150 + (i%3)*30, 120 + (i%2)*40, i%3 === 0); });
+        ground(pat.sand, camX);
+      }
+    };
+  },
+  house(){
+    return {
+      id:'house', width:1280, start:180, wide:true, chapter:'Chapter 4 · Bethlehem', indoor:true,
+      draw(t){
+        ctx.fillStyle = '#2a140e'; ctx.fillRect(0,0,VW,GROUND);
+        ctx.fillStyle = pat.wall; ctx.globalAlpha = .6; ctx.fillRect(0,0,VW,GROUND); ctx.globalAlpha = 1;
+        for (const x of [260, 640, 1020]){ ctx.strokeStyle = 'rgba(201,160,64,.5)'; ctx.lineWidth = 3; archShape(x, GROUND, 230, 420); ctx.stroke(); }
+        const gr = ctx.createRadialGradient(950, 430, 20, 950, 430, 520); gr.addColorStop(0,'rgba(255,220,140,.45)'); gr.addColorStop(1,'rgba(255,220,140,0)'); ctx.fillStyle = gr; ctx.fillRect(0,0,VW,VH);
+        PROPS.lamp(420, 300, t); PROPS.lamp(1150, 280, t + 2);
+        ground(pat.rug, 0);
+      }
+    };
+  },
+  road(){
+    return {
+      id:'road', width:3300, start:160, chapter:'Chapter 4 · Another Way',
+      draw(t){
+        const d = state.flags.dawn || 0;
+        const c1 = mix('#04061f','#f3b98a',d), c2 = mix('#14123a','#e98a7a',d), c3 = mix('#2a1238','#8a3a5a',d);
+        sky([c1, c2, c3]); starfield(camX, t, 1 - d);
+        if (d > 0){ const gr = ctx.createRadialGradient(VW*.8, GROUND, 10, VW*.8, GROUND, 600); gr.addColorStop(0,`rgba(255,220,150,${.7*d})`); gr.addColorStop(1,'rgba(255,220,150,0)'); ctx.fillStyle = gr; ctx.fillRect(0,0,VW,VH); }
+        dunes(camX, [[470, 24, 240, mix('#1a0f2c','#9a4a4a',d), .2, .15],[520, 22, 170, mix('#2a1534','#b8684a',d), .45, .22]]);
+        silhouette(camX, .7, () => { for (let i = 0; i < 7; i++) PROPS.palm(300 + i*520, GROUND + 10, .7); });
+        ground(pat.sand, camX);
+      }
+    };
+  }
+};
+function mix(a, b, t){ const pa = [1,3,5].map(i => parseInt(a.slice(i,i+2),16)), pb = [1,3,5].map(i => parseInt(b.slice(i,i+2),16)); return '#' + pa.map((v,i) => Math.round(lerp(v, pb[i], t)).toString(16).padStart(2,'0')).join(''); }
+
+/* ---------- overlays & script helpers ---------- */
+let dlg = null, choice = null, card = null, item = null, mini = null, curtain = { v:0, target:0, resolve:null }, toast = null, busy = false, darken = 0, darkTarget = 0;
+const say = (name, text) => new Promise(r => { dlg = { name, text, shown:0, resolve:r, blipT:0 }; });
+const narr = text => say('', text);
+const choose = (prompt, options) => new Promise(r => { choice = { prompt, options, idx:0, resolve:r, rects:[] }; });
+const showCard = (title, sub, verse) => new Promise(r => { card = { title, sub, verse, t:0, resolve:r }; });
+const showItem = (kind, name, text) => new Promise(r => { item = { kind, name, text, t:0, resolve:r }; sfx.pick(); });
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const walkTo = x => new Promise(r => { player.target = x; player.onArrive = r; });
+const cover = v => new Promise(r => { curtain.target = v; curtain.resolve = r; });
+function flash(text, col){ toast = { text, t:0, col: col || P.gold2 }; }
+async function run(fn){ if (busy) return; busy = true; player.target = null; player.vx = 0; try { await fn(); } finally { busy = false; } }
+async function goScene(id, x){ await cover(1); loadScene(id, x); await wait(150); await cover(0); }
+function loadScene(id, x){
+  scene = SCENES[id](); scene.things = []; scene.triggers = []; scene.t = 0;
+  player.x = x ?? scene.start; player.vx = 0; player.target = null; player.face = 1; player.flip = 1; player.visible = true; player.kneel = 0;
+  camX = clamp(player.x - VW*.4, 0, scene.width - VW);
+  BUILD[id] && BUILD[id]();
+}
+
+/* ---------- chapter content ---------- */
+const gh = () => state.gifts;
+const BUILD = {
+  babylon(){
+    const S = scene;
+    S.things.push(makeThing({ x:560, kind:'scholar', face:-1, act: () => run(async () => {
+      if (!state.flags.talkedScholar){
+        await say('Old Scholar', 'You saw it too? A new star, rising where no star has ever been.');
+        await say('Old Scholar', 'Our people have kept the scrolls of Daniel for five hundred years. He wrote of a King whose kingdom would never end.');
+        await say('Old Scholar', 'And older words still: "A star shall come out of Jacob, and a scepter shall rise out of Israel."');
+        await say('Old Scholar', 'Go to the great astrolabe. Line up its rings and see where the star leads.');
+        state.flags.talkedScholar = true;
+      } else if (!state.flags.starOut){
+        await say('Old Scholar', 'The astrolabe is just past the fountain. Stop each ring when its mark reaches the top.');
+      } else if (!(gh().gold && gh().frank && gh().myrrh)){
+        await say('Old Scholar', 'West, toward Judea. A newborn King deserves gifts. The treasury is open to you.');
+      } else {
+        await say('Old Scholar', 'Gold, frankincense and myrrh. Go well, friends. Follow the star.');
+      }
+    })}));
+    S.things.push(makeThing({ x:960, kind:'astrolabe', prompt:'Look', act: () => run(async () => {
+      if (!state.flags.talkedScholar){ await narr('A great brass astrolabe. Maybe the old scholar knows how to read it.'); return; }
+      if (state.flags.starOut){ await narr('The rings are locked in place, pointing west.'); return; }
+      await narr('Stop each ring when its little star reaches the gold mark at the top.');
+      await astrolabeGame();
+      state.flags.starOut = true; sfx.chime();
+      await narr('There it is. The new star, low in the west, over Judea.');
+      await say('The Magi', 'A King has been born. We should go and worship him.');
+      await say('Old Scholar', "Then you'll need gifts fit for a King. Take what you need from the treasury.");
+    })}));
+    const giftThing = (x, key, kind, name, text) => makeThing({ x, kind, prompt:'Take', enabled: () => state.flags.starOut && !gh()[key], act: () => run(async () => { gh()[key] = true; await showItem(key, name, text); }) });
+    S.things.push(giftThing(1450, 'gold', 'chest', 'Gold', 'The treasure of kings. A gift for a King.'));
+    S.things.push(giftThing(1720, 'frank', 'incense', 'Frankincense', 'Incense burned in worship. A gift for God.'));
+    S.things.push(giftThing(1990, 'myrrh', 'jar', 'Myrrh', 'A perfume used to prepare the dead for burial. A strange gift for a baby.'));
+    S.things.push(makeThing({ x:2420, kind:'gate', prompt:'Leave', act: () => run(async () => {
+      if (!state.flags.starOut){ await narr('Not yet. The old scholar is waiting by the palms.'); return; }
+      const g = gh(); if (!(g.gold && g.frank && g.myrrh)){ await narr('We still need ' + ['gold','frankincense','myrrh'].filter((n,i) => !g[['gold','frank','myrrh'][i]]).join(' and ') + '.'); return; }
+      await narr('They thought they were the ones searching. But the God who made the stars was speaking in the one language they knew best.');
+      await nextChapter(1);
+    })}));
+  },
+  desert(){
+    const S = scene;
+    S.things.push(makeThing({ x:620, kind:'tent', prompt:'', enabled: () => false }));
+    S.things.push(makeThing({ x:860, kind:'campfire', prompt:'', enabled: () => false }));
+    S.things.push(makeThing({ x:1010, kind:'traveler', face:-1, act: () => run(async () => {
+      await say('Traveler', "Following a star? Across this desert? You're either very wise or a little mad.");
+      await say('The Magi', "Maybe both. We've never seen the sky speak like this.");
+      await say('Traveler', 'Storms come off these dunes fast. When the wind hits, brace yourselves.');
+      await say('Traveler', 'Watch the ring close around you, and plant your feet the moment it meets the gold.');
+      state.flags.metTraveler = true;
+    })}));
+    S.triggers.push({ x:1500, run: async () => {
+      if (!state.flags.metTraveler){ await say('Traveler', "Hold on! Sit by the fire a minute before you head into that wind."); await walkTo(1180); return 'retry'; }
+      await sandstorm();
+      await narr('Every time they lost the way, the star was still there.');
+    }});
+    S.things.push(makeThing({ x:4080, kind:'gate', prompt:'Enter', enabled: () => state.flags.stormDone, act: () => run(async () => {
+      await narr('Jerusalem. Surely the capital would know where the new King had been born.');
+      await nextChapter(2);
+    })}));
+  },
+  jerusalem(){
+    const S = scene;
+    S.things.push(makeThing({ x:620, kind:'citizen', face:-1, act: () => run(async () => {
+      await say('Townswoman', 'Herod built half of this city. The temple, the fortresses, the palace.');
+      await say('Townswoman', "He doesn't share power with anyone. Not even his own family.");
+    })}));
+    S.things.push(makeThing({ x:1250, kind:'guard', face:-1, act: () => run(async () => {
+      await say('Guard', 'State your business.');
+      await say('The Magi', 'Where is the one who has been born King of the Jews? We saw his star and have come to worship him.');
+      await say('Guard', "...Keep your voice down. King Herod already has a king in this city. Him.");
+      await say('Guard', 'But he will want to hear this. Come. The palace is this way.');
+      state.flags.guard = true;
+    })}));
+    S.things.push(makeThing({ x:1950, kind:'door', prompt:'Enter', enabled: () => state.flags.guard, act: () => run(async () => { await goScene('palace'); }) }));
+  },
+  palace(){
+    const S = scene;
+    S.things.push(makeThing({ x:1400, kind:'throne', prompt:'', enabled: () => false }));
+    S.things.push(makeThing({ x:780, kind:'scribe', face:1, range:110, prompt:'Talk', act: () => run(async () => {
+      if (!state.flags.herod1) await say('Scribe', 'The king is waiting. Speak carefully.');
+      else await say('Scribe', 'Bethlehem is only a few miles south. Not that any of us are going.');
+    })}));
+    S.things.push(makeThing({ x:1400, kind:'herod', face:-1, act: () => run(async () => {
+      if (state.flags.herodDone){ await say('Herod', 'Go. Find the child. And come back to me.'); return; }
+      await say('Herod', 'Wise men from the East. Your question has the whole city talking.');
+      await say('Herod', 'Chief priests! Scribes! Where is the Messiah supposed to be born?');
+      state.flags.herod1 = true;
+      let right = false;
+      while (!right){
+        const i = await choose('The scribes unroll the prophet Micah. Where did he say the ruler would come from?', ['Jerusalem', 'Bethlehem', 'Babylon']);
+        if (i === 1){ right = true; sfx.chime(); await say('Scribe', '"But you, O Bethlehem, though you are small, from you shall come a ruler who will shepherd my people Israel."'); }
+        else { sfx.thud(); await say('Scribe', "Not quite. Think smaller. Think of King David's hometown."); }
+      }
+      await narr('The scribes knew exactly where to go. Not one of them went.');
+      await narr('Then Herod called the magi aside, in secret.');
+      await say('Herod', 'Tell me. When exactly did this star first appear?');
+      await say('The Magi', 'Many months ago, Your Majesty. We have followed it ever since.');
+      await say('Herod', 'Go and search carefully for the child. When you find him, bring me word, so that I may come and worship him too.');
+      await narr('Herod was already on a throne. There was no room in his life for another King.');
+      state.flags.herodDone = true;
+      await nextChapter(3);
+    })}));
+  },
+  bethlehem(){
+    const S = scene;
+    state.flags.starPos = { x: 700, y: 120 };
+    S.triggers.push({ x:900, run: async () => {
+      await narr('The star went ahead of them, until it came to rest over the place where the child was.');
+      state.flags.starMove = { from:{ x:state.flags.starPos.x, y:120 }, to:{ x:1750, y:250 }, t:0 };
+      await wait(2600);
+      await narr('When they saw the star, they rejoiced with great joy.');
+    }});
+    S.things.push(makeThing({ x:1750, kind:'house', prompt:'Enter', enabled: () => !!state.flags.starMove, act: () => run(async () => { await goScene('house', 160); }) }));
+  },
+  house(){
+    const S = scene;
+    S.things.push(makeThing({ x:720, kind:'joseph', face:-1, act: () => run(async () => {
+      if (!state.flags.metJoseph){ await say('Joseph', "You've come a long way. Come in. Please."); state.flags.metJoseph = true; }
+      else await say('Joseph', 'His name is Jesus.');
+    })}));
+    S.things.push(makeThing({ x:960, kind:'mary', face:-1, prompt:'Worship', act: () => run(async () => {
+      if (state.flags.gave){ await say('Mary', 'Thank you. I will remember this night.'); return; }
+      await narr('They saw the child with Mary his mother, and they bowed down and worshiped him.');
+      player.kneel = 1;
+      const left = { gold:'Gold', frank:'Frankincense', myrrh:'Myrrh' };
+      while (Object.keys(left).length){
+        const keys = Object.keys(left);
+        const i = await choose(keys.length === 3 ? 'Open your treasures. Which gift first?' : 'Which gift next?', keys.map(k => left[k]));
+        const k = keys[i]; delete left[k];
+        if (k === 'gold'){ await say('The Magi', 'Gold, for a King. Your kingdom will never end.'); }
+        if (k === 'frank'){ await say('The Magi', 'Frankincense, the incense of worship. A gift for God himself.'); }
+        if (k === 'myrrh'){ await say('The Magi', 'Myrrh...'); await narr('Mary looks at the myrrh a long moment, and holds her son a little closer.'); await narr('This King would give his life. And that would not be the end of his story.'); }
+        gh()[k] = 'given'; sfx.pick();
+      }
+      player.kneel = 0;
+      await narr('They had crossed a desert to find him. He had crossed far more to find them.');
+      state.flags.gave = true;
+      await narr('That night, the magi slept in Bethlehem.');
+      darkTarget = .85; await wait(900);
+      state.flags.angel = true; sfx.chime();
+      await narr('In a dream, God warned them: do not go back to Herod.');
+      await narr('So they would return to their own country by another way.');
+      state.flags.angel = false; darkTarget = 0; await wait(600);
+      await goScene('road');
+      await showCard('Another Way', 'The road home', '"Being warned in a dream not to return to Herod, they departed to their own country by another way." Matthew 2:12');
+      await narr("Herod's watchmen are on the roads. Walk only while their lanterns face away. Stand still when they turn.");
+    })}));
+  },
+  road(){
+    const S = scene;
+    S.watch = [1000, 1700, 2400].map((x, i) => ({ x, phase:'away', t:1.2 + i*.6, dur:2.4 }));
+    S.checkpoint = 160;
+    S.triggers.push({ x:2950, run: async () => {
+      state.flags.dawnRun = true;
+      await walkTo(3100);
+      await narr('The sun came up on a different road.');
+      await narr('They came one way. They went home another.');
+      await wait(400);
+      finish();
+    }});
+  }
+};
+
+async function nextChapter(n){
+  state.ch = n; store.set('qotm-ch', String(n));
+  const ids = ['babylon','desert','jerusalem','bethlehem'];
+  await cover(1); loadScene(ids[n]); await wait(150);
+  const cards = [
+    ['The Star', 'Babylon, the far East', '"A star shall come out of Jacob." Numbers 24:17'],
+    ['The Long Way', 'Hundreds of miles of desert', '"They set out, and the star they had seen went before them." Matthew 2:9'],
+    ['Another King?', 'Jerusalem', '"When Herod the king heard this, he was troubled, and all Jerusalem with him." Matthew 2:3'],
+    ['Bethlehem', 'The city of David', '"Going into the house, they saw the child with Mary his mother." Matthew 2:11'],
+  ];
+  const c = cards[n];
+  await cover(0);
+  await showCard(c[0], c[1], c[2]);
+  if (n === 1) await narr('Months of travel. The star went ahead of them the whole way.');
+}
+
+/* ---------- minigames ---------- */
+function astrolabeGame(){
+  return new Promise(r => {
+    mini = { type:'astro', rings:[{ r:200, a:Math.random()*6, sp:1.5 },{ r:150, a:Math.random()*6, sp:-2.1 },{ r:100, a:Math.random()*6, sp:2.8 }], idx:0, shake:0, done:0, resolve:r };
+  });
+}
+function ringPress(){ return new Promise(r => { mini = { type:'ring', t:0, dur:1.25, r:250, resolve:r }; }); }
+async function sandstorm(){
+  state.flags.storm = 1; sfx.wind(true);
+  await narr('The wind rises. Sand fills the air.');
+  let ok = 0, tries = 0;
+  while (ok < 4){
+    await walkTo(Math.min(player.x + 340, 3700));
+    await wait(250);
+    const res = await ringPress(); tries++;
+    if (res){ ok++; sfx.chime(); flash(['Braced!','Steady!','Holding!','Through it!'][ok-1]); }
+    else { sfx.thud(); flash('The wind pushes you back', '#f3b98a'); player.knock = -520; await wait(700); }
+    state.flags.stormCount = ok;
+  }
+  sfx.wind(false); state.flags.storm = 0; state.flags.stormDone = true;
+  await walkTo(Math.min(player.x + 200, 3900));
+}
+
+/* ---------- update ---------- */
+let last = performance.now(), T = 0, running = false, paused = false, rotSkip = false;
+function checkRotate(){ const show = isTouch && running && innerHeight > innerWidth && !rotSkip; const el = document.getElementById('rotate'); if (el) el.hidden = !show; paused = show; document.body.classList.toggle('rot', show); }
+function goFull(){
+  if (!isTouch) return;
+  const el = document.documentElement, rf = el.requestFullscreen || el.webkitRequestFullscreen;
+  if (!rf || document.fullscreenElement) return;
+  try { const pr = rf.call(el, { navigationUI:'hide' }); const lock = () => { try { screen.orientation && screen.orientation.lock && screen.orientation.lock('landscape').catch(() => {}); } catch(e){} }; if (pr && pr.then) pr.then(lock).catch(() => {}); else lock(); } catch(e){}
+}
+function update(dt){
+  T += dt; if (scene) scene.t += dt;
+  // curtain
+  if (curtain.v !== curtain.target){ curtain.v = curtain.target > curtain.v ? Math.min(1, curtain.v + dt*2.4) : Math.max(0, curtain.v - dt*2.4); if (curtain.v === curtain.target && curtain.resolve){ const r = curtain.resolve; curtain.resolve = null; r(); } }
+  darken = lerp(darken, darkTarget, Math.min(1, dt*3));
+  if (toast){ toast.t += dt; if (toast.t > 1.6) toast = null; }
+  const act = input.actEdge, tap = input.tap;
+  let used = false;
+
+  // mute button
+  if (tap && tap.x > VW - 70 && tap.y < 70){ toggleMute(); used = true; }
+
+  if (!used && card){ card.t += dt; if ((act || tap) && card.t > .7){ const r = card.resolve; card = null; r(); } used = true; }
+  else if (card) card.t += dt;
+  if (!used && item){ item.t += dt; if ((act || tap) && item.t > .5){ const r = item.resolve; item = null; r(); } used = true; }
+  if (!used && mini){ updateMini(dt, act, tap); used = true; }
+  if (!used && choice){
+    if (input.upEdge || (input.left && !choice.lk)) choice.idx = (choice.idx + choice.options.length - 1) % choice.options.length;
+    if (input.downEdge || (input.right && !choice.rk)) choice.idx = (choice.idx + 1) % choice.options.length;
+    choice.lk = input.left; choice.rk = input.right;
+    let pick = act ? choice.idx : -1;
+    if (tap) choice.rects.forEach((rc, i) => { if (tap.x >= rc[0] && tap.x <= rc[0]+rc[2] && tap.y >= rc[1] && tap.y <= rc[1]+rc[3]) pick = i; });
+    if (pick >= 0){ const r = choice.resolve; choice = null; sfx.blip(); r(pick); }
+    used = true;
+  }
+  if (!used && dlg){
+    const len = dlg.text.length;
+    if (dlg.shown < len){ dlg.shown = Math.min(len, dlg.shown + dt*52); dlg.blipT -= dt; if (dlg.blipT <= 0){ sfx.blip(); dlg.blipT = .07; } }
+    if (act || tap){ if (dlg.shown < len) dlg.shown = len; else { const r = dlg.resolve; dlg = null; r(); } }
+    used = true;
+  }
+
+  if (!scene) return;
+  // player control
+  let dir = 0;
+  const free = !busy && !used && curtain.v === 0;
+  if (free){
+    if (input.left) { dir = -1; player.target = null; }
+    if (input.right){ dir = 1; player.target = null; }
+    if (tap){
+      const wx = tap.x + camX;
+      if (Math.abs(wx - player.x) < 70 && tap.y > GROUND - 230 && tap.y < GROUND + 20){ player.target = null; const n = nearest(); if (n){ n.act(); } }
+      else {
+        const th = scene.things.find(o => o.enabled() && o.prompt && Math.abs(o.x - wx) < 90 && tap.y > 200);
+        if (th){ player.target = th.x - Math.sign(th.x - player.x) * 95; player.pendingThing = th; } else { player.target = clamp(wx, 80, scene.width - 80); player.pendingThing = null; }
+      }
+    }
+    if (act){ const n = nearest(); if (n) n.act(); }
+  }
+  if (player.target !== null && player.target !== undefined && (free || busy)){
+    const d = player.target - player.x;
+    if (Math.abs(d) < 8){ player.target = null; if (player.onArrive){ const r = player.onArrive; player.onArrive = null; r(); } if (player.pendingThing && !busy){ const th = player.pendingThing; player.pendingThing = null; if (Math.abs(th.x - player.x) < th.range) th.act(); } }
+    else dir = Math.sign(d);
+  }
+  const speed = state.flags.storm ? 170 : 280;
+  player.vx = lerp(player.vx, dir*speed, Math.min(1, dt*10));
+  if (player.knock){ player.x += player.knock*dt; player.knock *= Math.pow(.02, dt); if (Math.abs(player.knock) < 10) player.knock = 0; }
+  player.x = clamp(player.x + player.vx*dt, 80, scene.width - 80);
+  if (dir) player.face = dir;
+  player.flip = lerp(player.flip, player.face, Math.min(1, dt*9));
+  if (Math.abs(player.vx) > 20){ const before = Math.floor(player.walkT*2.2); player.walkT += dt; if (Math.floor(player.walkT*2.2) !== before) sfx.step(); }
+
+  // triggers
+  if (!busy && scene.triggers) for (const tr of scene.triggers){ if (!tr.done && player.x >= tr.x){ tr.done = true; run(async () => { const res = await tr.run(); if (res === 'retry') tr.done = false; }); break; } }
+
+  // road stealth
+  if (scene.id === 'road' && scene.watch) updateWatch(dt);
+
+  // star motion (bethlehem)
+  const sm = state.flags.starMove; if (sm && sm.t < 1) sm.t = Math.min(1, sm.t + dt/2.4);
+  if (scene.id === 'road' && state.flags.dawnRun) state.flags.dawn = Math.min(1, (state.flags.dawn || 0) + dt*.35);
+
+  // camera
+  const target = clamp(player.x - VW*.42, 0, Math.max(0, scene.width - VW));
+  camX = lerp(camX, target, Math.min(1, dt*4));
+
+  // pop-ups
+  for (const th of scene.things){ const sx = th.x - camX; if (sx > -200 && sx < VW + 200) th.pop = Math.min(1, th.pop + dt*2.5); }
+}
+function nearest(){ let best = null, bd = 1e9; for (const th of scene.things){ if (!th.enabled() || !th.prompt) continue; const d = Math.abs(th.x - player.x); if (d < th.range && d < bd){ best = th; bd = d; } } return best; }
+function updateMini(dt, act, tap){
+  const m = mini;
+  if (m.type === 'astro'){
+    m.shake = Math.max(0, m.shake - dt*3);
+    m.rings.forEach((rg, i) => { if (i >= m.idx) rg.a += rg.sp*dt; });
+    if (m.done){ m.done += dt; if (m.done > 1.2){ mini = null; m.resolve(); } return; }
+    if (act || tap){
+      const rg = m.rings[m.idx]; let d = ((rg.a + Math.PI/2) % (Math.PI*2) + Math.PI*3) % (Math.PI*2) - Math.PI;
+      if (Math.abs(d) < .3){ rg.a = -Math.PI/2; m.idx++; sfx.pick(); if (m.idx === 3) m.done = .001; }
+      else { m.shake = 1; sfx.thud(); }
+    }
+  } else if (m.type === 'ring'){
+    m.t += dt; const r = 250 * (1 - m.t/m.dur);
+    const done = ok => { mini = null; m.resolve(ok); };
+    if (act || tap){ done(Math.abs(r - 70) < 26); return; }
+    if (m.t >= m.dur) done(false);
+  }
+}
+function updateWatch(dt){
+  const S = scene;
+  for (const w of S.watch){
+    w.t -= dt;
+    if (w.t <= 0){
+      if (w.phase === 'away'){ w.phase = 'warn'; w.t = .75; }
+      else if (w.phase === 'warn'){ w.phase = 'watch'; w.t = 2 + Math.random()*.9; }
+      else { w.phase = 'away'; w.t = 2.1 + Math.random()*1.1; }
+    }
+    if (player.x > w.x + 90 && S.checkpoint < w.x + 90) S.checkpoint = w.x + 90;
+  }
+  const inCone = S.watch.find(w => w.phase === 'watch' && player.x > w.x - 470 && player.x < w.x - 20);
+  player.hide = lerp(player.hide, inCone ? 1 : 0, Math.min(1, dt*6));
+  if (!busy && inCone && Math.abs(player.vx) > 25){
+    inCone.caught = 1;
+    run(async () => {
+      sfx.thud(); flash('Spotted!', '#f3b98a');
+      await say('Watchman', 'Who goes there? Stop!');
+      await cover(1); player.x = S.checkpoint; camX = clamp(player.x - VW*.42, 0, S.width - VW); S.watch.forEach(w => { w.phase = 'away'; w.t = 1.5 + Math.random(); w.caught = 0; }); await wait(200); await cover(0);
+      await narr('Back to the shadows. Move only while the lanterns face away.');
+    });
+  }
+}
+
+/* ---------- render ---------- */
+function render(){
+  ctx.setTransform(C.width / VW, 0, 0, C.height / VH, 0, 0);
+  ctx.clearRect(0, 0, VW, VH);
+  if (!scene){ ctx.fillStyle = P.navy; ctx.fillRect(0,0,VW,VH); return; }
+  const t = scene.t;
+  scene.draw(t);
+
+  // bethlehem star (moves to rest over the house)
+  if (scene.id === 'bethlehem'){
+    const sm = state.flags.starMove; let sx = 700 - camX*.05, sy = 120;
+    if (sm){ const k = ease(sm.t); sx = lerp(700 - camX*.05, 1750 - camX, k); sy = lerp(120, 250, k); }
+    drawStar(sx, sy, .55 + (sm ? ease(sm.t)*.15 : 0), t, 1);
+    if (sm && sm.t > .9){ const bx = 1750 - camX; const g = ctx.createLinearGradient(bx, sy, bx, GROUND); g.addColorStop(0,'rgba(255,230,160,.4)'); g.addColorStop(1,'rgba(255,230,160,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(bx - 10, sy); ctx.lineTo(bx + 10, sy); ctx.lineTo(bx + 90, GROUND); ctx.lineTo(bx - 90, GROUND); ctx.fill(); }
+  }
+
+  // things (pop-up book effect)
+  ctx.save(); ctx.translate(-camX, 0);
+  for (const th of scene.things){
+    const sx = th.x - camX; if (sx < -300 || sx > VW + 300) continue;
+    const k = backOut(Math.min(1, th.pop));
+    ctx.save(); ctx.translate(th.x, GROUND); ctx.scale(1, Math.max(.01, k)); ctx.translate(-th.x, -GROUND);
+    drawThing(th, t);
+    ctx.restore();
+  }
+  // road watchmen
+  if (scene.id === 'road') drawWatch(t);
+  // player
+  if (player.visible) drawPlayer(t);
+  ctx.restore();
+
+  // storm particles
+  if (state.flags.storm && scene.id === 'desert'){
+    ctx.fillStyle = 'rgba(201,141,78,.25)'; ctx.fillRect(0,0,VW,VH);
+    for (let i = 0; i < 160; i++){ const sx = (i*97 - T*900*(.6 + (i%5)*.15)) % (VW + 200); const x = sx < 0 ? sx + VW + 200 : sx; const y = (i*53 + Math.sin(T*3 + i)*20) % VH; ctx.fillStyle = 'rgba(255,220,170,.55)'; ctx.fillRect(x - 100, y, 14 + (i%4)*6, 2); }
+  }
+
+  // prompt bubble
+  if (!busy && !dlg && !choice && !mini && !card && !item){ const n = nearest(); if (n) drawPrompt(n.x - camX, n.prompt); }
+
+  if (darken > .01){ ctx.fillStyle = `rgba(4,4,20,${darken})`; ctx.fillRect(0,0,VW,VH); }
+  if (state.flags.angel) drawAngel(t);
+
+  drawHUD();
+  if (toast) drawToast();
+  if (mini) drawMini(t);
+  if (dlg) drawDialogue();
+  if (choice) drawChoice();
+  if (item) drawItem();
+  if (card) drawCard();
+  if (curtain.v > 0) drawCurtain();
+}
+function drawThing(th, t){
+  const x = th.x, y = GROUND;
+  switch (th.kind){
+    case 'astrolabe': PROPS.astrolabe(x, y, t, state.flags.starOut); break;
+    case 'chest': PROPS.chest(x, y, t, gh().gold); break;
+    case 'incense': PROPS.incense(x, y, t, gh().frank); break;
+    case 'jar': PROPS.jar(x, y, t, gh().myrrh); break;
+    case 'gate': PROPS.gate(x, y, t, scene.id === 'babylon' ? state.flags.starOut : state.flags.stormDone); break;
+    case 'door': PROPS.door(x, y, t, state.flags.guard); break;
+    case 'house': PROPS.house(x, y, 300, 270, !!state.flags.starMove); PROPS.door(x, y, t, !!state.flags.starMove); break;
+    case 'campfire': PROPS.campfire(x, y, t); break;
+    case 'tent': PROPS.tent(x, y); break;
+    case 'throne': PROPS.throne(x + 40, y); break;
+    default: drawPerson(th.kind, x, y, th.kind === 'herod' ? 230 : 200, th.face || -1, t);
+  }
+}
+function drawPlayer(t){
+  const img = MAGI; const h = 210, w = img.complete && img.naturalWidth ? h * img.naturalWidth / img.naturalHeight : h;
+  const moving = Math.abs(player.vx) > 20;
+  const bob = moving ? Math.abs(Math.sin(player.walkT*9))*-6 : Math.sin(t*1.5)*1.2;
+  const tilt = moving ? Math.sin(player.walkT*9)*.025 : 0;
+  ctx.save(); ctx.translate(player.x, GROUND + 4);
+  // shadow
+  ctx.fillStyle = 'rgba(8,0,12,.35)'; ctx.beginPath(); ctx.ellipse(6, 4, w*.42, 10, 0, 0, 7); ctx.fill();
+  ctx.translate(0, bob + player.kneel*14); ctx.rotate(tilt);
+  ctx.scale(Math.abs(player.flip) < .06 ? .06*Math.sign(player.flip || 1) : player.flip, 1 - player.kneel*.06);
+  if (player.hide > .02) ctx.globalAlpha = 1 - player.hide*.45;
+  if (img.complete && img.naturalWidth) ctx.drawImage(img, -w/2, -h, w, h);
+  else { ctx.fillStyle = P.gold; ctx.fillRect(-w/2, -h, w, h); }
+  ctx.restore();
+}
+function drawWatch(t){
+  for (const w of scene.watch){
+    const facingPlayer = w.phase === 'watch';
+    if (facingPlayer){
+      const g = ctx.createLinearGradient(w.x, 0, w.x - 470, 0); g.addColorStop(0,'rgba(255,214,120,.45)'); g.addColorStop(1,'rgba(255,214,120,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(w.x - 30, GROUND - 120); ctx.lineTo(w.x - 470, GROUND - 230); ctx.lineTo(w.x - 470, GROUND + 30); ctx.lineTo(w.x - 30, GROUND); ctx.fill();
+    }
+    const wob = w.phase === 'warn' ? Math.sin(t*30)*3 : 0;
+    drawPerson('watch', w.x + wob, GROUND, 200, facingPlayer ? -1 : 1, t, { lit:true });
+    if (w.phase === 'warn' || w.caught){ ctx.fillStyle = P.gold2; ctx.font = '700 40px Montserrat'; ctx.textAlign = 'center'; ctx.fillText(w.caught ? '!' : '?', w.x, GROUND - 250); }
+  }
+}
+function drawAngel(t){
+  const x = VW/2, y = 260;
+  const g = ctx.createRadialGradient(x, y, 10, x, y, 460); g.addColorStop(0,'rgba(255,240,205,.55)'); g.addColorStop(1,'rgba(255,240,205,0)'); ctx.fillStyle = g; ctx.fillRect(0,0,VW,VH);
+  drawStar(x, y, .5, t, 1.2);
+}
+function drawPrompt(sx, label){
+  const w = 30 + label.length*13 + (isTouch ? 0 : 70), x = sx - w/2, y = GROUND - 300 + Math.sin(T*4)*4;
+  ctx.save(); cartouche(x, y, w, 40); ctx.fillStyle = 'rgba(42,0,27,.85)'; ctx.fill(); ctx.strokeStyle = P.gold2; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = P.cream; ctx.font = '700 16px Montserrat'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(isTouch ? label : label + '  ·  Space', sx, y + 21);
+  ctx.restore();
+}
+function drawHUD(){
+  ctx.save();
+  ctx.font = '600 13px Montserrat'; ctx.textBaseline = 'top'; ctx.textAlign = 'left'; ctx.fillStyle = P.gold2;
+  ctx.fillText((scene.chapter || '').toUpperCase().split('').join(String.fromCharCode(8202)), 26, 24);
+  // gifts
+  const keys = ['gold','frank','myrrh'], cols = ['#e8c87a','#cfe2dc','#b04a5a'];
+  keys.forEach((k, i) => { const x = VW - 210 + i*44, y = 22; ctx.save(); ctx.translate(x + 14, y + 14); ctx.rotate(Math.PI/4); ctx.strokeStyle = 'rgba(232,200,122,.7)'; ctx.lineWidth = 1.5; ctx.strokeRect(-11,-11,22,22); if (gh()[k]){ ctx.fillStyle = gh()[k] === 'given' ? 'rgba(232,200,122,.35)' : cols[i]; ctx.fillRect(-8,-8,16,16); } ctx.restore(); });
+  // mute
+  const mx = VW - 46, my = 34; ctx.strokeStyle = P.cream; ctx.lineWidth = 2.2; ctx.beginPath(); ctx.moveTo(mx - 12, my - 5); ctx.lineTo(mx - 6, my - 5); ctx.lineTo(mx + 2, my - 12); ctx.lineTo(mx + 2, my + 12); ctx.lineTo(mx - 6, my + 5); ctx.lineTo(mx - 12, my + 5); ctx.closePath(); ctx.stroke();
+  if (muted){ ctx.beginPath(); ctx.moveTo(mx + 8, my - 7); ctx.lineTo(mx + 18, my + 7); ctx.moveTo(mx + 18, my - 7); ctx.lineTo(mx + 8, my + 7); ctx.stroke(); }
+  else { ctx.beginPath(); ctx.arc(mx + 4, my, 8, -.8, .8); ctx.stroke(); ctx.beginPath(); ctx.arc(mx + 4, my, 14, -.8, .8); ctx.stroke(); }
+  // storm progress
+  if (state.flags.storm){ ctx.textAlign = 'center'; ctx.font = '600 15px Montserrat'; ctx.fillStyle = P.cream; ctx.fillText('Gusts weathered: ' + (state.flags.stormCount || 0) + ' / 4', VW/2, 24); }
+  ctx.restore();
+}
+function drawToast(){
+  const a = toast.t < .2 ? toast.t/.2 : toast.t > 1.2 ? 1 - (toast.t - 1.2)/.4 : 1;
+  ctx.save(); ctx.globalAlpha = Math.max(0, a); ctx.font = 'italic 400 46px Fraunces'; ctx.textAlign = 'center'; ctx.fillStyle = toast.col; ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 12;
+  ctx.fillText(toast.text, VW/2, 170 - toast.t*20); ctx.restore();
+}
+function panel(x, y, w, h){
+  ctx.save(); ctx.fillStyle = 'rgba(8,0,12,.4)'; ctx.fillRect(x + 6, y + 8, w, h);
+  ctx.fillStyle = '#f5e8cf'; ctx.fillRect(x, y, w, h);
+  ctx.strokeStyle = P.gold; ctx.lineWidth = 2; ctx.strokeRect(x + 7, y + 7, w - 14, h - 14);
+  ctx.strokeStyle = 'rgba(110,10,36,.35)'; ctx.lineWidth = 1; ctx.strokeRect(x + 12, y + 12, w - 24, h - 24);
+  ctx.restore();
+}
+function drawDialogue(){
+  const w = Math.min(VW - 240, 1040), x = (VW - w)/2, y = 500, h = 186;
+  panel(x, y, w, h);
+  ctx.save();
+  if (dlg.name){ ctx.font = '700 15px Montserrat'; const tw = ctx.measureText(dlg.name.toUpperCase()).width + 50; cartouche(x + 36, y - 20, tw, 40); ctx.fillStyle = P.burg; ctx.fill(); ctx.strokeStyle = P.gold2; ctx.lineWidth = 2; ctx.stroke(); ctx.fillStyle = P.cream; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(dlg.name.toUpperCase(), x + 36 + tw/2, y + 1); }
+  ctx.font = dlg.name ? '400 27px Fraunces' : 'italic 400 27px Fraunces'; ctx.fillStyle = P.ink; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+  const lines = wrapText(dlg.text, w - 90); let left = Math.floor(dlg.shown);
+  lines.slice(0, 4).forEach((ln, i) => { const part = ln.slice(0, Math.max(0, left)); left -= ln.length + 1; ctx.fillText(part, x + 44, y + 36 + i*36); });
+  if (dlg.shown >= dlg.text.length){ ctx.fillStyle = P.burg; const bx = x + w - 44, by = y + h - 36 + Math.sin(T*6)*3; ctx.beginPath(); ctx.moveTo(bx - 9, by - 6); ctx.lineTo(bx + 9, by - 6); ctx.lineTo(bx, by + 6); ctx.fill(); }
+  ctx.restore();
+}
+function drawChoice(){
+  const x = 160, w = VW - 320, n = choice.options.length, h = 120 + n*64, y = 360 - h/2 + 40;
+  ctx.save(); ctx.fillStyle = 'rgba(4,2,20,.45)'; ctx.fillRect(0,0,VW,VH); ctx.restore();
+  panel(x, y, w, h);
+  ctx.save(); ctx.font = '400 26px Fraunces'; ctx.fillStyle = P.ink; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  const lines = wrapText(choice.prompt, w - 100); lines.slice(0,2).forEach((l, i) => ctx.fillText(l, VW/2, y + 30 + i*32));
+  choice.rects = [];
+  choice.options.forEach((o, i) => {
+    const bw = 360, bx = VW/2 - bw/2, by = y + 40 + Math.min(2, lines.length)*32 + i*64;
+    cartouche(bx, by, bw, 50); ctx.fillStyle = i === choice.idx ? P.burg : 'rgba(110,10,36,.12)'; ctx.fill(); ctx.strokeStyle = P.gold; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = i === choice.idx ? P.cream : P.ink; ctx.font = '700 18px Montserrat'; ctx.textBaseline = 'middle'; ctx.fillText(o, VW/2, by + 26); ctx.textBaseline = 'top'; ctx.font = '400 26px Fraunces';
+    choice.rects.push([bx, by, bw, 50]);
+  });
+  ctx.restore();
+}
+function drawItem(){
+  const k = Math.min(1, item.t*3), s = backOut(k);
+  ctx.save(); ctx.fillStyle = `rgba(4,2,20,${.5*k})`; ctx.fillRect(0,0,VW,VH);
+  ctx.translate(VW/2, VH/2 - 10); ctx.scale(s, s);
+  panel(-260, -220, 520, 420);
+  // icon
+  ctx.save(); ctx.translate(0, -50);
+  const gr = ctx.createRadialGradient(0,0,10,0,0,130); gr.addColorStop(0,'rgba(239,190,90,.45)'); gr.addColorStop(1,'rgba(239,190,90,0)'); ctx.fillStyle = gr; ctx.beginPath(); ctx.arc(0,0,130,0,7); ctx.fill();
+  ctx.translate(0, 60);
+  if (item.kind === 'gold') PROPS.chest(0, 0, T, false); else if (item.kind === 'frank') PROPS.incense(0, 0, T, false); else PROPS.jar(0, 0, T, false);
+  ctx.restore();
+  ctx.textAlign = 'center'; ctx.fillStyle = P.burg; ctx.font = 'italic 400 44px Fraunces'; ctx.fillText(item.name, 0, 70);
+  ctx.fillStyle = P.ink; ctx.font = '400 21px Fraunces'; wrapText(item.text, 420).forEach((l, i) => ctx.fillText(l, 0, 112 + i*28));
+  ctx.restore();
+}
+function drawCard(){
+  const a = Math.min(1, card.t*2.5);
+  ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = 'rgba(7,8,47,.92)'; ctx.fillRect(0,0,VW,VH);
+  drawStar(VW/2, 170, .38, T, .8);
+  ctx.textAlign = 'center'; ctx.fillStyle = P.gold2; ctx.font = '600 15px Montserrat'; ctx.fillText(card.sub.toUpperCase().split('').join(String.fromCharCode(8202)), VW/2, 280);
+  ctx.fillStyle = P.cream; ctx.font = 'italic 400 84px Fraunces'; ctx.fillText(card.title, VW/2, 375);
+  ctx.font = '400 23px Fraunces'; ctx.fillStyle = 'rgba(251,239,218,.85)'; wrapText(card.verse, 760).forEach((l, i) => ctx.fillText(l, VW/2, 450 + i*32));
+  if (card.t > .7){ ctx.font = '600 13px Montserrat'; ctx.fillStyle = P.gold2; ctx.globalAlpha = a*(.6 + .4*Math.sin(T*4)); ctx.fillText(isTouch ? 'TAP TO CONTINUE' : 'PRESS SPACE TO CONTINUE', VW/2, 620); }
+  ctx.restore();
+}
+function drawMini(t){
+  const m = mini;
+  if (m.type === 'astro'){
+    ctx.save(); ctx.fillStyle = 'rgba(4,2,20,.72)'; ctx.fillRect(0,0,VW,VH);
+    const cx = VW/2 + (m.shake ? Math.sin(t*80)*8*m.shake : 0), cy = 330;
+    ctx.fillStyle = 'rgba(255,220,140,.25)'; ctx.beginPath(); ctx.moveTo(cx - 22, cy - 230); ctx.lineTo(cx + 22, cy - 230); ctx.lineTo(cx + 8, cy - 80); ctx.lineTo(cx - 8, cy - 80); ctx.fill();
+    m.rings.forEach((rg, i) => {
+      ctx.save(); ctx.translate(cx, cy);
+      ctx.strokeStyle = i < m.idx ? P.gold2 : (i === m.idx ? P.gold : 'rgba(201,160,64,.45)'); ctx.lineWidth = i === m.idx ? 14 : 10;
+      ctx.beginPath(); ctx.arc(0, 0, rg.r, 0, 7); ctx.stroke();
+      for (let k = 0; k < 24; k++){ const a = k/24*Math.PI*2 + rg.a; ctx.strokeStyle = 'rgba(42,0,27,.6)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(Math.cos(a)*(rg.r - 7), Math.sin(a)*(rg.r - 7)); ctx.lineTo(Math.cos(a)*(rg.r + 7), Math.sin(a)*(rg.r + 7)); ctx.stroke(); }
+      ctx.save(); ctx.translate(Math.cos(rg.a)*rg.r, Math.sin(rg.a)*rg.r); ctx.scale(.12, .12); ctx.beginPath(); STAR_PTS.forEach(([px,py], j) => j ? ctx.lineTo(px,py) : ctx.moveTo(px,py)); ctx.closePath(); ctx.fillStyle = P.cream; ctx.shadowColor = '#fff'; ctx.shadowBlur = 20; ctx.fill(); ctx.restore();
+      ctx.restore();
+    });
+    // gold mark at top
+    ctx.fillStyle = P.saffron; ctx.beginPath(); ctx.moveTo(cx, cy - 222); ctx.lineTo(cx - 14, cy - 248); ctx.lineTo(cx + 14, cy - 248); ctx.fill();
+    if (m.done) drawStar(cx, cy - 280 - m.done*40, .35 + m.done*.1, t, 1);
+    ctx.fillStyle = P.cream; ctx.font = '400 26px Fraunces'; ctx.textAlign = 'center';
+    ctx.fillText(m.done ? 'The rings align.' : (isTouch ? 'Tap when the star reaches the gold mark' : 'Press Space when the star reaches the gold mark'), VW/2, 640);
+    ctx.font = '600 13px Montserrat'; ctx.fillStyle = P.gold2; ctx.fillText('RING ' + Math.min(3, m.idx + 1) + ' OF 3', VW/2, 670);
+    ctx.restore();
+  } else if (m.type === 'ring'){
+    const px = player.x - camX, py = GROUND - 110, r = 250 * (1 - m.t/m.dur);
+    ctx.save();
+    ctx.strokeStyle = P.gold2; ctx.lineWidth = 6; ctx.setLineDash([10, 10]); ctx.beginPath(); ctx.arc(px, py, 70, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle = 'rgba(232,200,122,.25)'; ctx.lineWidth = 52; ctx.beginPath(); ctx.arc(px, py, 70, 0, 7); ctx.stroke();
+    ctx.strokeStyle = P.cream; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(px, py, Math.max(2, r), 0, 7); ctx.stroke();
+    ctx.fillStyle = P.cream; ctx.font = '700 22px Montserrat'; ctx.textAlign = 'center'; ctx.fillText(isTouch ? 'TAP!' : 'SPACE!', px, py - 280);
+    ctx.restore();
+  }
+}
+function drawCurtain(){
+  const v = ease(curtain.v), x = VW * (1 - v) - 60;
+  ctx.save(); ctx.fillStyle = '#f5e8cf';
+  ctx.beginPath(); ctx.moveTo(x, 0); for (let y = 0; y <= VH; y += 40) ctx.lineTo(x + (y/40 % 2 ? 22 : 0), y); ctx.lineTo(VW + 10, VH); ctx.lineTo(VW + 10, 0); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = P.navy; ctx.globalAlpha = .9; ctx.fillRect(x + 40, 0, VW, VH);
+  ctx.globalAlpha = 1; if (v > .9) drawStar(VW/2, VH/2, .3, T, 1);
+  ctx.restore();
+}
+
+/* ---------- loop ---------- */
+function loop(now){
+  const dt = Math.min(.05, (now - last)/1000); last = now;
+  if (running && !paused) update(dt);
+  render();
+  input.actEdge = false; input.upEdge = false; input.downEdge = false; input.tap = null;
+  requestAnimationFrame(loop);
+}
+
+/* ---------- flow ---------- */
+const MAGI = new Image(); MAGI.src = '../assets/magi-900.webp';
+function resetState(){ state.gifts = { gold:false, frank:false, myrrh:false }; state.flags = {}; }
+function giftsForChapter(n){ if (n >= 1) state.gifts = { gold:true, frank:true, myrrh:true }; if (n >= 1) state.flags.starOut = true; }
+async function startAt(n){
+  $('#title').hidden = true; $('#end').hidden = true; audio();
+  resetState(); giftsForChapter(n);
+  running = true; document.body.classList.add('playing'); checkRotate();
+  await nextChapter(n);
+  if (n === 0) await narr('Night after night, the magi studied the sky. Tonight, something is different.');
+}
+function finish(){
+  store.set('qotm-ch', '0'); running = false; document.body.classList.remove('playing');
+  setTimeout(() => { $('#end').hidden = false; $('#end').querySelector('.btn').focus(); }, 500);
+}
+$('#startBtn').addEventListener('click', () => { goFull(); startAt(0); });
+$('#againBtn').addEventListener('click', () => { goFull(); startAt(0); });
+$('#rotSkip').addEventListener('click', () => { rotSkip = true; checkRotate(); });
+const saved = +(store.get('qotm-ch') || 0);
+const qs = new URLSearchParams(location.search); const dbg = qs.get('ch');
+if (saved > 0){ const b = $('#contBtn'); b.hidden = false; b.textContent = 'Continue at chapter ' + (saved + 1); b.addEventListener('click', () => { goFull(); startAt(saved); }); }
+buildPatterns();
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+  if (dbg !== null){ startAt(+dbg); }
+  else $('#startBtn').focus();
+});
+requestAnimationFrame(loop);
+window.__q = { state, player, get scene(){ return scene; }, get dlg(){ return dlg; }, get choice(){ return choice; }, get mini(){ return mini; }, get card(){ return card; }, get item(){ return item; }, get busy(){ return busy; }, get camX(){ return camX; }, nearest: () => scene && nearest(), goScene, startAt };
+})();
+</script>
+</body>
+</html>

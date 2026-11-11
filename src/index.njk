@@ -1,0 +1,1142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{ settings.seoTitle }}</title>
+<meta name="description" content="{{ settings.seoDescription }}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="geo.region" content="US-NE">
+<meta name="geo.placename" content="Omaha">
+<meta property="og:locale" content="en_US">
+<link rel="canonical" href="https://christmaswithccc.com/">
+<meta name="theme-color" content="#390025">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://christmaswithccc.com/">
+<meta property="og:title" content="{{ settings.seoTitle }}">
+<meta property="og:description" content="{{ settings.shareDescription }}">
+<meta property="og:image" content="{{ site.url }}{{ settings.shareImageTall }}">
+<meta property="og:image:secure_url" content="{{ site.url }}{{ settings.shareImageTall }}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="{{ shareTall.width }}">
+<meta property="og:image:height" content="{{ shareTall.height }}">
+<meta property="og:image:alt" content="{{ settings.shareImageTallAlt }}">
+<meta property="og:site_name" content="Christ Community Church">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Christmas with CCC">
+<meta name="twitter:description" content="{{ settings.shareDescription }}">
+<meta name="twitter:image" content="{{ site.url }}{{ settings.shareImageWide }}">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-120 -120 240 240'%3E%3Crect x='-120' y='-120' width='240' height='240' rx='48' fill='%23390025'/%3E%3Cpath fill='%23D6AC4E' d='M0 -100 L3.4 -8.3 L24 -24 L8.3 -3.4 L88 0 L8.3 3.4 L24 24 L3.4 8.3 L0 118 L-3.4 8.3 L-24 24 L-8.3 3.4 L-88 0 L-8.3 -3.4 L-24 -24 L-3.4 -8.3Z'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preload" as="image" href="assets/magi.webp" imagesrcset="assets/magi-900.webp 900w, assets/magi.webp 1500w" imagesizes="(max-width: 900px) 100vw, 55vw" fetchpriority="high">
+<link rel="preload" as="image" href="assets/wordmark.webp">
+
+<!-- If CCC has an Adobe Fonts kit with Proxima Nova, add its <link> here. Montserrat is the fallback. -->
+<script defer src="https://js.churchcenter.com/modal/v1"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">{{ jsonld | jsonscript }}</script>
+
+{% raw %}<style>
+:root{
+  --aubergine:#390025;
+  --aubergine-2:#4c0a35;
+  --navy:#07082f;
+  --burgundy:#6e0a24;
+  --teal:#00626b;
+  --teal-2:#4a8f9a;
+  --green:#12503f;
+  --orange:#d9541a;
+  --saffron:#efa51a;
+  --gold:#c9a040;
+  --gold-2:#e8c87a;
+  --cream:#fbefda;
+  --ink:#2a001b;
+  --muted:rgba(251,239,218,.78);
+  --line:rgba(232,200,122,.28);
+  --serif:'Fraunces', Georgia, serif;
+  --sans:'proxima-nova','Montserrat',system-ui,sans-serif;
+  --pad:clamp(20px,5vw,72px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--aubergine);color:var(--cream);font-family:var(--sans);font-size:17px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--gold-2)}
+a:hover{color:var(--cream)}
+:focus-visible{outline:2px solid var(--gold-2);outline-offset:3px;border-radius:6px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--cream);color:var(--ink);padding:10px 14px;border-radius:8px;z-index:200}
+.skip:focus{left:8px}
+
+/* ---------- atmosphere ---------- */
+#sky{position:fixed;inset:0;z-index:0;background:var(--aubergine)}
+#sky::before{content:"";position:absolute;inset:-20%;background:
+  radial-gradient(60% 50% at 78% 18%, rgba(120,30,85,.55), transparent 70%),
+  radial-gradient(50% 60% at 15% 85%, rgba(20,10,60,.45), transparent 70%);
+  opacity:var(--satin,1)}
+#sky .glow{position:absolute;left:50%;bottom:-10vh;width:140vw;height:90vh;transform:translateX(-50%);
+  background:radial-gradient(closest-side, rgba(239,165,26,.32), rgba(201,160,64,.12) 45%, transparent 75%);opacity:0}
+#stars,#dust{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+#stars{z-index:1}
+#dust{z-index:60}
+.grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* guiding star */
+#guide-star{position:fixed;left:0;top:0;z-index:4;width:var(--s,96px);height:calc(var(--s,96px)*1.18);pointer-events:none;will-change:transform}
+#guide-star svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 14px rgba(239,190,90,.75)) drop-shadow(0 0 40px rgba(239,165,26,.35))}
+#guide-star .twinkle{transform-origin:center;animation:twinkle 4s ease-in-out infinite}
+@keyframes twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.08) rotate(3deg)}}
+.mini-star{position:fixed;z-index:4;pointer-events:none;color:var(--gold)}
+
+/* road */
+#road{position:absolute;left:0;top:0;width:100%;z-index:3;pointer-events:none;overflow:hidden}
+#road svg{position:absolute;left:0;top:0;overflow:visible}
+#traveler{position:absolute;left:0;top:0;width:var(--tw,118px);opacity:0;will-change:transform,opacity;transition:opacity .5s}
+#traveler img{width:100%;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45))}
+#traveler .inner{transform-origin:50% 100%}
+
+/* ---------- layout ---------- */
+main{position:relative;z-index:5;overflow-x:clip}
+footer,#bethlehem{overflow-x:clip}
+h2,.lede,.story-lines p,.scripture,.eyebrow{text-shadow:0 2px 22px rgba(18,0,22,.85),0 0 2px rgba(18,0,22,.6)}
+section{position:relative}
+.wrap{max-width:1120px;margin:0 auto;padding:0 var(--pad)}
+.eyebrow{font-family:var(--sans);font-weight:600;font-size:12.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-2);margin:0 0 18px}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,5.6vw,76px);line-height:1.02;letter-spacing:-.01em;margin:0 0 22px;font-variation-settings:"opsz" 144}
+h2 em{font-style:italic;color:var(--gold-2)}
+h3{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.6vw,34px);line-height:1.1;margin:0 0 10px}
+p{margin:0 0 16px}
+.lede{font-size:clamp(17px,1.5vw,20px);color:var(--muted);max-width:620px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:13px 32px;border-radius:0;clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,14px 100%,0 50%);font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:.04em;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .2s, background .2s, color .2s, border-color .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.primary{background:linear-gradient(135deg,#f3d891,#c9a040 55%,#e6c46f);color:var(--ink)}
+.btn.primary:hover{color:var(--ink)}
+.btn.ghost{background:rgba(251,239,218,.12);color:var(--cream)}
+.btn.ghost:hover{background:rgba(232,200,122,.22);color:var(--cream)}
+.btn svg{width:18px;height:18px}
+
+.reveal{opacity:0;transform:translateY(34px);transition:opacity 1s cubic-bezier(.2,.7,.2,1), transform 1s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+.panel{position:relative;background:
+  radial-gradient(circle at 9px 9px,#c9a040 0 2.5px,transparent 3px),radial-gradient(circle at calc(100% - 9px) 9px,#c9a040 0 2.5px,transparent 3px),
+  radial-gradient(circle at 9px calc(100% - 9px),#c9a040 0 2.5px,transparent 3px),radial-gradient(circle at calc(100% - 9px) calc(100% - 9px),#c9a040 0 2.5px,transparent 3px),
+  repeating-linear-gradient(45deg, rgba(232,200,122,.035) 0 1px, transparent 1px 22px),
+  repeating-linear-gradient(-45deg, rgba(232,200,122,.035) 0 1px, transparent 1px 22px),
+  linear-gradient(160deg,rgba(34,6,40,.86),rgba(12,8,44,.8));
+  border:1.2px solid rgba(201,160,64,.75);border-radius:0;padding:clamp(26px,3vw,38px);box-shadow:0 30px 60px -30px rgba(0,0,0,.6)}
+.panel::before{content:"";position:absolute;inset:6px;border:1px solid rgba(201,160,64,.3);pointer-events:none}
+.rug{height:12px;border-radius:0;margin:0 0 22px;background:
+  radial-gradient(circle, var(--saffron) 0 1.6px, transparent 2.2px) 0 0/16px 12px,
+  linear-gradient(45deg, transparent 42%, var(--teal) 42% 58%, transparent 58%) 0 0/16px 12px,
+  linear-gradient(-45deg, transparent 42%, var(--teal) 42% 58%, transparent 58%) 0 0/16px 12px,
+  linear-gradient(90deg,var(--burgundy),var(--orange) 50%,var(--burgundy));opacity:.9}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px var(--pad);transition:background .3s, backdrop-filter .3s, padding .3s}
+.nav.scrolled{background:rgba(25,4,30,.62);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding-top:10px;padding-bottom:10px;border-bottom:1px solid rgba(232,200,122,.14)}
+.brand{font-weight:600;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--cream);text-decoration:none}
+.brand img{height:42px;width:auto}
+@media (max-width:560px){.brand img{height:31px}}
+.nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0}
+.nav ul a{color:var(--cream);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;opacity:.82}
+.nav ul a:hover{opacity:1;color:var(--gold-2)}
+.nav .btn{min-height:40px;padding:9px 18px;font-size:13px}
+@media (max-width:900px){.nav ul{display:none}}
+
+/* ---------- hero ---------- */
+#hero{min-height:100svh;min-height:100vh;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;overflow:hidden}
+@supports (height:100svh){#hero{min-height:100svh}}
+.magi-wrap{position:relative;align-self:end;height:min(94vh,980px);margin-left:-3vw;will-change:transform}
+.magi-wrap img{height:100%;width:auto;max-width:none;object-fit:contain;object-position:left bottom}
+.hero-copy{position:relative;padding:120px var(--pad) 80px 0;will-change:transform}
+.wordmark{width:min(100%,640px);height:auto}
+.hero-meta{margin-top:34px;display:flex;flex-direction:column;gap:6px}
+.hero-meta .when{font-family:var(--serif);font-size:clamp(22px,2.1vw,30px);line-height:1.2}
+.hero-meta .where{font-size:13px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-2);font-weight:600}
+.cue{position:absolute;left:76%;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);text-decoration:none;z-index:6}
+.cue span.line{width:1px;height:44px;background:linear-gradient(var(--gold-2),transparent);animation:cue 2.2s ease-in-out infinite;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0);opacity:1}60%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
+@media (max-width:900px){
+  #hero{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-items:start}
+  .hero-copy{order:1;padding:150px var(--pad) 0;text-align:center}
+  .wordmark{margin:0 auto;width:min(92%,520px)}
+  .hero-meta{align-items:center;margin-top:22px}
+  .hero-copy .btns{justify-content:center;margin-top:20px}
+  .magi-wrap{order:2;height:min(54vh,520px);margin:10px 0 0 -6vw}
+  .cue{display:none}
+}
+
+/* ---------- story ---------- */
+#story{padding:22vh 0 18vh}
+.story-lines{max-width:960px}
+.story-lines p{font-family:var(--serif);font-weight:300;font-size:clamp(30px,4.6vw,62px);line-height:1.12;margin:0 0 .55em;opacity:.12;transition:opacity .2s linear;font-variation-settings:"opsz" 144}
+.story-lines p.big{font-style:italic;font-weight:400;color:var(--gold-2);font-size:clamp(40px,6.4vw,92px)}
+.story-lines .verse{font-family:var(--sans);font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-2);opacity:1;margin-top:42px}
+
+/* ---------- services ---------- */
+#services{padding:14vh 0}
+/* nights: arched windows */
+.nights{display:grid;grid-template-columns:1fr 1.35fr;gap:clamp(18px,2.6vw,34px);margin-top:56px;align-items:stretch}
+@media (max-width:860px){.nights{grid-template-columns:1fr}}
+.night{position:relative;display:flex;flex-direction:column;--pf:rgba(30,6,38,.94)}
+.arch-top{display:block;width:100%;height:clamp(120px,13vw,180px);overflow:visible}
+.arch-top .fill{fill:var(--pf)}
+.arch-top .ln{fill:none;stroke:#c9a040;stroke-width:1.3}
+.arch-top .ln.in{stroke-opacity:.45}
+.arch-medal{position:absolute;left:50%;top:clamp(54px,6vw,84px);width:34px;height:34px;transform:translateX(-50%);color:var(--gold-2)}
+.night-body{position:relative;flex:1;margin-top:-1px;background:radial-gradient(90% 55% at 50% 62%, rgba(120,30,85,.28), transparent 72%), var(--pf);
+  border:1.3px solid #c9a040;border-top:0;padding:4px clamp(22px,4%,40px) 34px;text-align:center}
+.night-body::before{content:"";position:absolute;left:3%;right:3%;top:0;bottom:12px;border:1px solid rgba(201,160,64,.45);border-top:0;pointer-events:none}
+.night-body::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:7px;background:repeating-linear-gradient(90deg,#c9a040 0 2px,transparent 2px 7px);opacity:.55}
+.night .day{font-size:12.5px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-2);margin:0 0 8px}
+.night .date{font-family:var(--serif);font-size:clamp(38px,4vw,54px);line-height:1;margin:0 0 8px}
+.night .sub{font-family:var(--serif);font-style:italic;color:var(--muted);font-size:18px;margin:0}
+.orn{display:flex;align-items:center;justify-content:center;gap:12px;margin:22px auto}
+.orn::before,.orn::after{content:"";height:1px;width:min(110px,28%);background:linear-gradient(90deg,transparent,#c9a040)}
+.orn::after{transform:scaleX(-1)}
+.orn i{width:9px;height:9px;border:1px solid var(--gold-2);transform:rotate(45deg)}
+.slots{display:grid;grid-template-columns:repeat(var(--n,1),minmax(0,1fr))}
+.slot{display:flex;flex-direction:column;align-items:center;gap:8px;padding:6px 10px}
+.slot + .slot{border-left:1px solid rgba(201,160,64,.3)}
+.slot .t{font-family:var(--serif);font-size:clamp(40px,4vw,54px);line-height:1;margin:0;white-space:nowrap}
+.slot .t small{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.16em;color:var(--gold-2);margin-left:5px;vertical-align:.9em}
+.note{margin:0;font-family:var(--serif);font-style:italic;font-size:16.5px;line-height:1.35;color:#f3d9a6}
+.note::before{content:"\2726\00a0";font-style:normal;font-size:.75em;color:var(--gold);vertical-align:.12em}
+@media (max-width:560px){.slots{grid-template-columns:1fr}.slot + .slot{border-left:0;border-top:1px solid rgba(201,160,64,.3);padding-top:18px;margin-top:12px}}
+.cal{position:relative;margin-top:4px}
+.cal summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;min-height:44px;padding:0 6px;font-size:11.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-2);text-decoration:underline dotted rgba(232,200,122,.7);text-underline-offset:6px;white-space:nowrap}
+.cal summary::-webkit-details-marker{display:none}
+.cal summary:hover{color:var(--cream)}
+.cal .menu{position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + 4px);z-index:20;min-width:220px;background:#1c0626;border:1px solid #c9a040;padding:6px;box-shadow:0 20px 40px rgba(0,0,0,.5);text-align:left}
+.cal .menu button,.cal .menu a{display:block;width:100%;text-align:left;background:none;border:0;color:var(--cream);font:500 14px var(--sans);padding:12px;cursor:pointer;text-decoration:none}
+.cal .menu button:hover,.cal .menu a:hover{background:rgba(251,239,218,.08)}
+.night .stream{display:flex;align-items:center;justify-content:center;gap:10px;margin:22px 0 0;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--muted)}
+
+/* logistics: rug band */
+.rugband{position:relative;margin:64px 18px 0;background:
+  radial-gradient(40% 70% at 50% 50%, rgba(201,160,64,.08), transparent 70%),
+  repeating-linear-gradient(45deg, rgba(232,200,122,.04) 0 1px, transparent 1px 18px),
+  repeating-linear-gradient(-45deg, rgba(232,200,122,.04) 0 1px, transparent 1px 18px),
+  linear-gradient(180deg, rgba(94,16,40,.72), rgba(58,8,38,.78))}
+.rugband::before,.rugband::after{content:"";position:absolute;top:6px;bottom:6px;width:16px;background:repeating-linear-gradient(180deg,rgba(251,239,218,.55) 0 1.5px,transparent 1.5px 5px)}
+.rugband::before{left:-16px}.rugband::after{right:-16px}
+.rugband .rug{margin:0;height:14px}
+.rug-field{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:34px 10px;border-left:1px solid rgba(201,160,64,.5);border-right:1px solid rgba(201,160,64,.5);text-align:center}
+.rug-col{padding:6px clamp(16px,2.4vw,32px)}
+.rug-col + .rug-col{border-left:1px solid rgba(201,160,64,.3)}
+.rug-col h4{margin:0 0 10px;font-size:12.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-2);font-weight:600}
+.rug-col p{margin:0;font-size:15.5px;color:rgba(251,239,218,.86)}
+.rug-col a{font-weight:600}
+@media (max-width:860px){.rug-field{grid-template-columns:1fr;padding:18px 6px}.rug-col + .rug-col{border-left:0;border-top:1px solid rgba(201,160,64,.3);padding-top:22px;margin-top:16px}}
+
+/* plan: doorway */
+.door{max-width:620px;margin:70px auto 0}
+.door .night-body{padding-bottom:40px}
+.door h3{font-size:clamp(30px,3.2vw,42px);margin:0 0 10px}
+.door p{color:var(--muted);margin:0 auto 22px;max-width:420px}
+
+/* ---------- expect ---------- */
+#expect{padding:14vh 0}
+.grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:44px}
+@media (max-width:760px){.grid4{grid-template-columns:1fr}}
+.icon{position:relative;width:54px;height:54px;display:grid;place-items:center;margin-bottom:18px;color:var(--gold-2)}
+.icon::before,.icon::after{content:"";position:absolute;inset:9px;border:1px solid rgba(232,200,122,.75)}
+.icon::after{transform:rotate(45deg)}
+.icon svg{width:22px;height:22px}
+.grid4 p{color:var(--muted);margin:0}
+
+/* ---------- online ---------- */
+#online{padding:14vh 0}
+.online-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(24px,4vw,56px);align-items:center}
+@media (max-width:860px){.online-grid{grid-template-columns:1fr}}
+.small{font-size:14px;color:var(--muted)}
+.evening h3{margin-bottom:6px}
+.checks{list-style:none;padding:0;margin:18px 0 0}
+.checks li{border-bottom:1px solid var(--line)}
+.checks label{display:flex;align-items:center;gap:14px;padding:14px 0;cursor:pointer;min-height:44px}
+.checks input{appearance:none;-webkit-appearance:none;width:24px;height:24px;border-radius:7px;border:1.5px solid var(--gold-2);display:grid;place-items:center;flex:none;margin:0;cursor:pointer;transition:background .2s}
+.checks input::after{content:"";width:6px;height:11px;border:solid var(--ink);border-width:0 2.5px 2.5px 0;transform:rotate(45deg) scale(0);margin-top:-3px;transition:transform .2s}
+.checks input:checked{background:var(--gold-2)}
+.checks input:checked::after{transform:rotate(45deg) scale(1)}
+.checks input:checked + span{opacity:.6;text-decoration:line-through;text-decoration-color:var(--gold-2)}
+.candle-row{display:flex;align-items:center;gap:22px;margin-top:22px}
+.candle{position:relative;width:64px;height:120px;flex:none;border:0;background:none;padding:0;cursor:pointer}
+.candle .wax{position:absolute;left:18px;bottom:0;width:28px;height:78px;border-radius:5px 5px 3px 3px;background:linear-gradient(90deg,#e9dcc2,#fbefda 45%,#d6c6a6)}
+.candle .wick{position:absolute;left:31px;bottom:78px;width:2px;height:9px;background:#3a2a1a;border-radius:2px}
+.candle .flame{position:absolute;left:23px;bottom:84px;width:18px;height:30px;border-radius:50% 50% 50% 50%/62% 62% 38% 38%;background:radial-gradient(ellipse at 50% 72%,#fff 0 18%,#ffe08a 34%,#f7a21b 62%,rgba(217,84,26,0) 74%);transform-origin:50% 90%;transform:scale(0);transition:transform .35s cubic-bezier(.3,1.6,.5,1);filter:blur(.3px)}
+.candle .halo{position:absolute;left:-40px;bottom:40px;width:144px;height:144px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,200,100,.35),transparent);opacity:0;transition:opacity .5s;pointer-events:none}
+.candle.lit .flame{transform:scale(1);animation:flicker 1.6s ease-in-out infinite}
+.candle.lit .halo{opacity:1}
+@keyframes flicker{0%,100%{transform:scale(1) rotate(-1deg)}25%{transform:scale(1.04,.96) rotate(2deg)}50%{transform:scale(.97,1.05) rotate(-2deg)}75%{transform:scale(1.02,.98) rotate(1deg)}}
+
+/* ---------- invite ---------- */
+#invite{padding:14vh 0}
+.invite{max-width:780px;margin:0 auto;text-align:center}
+.invite .lede{margin:0 auto}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:30px 0 16px}
+.chip{min-height:44px;padding:10px 24px;border-radius:0;clip-path:polygon(14px 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,14px 100%,0 50%);border:0;background:rgba(251,239,218,.1);color:var(--cream);font:500 14px var(--sans);cursor:pointer;transition:.2s}
+.chip[aria-pressed="true"]{background:var(--gold-2);color:var(--ink);border-color:var(--gold-2)}
+.invite textarea{width:100%;min-height:120px;resize:vertical;border-radius:0;border:1px solid var(--line);background:rgba(10,6,30,.55);color:var(--cream);font:400 17px/1.55 var(--sans);padding:18px 20px}
+.invite .btns{justify-content:center}
+.toast{display:inline-block;margin-top:14px;font-size:14px;color:var(--gold-2);min-height:22px}
+
+/* ---------- finale ---------- */
+#bethlehem{padding:16vh 0 0;text-align:center}
+#bethlehem .lede{margin:0 auto}
+.scripture{max-width:660px;margin:34px auto 0;font-family:var(--serif);font-style:italic;font-size:clamp(20px,2vw,26px);line-height:1.45;color:var(--cream)}
+.scripture cite{display:block;margin-top:12px;font-family:var(--sans);font-style:normal;font-size:12.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-2)}
+.stage{position:relative;width:min(560px,86vw);margin:max(150px,18vh) auto 0}
+.stage .beam{position:absolute;left:50%;bottom:30%;width:min(120%,100vw);height:70vh;transform:translateX(-50%);background:conic-gradient(from 180deg at 50% 0%, transparent 168deg, rgba(255,226,150,.28) 176deg, rgba(255,236,190,.42) 180deg, rgba(255,226,150,.28) 184deg, transparent 192deg);-webkit-mask:linear-gradient(transparent, #000 25%, #000 85%, transparent);mask:linear-gradient(transparent, #000 25%, #000 85%, transparent);opacity:0;pointer-events:none;transform-origin:top center}
+.stage svg{position:relative;width:100%;height:auto;overflow:visible}
+.egg{display:block;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.egg:hover .baby-glow,.egg:focus-visible .baby-glow{animation-duration:1.2s;filter:brightness(1.35)}
+.baby-glow{animation:breathe 4s ease-in-out infinite;transform-origin:280px 168px}
+@keyframes breathe{50%{opacity:.75;transform:scale(1.06)}}
+.finale-cta{justify-content:center;margin:34px 0 0}
+footer{position:relative;z-index:5;padding:70px var(--pad) 50px;text-align:center;color:var(--muted);font-size:14px}
+footer .fwm{width:200px;margin:0 auto 22px;opacity:.9}
+footer .social{margin:30px 0 0}
+.social-label{margin:0 0 16px;font-size:12px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-2)}
+.social-label span{color:var(--cream);letter-spacing:.12em;margin-left:6px}
+.social ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.social a{position:relative;display:grid;place-items:center;width:52px;height:52px;color:var(--gold-2);transition:color .25s,transform .25s}
+.social a::before{content:"";position:absolute;inset:9px;border:1px solid rgba(201,160,64,.55);transform:rotate(45deg);transition:border-color .25s,background .25s}
+.social a:hover,.social a:focus-visible{color:var(--ink);transform:translateY(-2px)}
+.social a:hover::before,.social a:focus-visible::before{background:var(--gold-2);border-color:var(--gold-2)}
+.social svg{position:relative;width:17px;height:17px;fill:currentColor}
+@media (max-width:420px){.social ul{gap:6px}}
+footer .new{font-size:16px;color:var(--cream);margin-bottom:36px}
+footer .new a{color:var(--gold-2);font-weight:600}
+footer .flogo{height:30px;width:auto;margin:0 auto 12px;opacity:.85}
+footer a{color:var(--cream)}
+footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin-top:16px}
+
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ---------- gallery ---------- */
+#gallery{position:relative;height:300vh}
+.g-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:clamp(14px,2.4vh,26px);padding-top:56px}
+@supports (height:100svh){.g-sticky{height:100svh}}
+.g-head{width:100%}
+.g-head h2{margin-bottom:6px;font-size:clamp(34px,4.6vw,64px)}
+.g-row{--rh:min(29vh,330px);display:flex;backface-visibility:hidden;contain:layout paint;gap:clamp(14px,1.6vw,24px);padding:10px 0;width:max-content;will-change:transform}
+.gcard{position:relative;flex:none;height:var(--rh);padding:0;border:0;background:#1a0620;border-radius:18px;overflow:hidden;cursor:zoom-in;
+  box-shadow:0 0 0 2px rgba(251,239,218,.85);transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s;transform:translateZ(0)}
+.gcard.arch{border-radius:999px 999px 18px 18px}
+.gcard img{height:100%;width:auto;max-width:none;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .5s;filter:saturate(.92)}
+.gcard::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(20,0,20,.75));pointer-events:none}
+.gcap{position:absolute;left:0;right:0;bottom:12px;z-index:2;text-align:center;font:600 11.5px var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--cream);padding:0 12px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.gcard:hover,.gcard:focus-visible{transform:translateY(-8px) rotate(var(--rot,0deg));box-shadow:0 0 0 2px var(--gold-2),0 0 40px rgba(239,190,90,.35),0 30px 50px -20px rgba(0,0,0,.8)}
+.gcard:hover img,.gcard:focus-visible img{transform:scale(1.06);filter:saturate(1.08)}
+.g-hint{text-align:center;margin:0;font-size:11.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:760px){.g-row{--rh:min(24vh,230px)}.gcap{font-size:10px;letter-spacing:.18em}}
+body.no-pin #gallery{height:auto;padding:12vh 0}
+body.no-pin .g-sticky{position:relative;height:auto}
+body.no-pin .g-row{width:auto;overflow-x:auto;padding:10px var(--pad);scroll-snap-type:x mandatory}
+body.no-pin .gcard{scroll-snap-align:center}
+
+#lb{padding:0;border:0;background:transparent;max-width:100vw;max-height:100vh;width:100vw;height:100vh;color:var(--cream)}
+#lb::backdrop{background:rgba(14,2,18,.92);backdrop-filter:blur(8px)}
+#lb[open]{display:grid;place-items:center}
+.lb-fig{margin:0;display:flex;flex-direction:column;align-items:center;gap:14px;max-width:92vw}
+#lbImg{max-width:92vw;max-height:80vh;width:auto;height:auto;border-radius:14px;box-shadow:0 0 0 2px rgba(251,239,218,.85),0 40px 80px rgba(0,0,0,.6);animation:lbIn .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes lbIn{from{opacity:0;transform:scale(.94) translateY(12px)}to{opacity:1;transform:none}}
+.lb-fig figcaption{display:flex;gap:18px;align-items:baseline;font:600 12px var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--gold-2)}
+#lbCount{color:var(--muted);letter-spacing:.12em}
+.lb-btn{position:fixed;width:52px;height:52px;border-radius:50%;border:1px solid rgba(251,239,218,.35);background:rgba(30,6,40,.6);color:var(--cream);display:grid;place-items:center;cursor:pointer;transition:border-color .2s,transform .2s}
+.lb-btn:hover{border-color:var(--gold-2);transform:scale(1.06)}
+.lb-btn svg{width:22px;height:22px}
+.lb-prev{left:18px;top:50%;margin-top:-26px}.lb-next{right:18px;top:50%;margin-top:-26px}.lb-close{right:18px;top:18px}
+@media (max-width:760px){.lb-prev,.lb-next{top:auto;bottom:22px;margin:0}.lb-prev{left:calc(50% - 64px)}.lb-next{right:calc(50% - 64px)}}
+
+/* ---------- faq ---------- */
+#faq{padding:14vh 0}
+.faq-wrap{max-width:860px}
+.faqs{margin-top:34px;border-top:1px solid var(--line)}
+.faq{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0;font-family:var(--serif);font-size:clamp(19px,1.8vw,24px);line-height:1.3;min-height:44px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--gold-2)}
+.faq .pm{position:relative;flex:none;width:18px;height:18px}
+.faq .pm::before,.faq .pm::after{content:"";position:absolute;left:0;top:8px;width:18px;height:1.6px;background:var(--gold-2);transition:transform .3s}
+.faq .pm::after{transform:rotate(90deg)}
+.faq[open] .pm::after{transform:rotate(0)}
+.faq p{margin:0 0 22px;color:var(--muted);max-width:720px}
+
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .story-lines p{opacity:1}
+  #guide-star .twinkle,.cue span.line,.baby-glow,.dot-live{animation:none}
+}
+</style>{% endraw %}
+</head>
+<body>
+<a class="skip" href="#services">Skip to service times</a>
+
+<div id="sky" aria-hidden="true"><div class="glow"></div></div>
+<canvas id="stars" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+
+<div id="guide-star" aria-hidden="true">
+  <svg viewBox="-110 -110 220 240"><g class="twinkle"><path fill="url(#starGold)" d="M0 -100 L3.4 -8.3 L24 -24 L8.3 -3.4 L88 0 L8.3 3.4 L24 24 L3.4 8.3 L0 118 L-3.4 8.3 L-24 24 L-8.3 3.4 L-88 0 L-8.3 -3.4 L-24 -24 L-3.4 -8.3Z"/></g>
+  <defs><linearGradient id="starGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dc95"/><stop offset=".5" stop-color="#c9a040"/><stop offset="1" stop-color="#f1d084"/></linearGradient></defs></svg>
+</div>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#hero" aria-label="Christ Community Church, back to top"><img src="assets/ccc-logo-cream.svg" alt="Christ Community Church" width="1769" height="288"></a>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#expect">What to expect</a></li>
+    <li><a href="#online">Watch online</a></li>
+    <li><a href="#invite">Invite</a></li>
+  </ul>
+  <a class="btn primary" href="{{ settings.planVisitUrl }}" data-open-in-church-center-modal="true" target="_blank" rel="noopener">Plan your visit</a>
+</header>
+
+<div id="road" aria-hidden="true">
+  <svg id="roadSvg">
+    <defs>
+      <pattern id="rugPat" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <rect width="22" height="22" fill="#6e0a24"/>
+        <rect x="7" y="7" width="8" height="8" fill="#efa51a"/>
+        <rect x="9.5" y="9.5" width="3" height="3" fill="#6e0a24"/>
+        <circle cx="0" cy="0" r="2.4" fill="#4a8f9a"/><circle cx="22" cy="0" r="2.4" fill="#4a8f9a"/><circle cx="0" cy="22" r="2.4" fill="#4a8f9a"/><circle cx="22" cy="22" r="2.4" fill="#4a8f9a"/>
+      </pattern>
+    </defs>
+    <path id="pathGuide" fill="none" stroke="rgba(232,200,122,.35)" stroke-width="2" stroke-dasharray="2 12" stroke-linecap="round"/>
+    <g id="ribbon" fill="none" stroke-linecap="round">
+      <path class="rb" stroke="#00626b" data-w="44"/>
+      <path class="rb" stroke="#fbefda" data-w="30"/>
+      <path class="rb" stroke="url(#rugPat)" data-w="27"/>
+      <path class="rb" stroke="rgba(239,165,26,.9)" data-w="2" />
+    </g>
+  </svg>
+  <div id="traveler"><div class="inner"><img src="assets/magi-small.webp" alt="" width="260" height="254" decoding="async"></div></div>
+</div>
+
+<main id="top">
+  <!-- HERO -->
+  <section id="hero" aria-label="Christmas with CCC">
+    <div class="magi-wrap" id="magiWrap">
+      <img src="assets/magi.webp" srcset="assets/magi-900.webp 900w, assets/magi.webp 1500w" sizes="(max-width: 900px) 100vw, 55vw" width="1500" height="1467" fetchpriority="high" decoding="async" alt="Illustration of the three magi in robes made of tile, carpet and mosaic patterns">
+    </div>
+    <div class="hero-copy" id="heroCopy">
+      <h1 style="margin:0"><img class="wordmark" src="assets/wordmark.webp" width="1400" height="393" alt="Christmas with CCC"><span class="sr-only"> Christmas Eve services in Omaha, NE at Christ Community Church</span></h1>
+      <div class="hero-meta">
+        <span class="when">{{ heroWhen | safe }}</span>
+        <span class="where">{{ top.heroWhere | nbspdots }}</span>
+      </div>
+      <div class="btns">
+        <a class="btn primary" href="#services">Find a service</a>
+        <a class="btn ghost" href="#online">Watch online</a>
+      </div>
+    </div>
+    <a class="cue" href="#story"><span>{{ top.scrollCue }}</span><span class="line"></span></a>
+  </section>
+
+  <!-- STORY -->
+  <section id="story" data-way aria-label="The story">
+    <div class="wrap">
+      <p class="eyebrow reveal">{{ top.storyEyebrow }}</p>
+      <div class="story-lines" id="storyLines">
+        {% for line in top.storyLines %}<p>{{ line }}</p>
+        {% endfor %}<p class="big">{{ top.storyBigLine }}</p>
+        <p class="verse">{{ top.storyVerse }} &nbsp;{{ top.storyVerseRef }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" data-way aria-labelledby="svc-h">
+    <div class="wrap">
+      <p class="eyebrow reveal">{{ services.eyebrow }}</p>
+      <h2 id="svc-h" class="reveal d1">{{ services.heading | md }}</h2>
+      <p class="lede reveal d2">{{ services.lede | md }}</p>
+
+      <div class="nights">
+        {% for night in nights %}
+        <article class="night reveal{% if loop.index0 %} d2{% endif %}">
+          <svg class="arch-top" viewBox="0 0 400 150" preserveAspectRatio="none" aria-hidden="true"><path class="fill" d="M0.65 150 V104 C0.65 58 132 52 178 22 C192 13 198 7 200 1 C202 7 208 13 222 22 C268 52 399.35 58 399.35 104 V150 Z"/><path class="ln" vector-effect="non-scaling-stroke" d="M0.65 150 V104 C0.65 58 132 52 178 22 C192 13 198 7 200 1 C202 7 208 13 222 22 C268 52 399.35 58 399.35 104 V150"/><path class="ln in" vector-effect="non-scaling-stroke" d="M12 150 V108 C12 68 138 62 182 34 C193 27 198 21 200 16 C202 21 207 27 218 34 C262 62 388 68 388 108 V150"/></svg><svg class="arch-medal" viewBox="-50 -50 100 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="7" fill="currentColor"/></svg>
+          <div class="night-body">
+            <p class="day">{{ night.dayLabel }}</p>
+            <p class="date">{{ night.dateLong }}</p>
+            <p class="sub">{{ night.subtitle }}</p>
+            <div class="orn" aria-hidden="true"><i></i></div>
+            <div class="slots" style="--n:{{ night.services.length }}">
+              {% for svc in night.services %}
+              <div class="slot"><p class="t">{{ svc.clock }}<small>{{ svc.ampm }}</small></p>{% for note in svc.notes %}<p class="note">{{ note }}</p>{% endfor %}<details class="cal"><summary>Add to calendar</summary><div class="menu" data-start="{{ svc.utcStart }}" data-label="{{ svc.label }}"></div></details></div>
+              {% endfor %}
+            </div>
+            {% if night.streamNote %}<p class="stream"><span class="dot-live"></span>{{ night.streamNote }}</p>{% endif %}
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+
+      <div class="rugband reveal">
+        <div class="rug"></div>
+        <div class="rug-field">
+          <div class="rug-col">
+            <h4>Where</h4>
+            <p>Christ Community Church<br>404 S 108th Ave, Omaha, NE 68154<br><span style="display:block;margin:6px 0">{{ services.whereNote }}</span><a href="https://www.google.com/maps/search/?api=1&amp;query=Christ+Community+Church+404+S+108th+Ave+Omaha+NE+68154" target="_blank" rel="noopener">Get directions</a></p>
+          </div>
+          <div class="rug-col">
+            <h4>{{ services.doorsHeading }}</h4>
+            <p>{{ services.doorsText | md }}</p>
+          </div>
+          <div class="rug-col">
+            <h4>{{ services.accessHeading }}</h4>
+            <p>{{ services.accessText | md }}</p>
+          </div>
+        </div>
+        <div class="rug"></div>
+      </div>
+
+      <article class="night door reveal">
+        <svg class="arch-top" viewBox="0 0 400 150" preserveAspectRatio="none" aria-hidden="true"><path class="fill" d="M0.65 150 V104 C0.65 58 132 52 178 22 C192 13 198 7 200 1 C202 7 208 13 222 22 C268 52 399.35 58 399.35 104 V150 Z"/><path class="ln" vector-effect="non-scaling-stroke" d="M0.65 150 V104 C0.65 58 132 52 178 22 C192 13 198 7 200 1 C202 7 208 13 222 22 C268 52 399.35 58 399.35 104 V150"/><path class="ln in" vector-effect="non-scaling-stroke" d="M12 150 V108 C12 68 138 62 182 34 C193 27 198 21 200 16 C202 21 207 27 218 34 C262 62 388 68 388 108 V150"/></svg><svg class="arch-medal" viewBox="-50 -50 100 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="7" fill="currentColor"/></svg>
+        <div class="night-body">
+          <p class="day">{{ services.planKicker }}</p>
+          <h3>{{ services.planHeading }}</h3>
+          <p>{{ services.planText | md }}</p>
+          <a class="btn primary" href="{{ settings.planVisitUrl }}" data-open-in-church-center-modal="true" target="_blank" rel="noopener">Plan your visit</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- EXPECT -->
+  <section id="expect" data-way aria-labelledby="exp-h">
+    <div class="wrap">
+      <p class="eyebrow reveal">{{ expect.eyebrow }}</p>
+      <h2 id="exp-h" class="reveal d1">{{ expect.heading | md }}</h2>
+      <p class="lede reveal d2">{{ expect.lede | md }}</p>
+      <div class="grid4">
+        {% for p in expect.panels %}
+        <div class="panel reveal{% if loop.index0 %} d{{ loop.index0 }}{% endif %}">
+          {% set k = loop.index0 % 4 %}{% if k == 0 %}<div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 2l1.6 7.4L21 12l-7.4 1.6L12 22l-1.6-8.4L3 12l7.4-2.6z"/></svg></div>{% elif k == 1 %}<div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6a2 2 0 1 1 2 2c-1 0-2 .7-2 1.6V10"/><path d="M12 10L2.5 17.2c-.6.5-.3 1.8.6 1.8h17.8c.9 0 1.2-1.3.6-1.8z"/></svg></div>{% elif k == 2 %}<div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><path d="M6 21v-3a6 6 0 0 1 12 0v3"/><path d="M4 12l3 2M20 12l-3 2"/></svg></div>{% else %}<div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13v5a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 2.5c-.6 1 .6 1.6 0 2.8M12 2.5c-.6 1 .6 1.6 0 2.8"/></svg></div>{% endif %}
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.text | md }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" aria-labelledby="gal-h">
+    <div class="g-sticky">
+      <div class="wrap g-head">
+        <p class="eyebrow">{{ gallery.eyebrow }}</p>
+        <h2 id="gal-h">{{ gallery.heading | md }}</h2>
+      </div>
+      <div class="g-row" id="gRowA">{% for ph in photos %}{% if ph.i % 2 == 0 %}<button class="gcard{% if ph.portrait %} arch{% endif %}" type="button" data-i="{{ ph.i }}" aria-label="Open photo {{ ph.i + 1 }} of {{ photos.length }}"><img src="{{ ph.small }}" width="{{ ph.smallW }}" height="{{ ph.smallH }}" alt="{{ ph.alt }}" loading="lazy" decoding="async"></button>{% endif %}{% endfor %}</div>
+      <div class="g-row" id="gRowB">{% for ph in photos %}{% if ph.i % 2 == 1 %}<button class="gcard{% if ph.portrait %} arch{% endif %}" type="button" data-i="{{ ph.i }}" aria-label="Open photo {{ ph.i + 1 }} of {{ photos.length }}"><img src="{{ ph.small }}" width="{{ ph.smallW }}" height="{{ ph.smallH }}" alt="{{ ph.alt }}" loading="lazy" decoding="async"></button>{% endif %}{% endfor %}</div>
+      <p class="g-hint">Tap any photo to look closer</p>
+    </div>
+  </section>
+
+  <dialog id="lb" aria-label="Photo viewer">
+    <figure class="lb-fig">
+      <img id="lbImg" alt="">
+      <figcaption><span id="lbCount"></span></figcaption>
+    </figure>
+    <button class="lb-btn lb-prev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="lb-btn lb-next" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button class="lb-btn lb-close" type="button" aria-label="Close photo viewer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </dialog>
+
+  <!-- ONLINE -->
+  <section id="online" data-way aria-labelledby="onl-h">
+    <div class="wrap online-grid">
+      <div>
+        <p class="eyebrow reveal">{{ online.eyebrow }}</p>
+        <h2 id="onl-h" class="reveal d1">{{ online.heading | md }}</h2>
+        <p class="lede reveal d2">{{ online.lede | md }}</p>
+        <div class="btns reveal d3">
+          <a class="btn primary" href="{{ online.youtubeUrl }}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Watch on YouTube</a>
+          <a class="btn ghost app-link" href="{{ online.appUrl }}" target="_blank" rel="noopener">Get the CCC app</a>
+        </div>
+        <p class="small reveal d4" style="margin-top:18px">{{ online.appNote | md }}</p>
+      </div>
+      <div class="panel evening reveal d2">
+        <div class="rug"></div>
+        <h3>{{ online.checklistHeading }}</h3>
+        <p class="small">{{ online.checklistNote }}</p>
+        <ul class="checks" id="checks">
+          {% for item in online.checklist %}<li><label><input type="checkbox" data-k="{% if loop.last %}candle{% elif loop.index0 == 0 %}meal{% elif loop.index0 == 1 %}invite{% else %}item{{ loop.index0 }}{% endif %}"{% if loop.last %} id="candleCheck"{% endif %}><span>{{ item }}</span></label></li>
+          {% endfor %}
+        </ul>
+        <div class="candle-row">
+          <button class="candle" id="candle" type="button" aria-pressed="false" aria-label="Light the candle">
+            <span class="halo"></span><span class="wax"></span><span class="wick"></span><span class="flame"></span>
+          </button>
+          <p class="small" style="margin:0">{{ online.candleNote }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" data-way aria-labelledby="faq-h">
+    <div class="wrap faq-wrap">
+      <p class="eyebrow reveal">{{ faq.eyebrow }}</p>
+      <h2 id="faq-h" class="reveal d1">{{ faq.heading | md }}</h2>
+      <div class="faqs">{% for f in faq.items %}<details class="faq reveal"><summary><span>{{ f.question }}</span><span class="pm" aria-hidden="true"></span></summary><p>{{ f.answer | md }}</p></details>{% endfor %}</div>
+      <p class="small reveal" style="margin-top:22px">{{ faq.footnote | md }}</p>
+    </div>
+  </section>
+
+  <!-- INVITE -->
+  <section id="invite" data-way aria-labelledby="inv-h">
+    <div class="wrap invite">
+      <p class="eyebrow reveal">{{ invite.eyebrow }}</p>
+      <h2 id="inv-h" class="reveal d1">{{ invite.heading | md }}</h2>
+      <p class="lede reveal d2">{{ invite.lede | md }}</p>
+      <div class="chips reveal d3" id="chips" role="group" aria-label="Choose a service for your invite">
+        {% for svc in allServices %}<button class="chip" type="button" data-s="{{ svc.label }}"{% if svc.label == defaultService %} aria-pressed="true"{% endif %}>{{ svc.chip }}</button>
+        {% endfor %}
+      </div>
+      <label for="msg" class="eyebrow" style="display:block;margin:6px 0 10px">Your invite</label>
+      <textarea id="msg" class="reveal d3"></textarea>
+      <div class="btns reveal d4">
+        <button class="btn primary" type="button" id="shareBtn">Send an invite</button>
+        <a class="btn ghost" id="smsBtn" href="#">Text it</a>
+        <button class="btn ghost" type="button" id="copyBtn">Copy</button>
+      </div>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- FINALE -->
+  <section id="bethlehem" aria-labelledby="bth-h">
+    <div class="wrap">
+      <p class="eyebrow reveal">{{ closing.eyebrow }}</p>
+      <h2 id="bth-h" class="reveal d1">{{ closing.heading | md }}</h2>
+      <p class="lede reveal d2">{{ closing.lede | md }}</p>
+      <blockquote class="scripture reveal d3">{{ closing.scripture }}<cite>{{ closing.scriptureRef }}</cite></blockquote>
+    </div>
+
+    <div class="stage" id="stage">
+      <div class="beam" id="beam"></div>
+      <a class="egg" id="egg" href="quest/" aria-label="A secret: play Quest of the Magi"><svg id="manger" viewBox="0 0 560 300" role="img" aria-label="A glowing manger">
+        <defs>
+          <pattern id="mPat" width="26" height="26" patternUnits="userSpaceOnUse">
+            <rect width="26" height="26" fill="#00626b"/>
+            <path d="M13 3 L23 13 L13 23 L3 13Z" fill="none" stroke="#e8c87a" stroke-width="1.6"/>
+            <circle cx="13" cy="13" r="3" fill="#d9541a"/>
+            <circle cx="0" cy="0" r="2.2" fill="#fbefda"/><circle cx="26" cy="0" r="2.2" fill="#fbefda"/><circle cx="0" cy="26" r="2.2" fill="#fbefda"/><circle cx="26" cy="26" r="2.2" fill="#fbefda"/>
+          </pattern>
+          <radialGradient id="babyGlow"><stop offset="0" stop-color="#fff3cf" stop-opacity=".95"/><stop offset=".45" stop-color="#efa51a" stop-opacity=".35"/><stop offset="1" stop-color="#efa51a" stop-opacity="0"/></radialGradient>
+        </defs>
+        <path d="M140 286 L140 120 Q140 22 280 8 Q420 22 420 120 L420 286" fill="none" stroke="#c9a040" stroke-opacity=".55" stroke-width="2"/>
+        <path d="M156 286 L156 124 Q156 42 280 26 Q404 42 404 124 L404 286" fill="none" stroke="#c9a040" stroke-opacity=".25" stroke-width="1"/>
+        <ellipse class="baby-glow" cx="280" cy="168" rx="190" ry="120" fill="url(#babyGlow)"/>
+        <g stroke="#fbefda" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M196 218 L170 292 M364 218 L390 292" fill="none"/>
+          <path d="M214 218 L246 292 M346 218 L314 292" fill="none"/>
+        </g>
+        <g stroke="#6e0a24" stroke-width="1" fill="none"><path d="M196 218 L170 292 M364 218 L390 292 M214 218 L246 292 M346 218 L314 292" stroke="#4c0a35" stroke-width="0"/></g>
+        <g stroke="#e8c87a" stroke-width="2" stroke-linecap="round" fill="none" opacity=".95">
+          <path d="M196 176 L178 150 M212 172 L204 140 M230 170 L236 138 M330 170 L324 138 M348 172 L358 142 M364 176 L384 152 M250 168 L246 146 M312 168 L318 146"/>
+        </g>
+        <path d="M168 170 L392 170 L362 226 L198 226 Z" fill="url(#mPat)" stroke="#fbefda" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M222 168 Q222 132 262 128 L314 128 Q346 132 344 160 Q340 172 300 172 L240 172 Q222 172 222 168Z" fill="#fbefda" stroke="#fbefda" stroke-width="2"/>
+        <path d="M262 132 Q290 150 330 140 M250 150 Q290 166 336 156" fill="none" stroke="#c9a040" stroke-width="1.6" stroke-linecap="round" opacity=".8"/>
+        <circle cx="236" cy="140" r="17" fill="#c8875a" stroke="#fbefda" stroke-width="3"/>
+        <path d="M60 292 L500 292" stroke="#e8c87a" stroke-opacity=".35" stroke-width="1"/>
+      </svg></a>
+    </div>
+
+    <div class="wrap">
+      <div class="btns finale-cta">
+        <a class="btn primary" href="{{ settings.planVisitUrl }}" data-open-in-church-center-modal="true" target="_blank" rel="noopener">Plan your visit</a>
+        <a class="btn ghost" href="#invite">Invite someone</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <img class="fwm" src="assets/wordmark.webp" alt="Christmas with CCC" width="1400" height="393" loading="lazy">
+  <p class="new">{{ settings.footerNote | md }}</p>
+  <img class="flogo" src="assets/ccc-logo-cream.svg" alt="Christ Community Church" width="1769" height="288" loading="lazy">
+  <p>404 S 108th Ave, Omaha, NE 68154</p>
+  <div class="social">
+    <ul><li><a href="https://www.youtube.com/@cccomaha" target="_blank" rel="noopener" aria-label="Christ Community Church on YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a></li><li><a href="https://www.instagram.com/cccomaha" target="_blank" rel="noopener" aria-label="Christ Community Church on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></a></li><li><a href="https://www.tiktok.com/@cccomaha" target="_blank" rel="noopener" aria-label="Christ Community Church on TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a></li><li><a href="https://www.facebook.com/cccomaha" target="_blank" rel="noopener" aria-label="Christ Community Church on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></a></li><li><a href="https://www.threads.com/@cccomaha" target="_blank" rel="noopener" aria-label="Christ Community Church on Threads"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.263 11.097c-.03-3.486-1.92-5.586-5.111-5.586-2.13 0-3.922.963-4.863 2.499l2.062 1.438c.535-.843 1.272-1.543 2.628-1.543 1.528 0 2.318.85 2.544 2.431a15 15 0 0 0-2.236-.173c-4.125 0-6.068 1.867-6.068 4.336s1.943 3.99 4.804 3.99c3.139 0 5.013-2.115 5.781-4.735.798.361 1.348 1.204 1.348 2.47 0 3.387-3.907 5.232-7.22 5.232-4.885 0-8.077-3.207-8.077-8.424 0-6.392 4.223-10.487 9.9-10.487 3.808 0 5.69 1.671 6.97 3.914l2.108-1.475C21.44 2.078 18.331 0 13.663 0 6.227 0 1.168 5.277 1.168 12.934c0 7 4.953 11.066 10.856 11.066 4.878 0 9.809-2.846 9.809-7.716 0-2.545-1.46-4.231-3.569-5.187m-6.33 4.855c-1.077 0-2.026-.512-2.026-1.453 0-1.483 1.822-1.934 3.606-1.934.678 0 1.34.045 1.927.173-.422 1.927-1.671 3.215-3.508 3.214Z"/></svg></a></li><li><a href="https://x.com/cccomaha" target="_blank" rel="noopener" aria-label="Christ Community Church on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/></svg></a></li></ul>
+  </div>
+</footer>
+
+<script>window.XMAS = {{ jsdata | jsonscript }};</script>
+{% raw %}<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(pointer: fine)').matches;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const smooth = t => { t = clamp(t, 0, 1); return t * t * (3 - 2 * t); };
+  const store = {
+    get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  };
+
+  /* ---------- pointer ---------- */
+  const ptr = { x: innerWidth/2, y: innerHeight/2, nx: 0, ny: 0, sx: 0, sy: 0 };
+  addEventListener('pointermove', e => {
+    ptr.x = e.clientX; ptr.y = e.clientY;
+    ptr.nx = (e.clientX / innerWidth) * 2 - 1;
+    ptr.ny = (e.clientY / innerHeight) * 2 - 1;
+  }, { passive: true });
+
+  /* ---------- starfield ---------- */
+  const sc = $('#stars'), sx = sc.getContext('2d');
+  let stars = [], DPR = Math.min(devicePixelRatio || 1, 1.5), shooting = null;
+  function sizeStars(){
+    sc.width = innerWidth * DPR; sc.height = innerHeight * DPR;
+    const n = Math.min(innerWidth < 760 ? 110 : 200, Math.round(innerWidth * innerHeight / 7000));
+    stars = Array.from({length: n}, () => ({
+      x: Math.random(), y: Math.random(), r: Math.random() * 1.3 + .3,
+      d: Math.random() * .9 + .1, p: Math.random() * Math.PI * 2, s: Math.random() * 1.5 + .5,
+      g: Math.random() < .18
+    }));
+  }
+  function drawStars(t){
+    const w = sc.width, h = sc.height;
+    sx.clearRect(0, 0, w, h);
+    const sy = scrollY;
+    for (const s of stars){
+      const tw = reduce ? .8 : .55 + .45 * Math.sin(t * .001 * s.s + s.p);
+      let y = (s.y * h - sy * DPR * s.d * .12) % h; if (y < 0) y += h;
+      const x = s.x * w + ptr.sx * s.d * 14 * DPR;
+      sx.globalAlpha = tw * (.35 + s.d * .6);
+      sx.fillStyle = s.g ? '#f3d891' : '#fbefda';
+      sx.beginPath(); sx.arc(x, y + ptr.sy * s.d * 10 * DPR, s.r * DPR, 0, 7); sx.fill();
+    }
+    if (!reduce){
+      if (!shooting && Math.random() < .0025){
+        shooting = { x: Math.random() * w * .7 + w * .15, y: Math.random() * h * .35, vx: (Math.random() < .5 ? -1 : 1) * 9 * DPR, vy: 4 * DPR, life: 1 };
+      }
+      if (shooting){
+        const s = shooting;
+        const g = sx.createLinearGradient(s.x, s.y, s.x - s.vx * 14, s.y - s.vy * 14);
+        g.addColorStop(0, 'rgba(255,240,200,.9)'); g.addColorStop(1, 'rgba(255,240,200,0)');
+        sx.globalAlpha = s.life; sx.strokeStyle = g; sx.lineWidth = 1.6 * DPR;
+        sx.beginPath(); sx.moveTo(s.x, s.y); sx.lineTo(s.x - s.vx * 14, s.y - s.vy * 14); sx.stroke();
+        s.x += s.vx; s.y += s.vy; s.life -= .018;
+        if (s.life <= 0) shooting = null;
+      }
+    }
+    sx.globalAlpha = 1;
+  }
+
+  /* ---------- stardust (pointer + touch) ---------- */
+  const dc = $('#dust'), dx = dc.getContext('2d');
+  let dust = [], last = null;
+  function sizeDust(){ dc.width = innerWidth * DPR; dc.height = innerHeight * DPR; }
+  function emit(x, y, n, burst){
+    for (let i = 0; i < n; i++){
+      const a = Math.random() * Math.PI * 2, sp = burst ? Math.random() * 3.2 + 1 : Math.random() * .6;
+      dust.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - (burst ? .6 : .2), life: 1, r: Math.random() * (burst ? 3.2 : 2.2) + .8, star: Math.random() < (burst ? .5 : .25), c: Math.random() < .5 ? '#f3d891' : (Math.random() < .5 ? '#fbefda' : '#efa51a') });
+    }
+    if (dust.length > 360) dust.splice(0, dust.length - 360);
+  }
+  if (!reduce){
+    addEventListener('pointermove', e => {
+      if (last){ const d = Math.hypot(e.clientX - last.x, e.clientY - last.y); if (d < 9) return; }
+      last = { x: e.clientX, y: e.clientY };
+      emit(e.clientX, e.clientY, e.pointerType === 'touch' ? 2 : 1, false);
+    }, { passive: true });
+    addEventListener('pointerdown', e => {
+      if (e.target.closest('a,button,input,textarea,summary,label')) return;
+      emit(e.clientX, e.clientY, 18, true);
+    }, { passive: true });
+  }
+  function sparkle(ctx, x, y, r){
+    ctx.beginPath();
+    ctx.moveTo(x, y - r * 2.4); ctx.quadraticCurveTo(x, y, x + r * 2.4, y);
+    ctx.quadraticCurveTo(x, y, x, y + r * 2.4); ctx.quadraticCurveTo(x, y, x - r * 2.4, y);
+    ctx.quadraticCurveTo(x, y, x, y - r * 2.4); ctx.fill();
+  }
+  let dustClear = true;
+  function drawDust(){
+    if (!dust.length){ if (!dustClear){ dx.clearRect(0, 0, dc.width, dc.height); dustClear = true; } return; }
+    dustClear = false;
+    dx.clearRect(0, 0, dc.width, dc.height);
+    dx.globalCompositeOperation = 'lighter';
+    for (const p of dust){
+      p.x += p.vx; p.y += p.vy; p.vx *= .97; p.vy = p.vy * .97 + .015; p.life -= .016;
+      dx.globalAlpha = Math.max(0, p.life);
+      dx.fillStyle = p.c;
+      const x = p.x * DPR, y = p.y * DPR, r = p.r * DPR * (.4 + p.life * .6);
+      if (p.star) sparkle(dx, x, y, r); else { dx.beginPath(); dx.arc(x, y, r * .6, 0, 7); dx.fill(); }
+    }
+    dust = dust.filter(p => p.life > 0);
+    dx.globalAlpha = 1; dx.globalCompositeOperation = 'source-over';
+  }
+
+  /* ---------- road ---------- */
+  const road = $('#road'), svg = $('#roadSvg'), guide = $('#pathGuide'), rbs = $$('#ribbon .rb'), traveler = $('#traveler'), tInner = $('.inner', traveler);
+  let LUT = [], total = 0, startY = 0, endY = 0, viewF = .55, curLen = 0, facing = 1, mobile = false;
+  const docTop = el => el.getBoundingClientRect().top + scrollY;
+  function buildRoad(){
+    const W = document.documentElement.clientWidth;
+    mobile = W < 760;
+    road.style.height = '0px';
+    const H = document.documentElement.scrollHeight;
+    road.style.height = H + 'px';
+    svg.setAttribute('width', W); svg.setAttribute('height', H); svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+    const hero = $('#hero');
+    const side = mobile ? .05 : Math.max(.05, Math.min(.12, ((W - 1120) / 2) / W * .55 + .04));
+    const pts = [[mobile ? W * .5 : W * .3, docTop(hero) + hero.offsetHeight * .97]];
+    $$('[data-way]').forEach((s, i) => {
+      pts.push([i % 2 === 0 ? W * (1 - side) : W * side, docTop(s) + s.offsetHeight * .5]);
+    });
+    const m = $('#manger'), mr = m.getBoundingClientRect();
+    const mTop = mr.top + scrollY;
+    const end = [mr.left + mr.width * .5 - mr.width * (mobile ? .36 : .52), mTop + mr.height * .97];
+    pts.push(end);
+
+    let d = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+    for (let i = 1; i < pts.length; i++){
+      const [x0, y0] = pts[i-1], [x1, y1] = pts[i], dy = y1 - y0;
+      d += ` C${x0.toFixed(1)} ${(y0 + dy * .55).toFixed(1)} ${x1.toFixed(1)} ${(y1 - dy * .55).toFixed(1)} ${x1.toFixed(1)} ${y1.toFixed(1)}`;
+    }
+    guide.setAttribute('d', d);
+    const k = mobile ? .55 : 1;
+    rbs.forEach(p => { p.setAttribute('d', d); p.setAttribute('stroke-width', (+p.dataset.w) * k); });
+    total = guide.getTotalLength();
+    rbs.forEach(p => { p.style.strokeDasharray = `${total} ${total}`; });
+    LUT = [];
+    const N = 900;
+    for (let i = 0; i <= N; i++){ const l = total * i / N, pt = guide.getPointAtLength(l); LUT.push([l, pt.x, pt.y]); }
+    startY = pts[0][1]; endY = end[1];
+    const vh = innerHeight, maxScroll = H - vh;
+    viewF = clamp((endY - maxScroll) / vh, .3, .88);
+    traveler.style.setProperty('--tw', (mobile ? 62 : 118) + 'px');
+    measure();
+  }
+  function lenAtY(y){
+    if (y <= LUT[0][2]) return 0;
+    if (y >= LUT[LUT.length-1][2]) return total;
+    let lo = 0, hi = LUT.length - 1;
+    while (hi - lo > 1){ const mid = (lo + hi) >> 1; if (LUT[mid][2] < y) lo = mid; else hi = mid; }
+    const a = LUT[lo], b = LUT[hi], t = (y - a[2]) / (b[2] - a[2] || 1);
+    return lerp(a[0], b[0], t);
+  }
+
+  /* ---------- hero, star, sky ---------- */
+  const magiWrap = $('#magiWrap'), heroCopy = $('#heroCopy'), gs = $('#guide-star'), sky = $('#sky'), glow = $('.glow', sky), beam = $('#beam'), nav = $('#nav');
+  const skyStops = [[0, [57,0,37]], [.3, [36,6,52]], [.62, [8,9,48]], [.86, [20,8,42]], [1, [34,10,30]]];
+  function skyColor(p){
+    for (let i = 1; i < skyStops.length; i++){
+      if (p <= skyStops[i][0]){
+        const [p0, c0] = skyStops[i-1], [p1, c1] = skyStops[i], t = (p - p0) / (p1 - p0);
+        return `rgb(${c0.map((c, j) => Math.round(lerp(c, c1[j], t))).join(',')})`;
+      }
+    }
+    return 'rgb(34,10,30)';
+  }
+  const storyLines = $$('#storyLines p:not(.verse)');
+  const star = { x: 0, y: 0, s: 1, init: false };
+
+  const M = { H: 1, story: [], mTop: 0, mLeft: 0, mW: 0, mH: 0, tw: 118, th: 120 };
+  function measure(){
+    M.H = document.documentElement.scrollHeight;
+    M.story = storyLines.map(el => el.getBoundingClientRect().top + scrollY);
+    const r = $('#manger').getBoundingClientRect();
+    M.mTop = r.top + scrollY; M.mLeft = r.left; M.mW = r.width; M.mH = r.height;
+    M.tw = traveler.offsetWidth; M.th = traveler.offsetHeight;
+  }
+  function pointAt(l){
+    if (!LUT.length) return { x: 0, y: 0 };
+    const f = clamp(l / (total || 1), 0, 1) * (LUT.length - 1), i = Math.floor(f), j = Math.min(LUT.length - 1, i + 1), t = f - i;
+    return { x: lerp(LUT[i][1], LUT[j][1], t), y: lerp(LUT[i][2], LUT[j][2], t) };
+  }
+  const W8 = new WeakMap();
+  const put = (el, prop, v) => { let o = W8.get(el); if (!o){ o = {}; W8.set(el, o); } if (o[prop] !== v){ o[prop] = v; el.style[prop] = v; } };
+  const putVar = (el, k, v) => { let o = W8.get(el); if (!o){ o = {}; W8.set(el, o); } if (o[k] !== v){ o[k] = v; el.style.setProperty(k, v); } };
+  let lastDash = -1, frameN = 0, navOn = null;
+
+  function frame(t){
+    frameN++;
+    const vh = innerHeight, W = innerWidth, sy = scrollY;
+    const maxScroll = Math.max(1, M.H - vh);
+    const p = clamp(sy / maxScroll, 0, 1);
+    ptr.sx = lerp(ptr.sx, ptr.nx, .06); ptr.sy = lerp(ptr.sy, ptr.ny, .06);
+
+    const on = sy > 40; if (on !== navOn){ nav.classList.toggle('scrolled', on); navOn = on; }
+    put(sky, 'backgroundColor', skyColor(p));
+    putVar(sky, '--satin', (1 - smooth(sy / vh)).toFixed(2));
+
+    // hero parallax
+    if (sy < vh * 1.4){
+      const hp = sy / vh;
+      const tilt = reduce || !fine ? 0 : 1;
+      put(magiWrap, 'transform', `translate3d(${(ptr.sx * -16 * tilt).toFixed(1)}px, ${(sy * .28 + ptr.sy * -10 * tilt).toFixed(1)}px, 0) scale(${(1 + hp * .06).toFixed(4)})`);
+      put(magiWrap, 'opacity', (1 - smooth(hp * 1.1)).toFixed(3));
+      put(heroCopy, 'transform', `translate3d(${(ptr.sx * 10 * tilt).toFixed(1)}px, ${(sy * -.12 + ptr.sy * 6 * tilt).toFixed(1)}px, 0)`);
+      put(heroCopy, 'opacity', (1 - smooth(hp * 1.3)).toFixed(3));
+    }
+
+    // story scrub
+    storyLines.forEach((el, i) => {
+      const top = M.story[i] - sy;
+      put(el, 'opacity', reduce ? '1' : (.12 + .88 * smooth((vh * .82 - top) / (vh * .3))).toFixed(3));
+    });
+
+    // traveler
+    let ahead = null;
+    if (LUT.length){
+      const targetY = clamp(sy + vh * viewF, startY, endY);
+      const target = lenAtY(targetY);
+      curLen = reduce ? target : lerp(curLen, target, .14);
+      if (Math.abs(curLen - target) < .05) curLen = target;
+      const pt = pointAt(curLen), pb = pointAt(Math.max(0, curLen - 6));
+      ahead = pointAt(Math.min(total, curLen + total * .035));
+      const dxv = pt.x - pb.x;
+      if (Math.abs(dxv) > .4) facing = dxv >= 0 ? 1 : -1;
+      if (curLen >= total - 2) facing = 1;
+      const bob = reduce ? 0 : Math.sin(curLen * .06) * 2.2;
+      put(traveler, 'transform', `translate3d(${(pt.x - M.tw / 2).toFixed(1)}px, ${(pt.y - M.th * .93 + bob).toFixed(1)}px, 0)`);
+      put(tInner, 'transform', `scaleX(${facing})`);
+      put(traveler, 'opacity', sy > vh * .35 ? '1' : '0');
+      if (Math.abs(curLen - lastDash) > 1.5 || (curLen === target && lastDash !== curLen)){
+        lastDash = curLen;
+        const off = String(Math.round(total - curLen));
+        rbs.forEach(el => put(el, 'strokeDashoffset', off));
+      }
+    }
+
+    // guide star: hero spot -> leads the traveler -> rests over manger
+    const size = mobile ? 50 : 96;
+    const hx = W * (mobile ? .5 : .88), hy = mobile ? 108 : vh * .17;
+    let jx = hx, jy = mobile ? 92 : vh * .1;
+    if (ahead){ jx = clamp(ahead.x, size, W - size); }
+    const toJourney = smooth((sy - vh * .25) / (vh * .7));
+    let x = lerp(hx, jx, toJourney), y = lerp(hy, jy, toJourney), s = lerp(1, .72, toJourney);
+    const mTop = M.mTop - sy;
+    const fin = smooth((vh - mTop) / (vh * .75));
+    const ax = M.mLeft + M.mW * .5, ay = mTop - size * .55;
+    x = lerp(x, ax, fin); y = lerp(y, ay, fin); s = lerp(s, 1.15, fin);
+    if (!star.init){ star.x = x; star.y = y; star.s = s; star.init = true; }
+    const ease = reduce ? 1 : .09;
+    star.x = lerp(star.x, x, ease); star.y = lerp(star.y, y, ease); star.s = lerp(star.s, s, ease);
+    putVar(gs, '--s', size + 'px');
+    put(gs, 'transform', `translate3d(${(star.x - size / 2).toFixed(1)}px, ${(star.y - size * .5).toFixed(1)}px, 0) scale(${star.s.toFixed(3)})`);
+
+    // finale glow + beam
+    put(glow, 'opacity', fin.toFixed(3));
+    put(beam, 'opacity', smooth((fin - .35) / .65).toFixed(3));
+
+    updateGallery(sy, vh);
+    if (!mobile || frameN % 2 === 0) drawStars(t);
+    if (!reduce) drawDust();
+    requestAnimationFrame(frame);
+  }
+
+  /* ---------- app store links by device ---------- */
+  (() => {
+    const ua = navigator.userAgent;
+    const ios = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const android = /Android/i.test(ua);
+    const url = ios ? 'https://apps.apple.com/us/app/id459266558'
+      : android ? 'https://play.google.com/store/apps/details?id=com.subsplash.thechurchapp.cccomaha'
+      : null;
+    if (url) $$('.app-link').forEach(a => { a.href = url; a.removeAttribute('target'); });
+  })();
+
+  /* ---------- plan-your-visit burst ---------- */
+  if (!reduce){
+    $$('[data-open-in-church-center-modal]').forEach(a => a.addEventListener('click', () => {
+      const r = a.getBoundingClientRect(); emit(r.left + r.width / 2, r.top + r.height / 2, 26, true);
+    }));
+  }
+
+  /* ---------- manger easter egg ---------- */
+  const egg = $('#egg');
+  if (egg) egg.addEventListener('click', e => {
+    e.preventDefault();
+    const r = egg.getBoundingClientRect();
+    if (!reduce) emit(r.left + r.width / 2, r.top + r.height * .55, 40, true);
+    setTimeout(() => { location.href = egg.getAttribute('href'); }, reduce ? 0 : 650);
+  });
+
+  /* ---------- reveals ---------- */
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px', threshold: .12 });
+  $$('.reveal').forEach(el => io.observe(el));
+
+  /* ---------- tilt cards ---------- */
+  if (fine && !reduce){
+    $$('.tilt').forEach(card => {
+      card.addEventListener('pointermove', e => {
+        const r = card.getBoundingClientRect(), px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+        card.style.transform = `rotateY(${(px - .5) * 6}deg) rotateX(${(.5 - py) * 5}deg)`;
+        card.style.setProperty('--gx', px * 100 + '%'); card.style.setProperty('--gy', py * 100 + '%');
+      });
+      card.addEventListener('pointerleave', () => { card.style.transform = ''; });
+    });
+  }
+
+  /* ---------- calendar ---------- */
+  const LOC = 'Christ Community Church, 404 S 108th Ave, Omaha, NE 68154';
+  const DESC = window.XMAS.calendarDescription;
+  const addHour = s => {
+    const d = new Date(Date.UTC(+s.slice(0,4), +s.slice(4,6) - 1, +s.slice(6,8), +s.slice(9,11) + 1, 0, 0));
+    return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  };
+  $$('.cal .menu').forEach(menu => {
+    const start = menu.dataset.start, end = addHour(start), label = menu.dataset.label;
+    const title = `Christmas with CCC (${label})`;
+    const g = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start}/${end}&details=${encodeURIComponent(DESC)}&location=${encodeURIComponent(LOC)}`;
+    menu.innerHTML = `<button type="button">Apple or Outlook (.ics)</button><a href="${g}" target="_blank" rel="noopener">Google Calendar</a>`;
+    menu.querySelector('button').addEventListener('click', () => {
+      const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Christ Community Church//Christmas//EN','BEGIN:VEVENT',
+        `UID:${start}-christmaswithccc@cccomaha.org`, `DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'')}`,
+        `DTSTART:${start}`, `DTEND:${end}`, `SUMMARY:${title}`, `DESCRIPTION:${DESC}`, `LOCATION:${LOC.replace(/,/g,'\\,')}`,
+        'BEGIN:VALARM','TRIGGER:-PT2H','ACTION:DISPLAY','DESCRIPTION:Christmas with CCC','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+      a.download = `christmas-with-ccc-${label.toLowerCase().replace(/[^a-z0-9]+/g,'-')}.ics`;
+      document.body.appendChild(a); a.click(); a.remove();
+      menu.closest('details').open = false;
+    });
+  });
+  document.addEventListener('click', e => { $$('.cal[open]').forEach(d => { if (!d.contains(e.target)) d.open = false; }); });
+
+  /* ---------- checklist + candle ---------- */
+  $$('#checks input').forEach(cb => {
+    cb.checked = store.get('ccc-x-' + cb.dataset.k) === '1';
+    cb.addEventListener('change', () => store.set('ccc-x-' + cb.dataset.k, cb.checked ? '1' : '0'));
+  });
+  const candle = $('#candle'), candleCheck = $('#candleCheck');
+  candle.addEventListener('click', e => {
+    const lit = !candle.classList.contains('lit');
+    candle.classList.toggle('lit', lit);
+    candle.setAttribute('aria-pressed', String(lit));
+    candle.setAttribute('aria-label', lit ? 'Blow out the candle' : 'Light the candle');
+    if (lit){
+      candleCheck.checked = true; store.set('ccc-x-candle', '1');
+      if (!reduce){ const r = candle.getBoundingClientRect(); emit(r.left + r.width / 2, r.top + 20, 22, true); }
+    }
+  });
+
+  /* ---------- invite ---------- */
+  const msg = $('#msg'), chips = $$('#chips .chip'), toast = $('#toast');
+  const URL_ = 'https://christmaswithccc.com';
+  let edited = false, svc = window.XMAS.defaultService;
+  const compose = () => window.XMAS.inviteMessage.split('{service}').join(svc).split('{link}').join(URL_);
+  msg.value = compose();
+  msg.addEventListener('input', () => { edited = true; });
+  chips.forEach(c => c.addEventListener('click', () => {
+    chips.forEach(x => x.setAttribute('aria-pressed', String(x === c)));
+    const prev = svc; svc = c.dataset.s;
+    msg.value = edited ? msg.value.replace(prev, svc) : compose();
+    updateSms();
+  }));
+  const say = s => { toast.textContent = s; clearTimeout(say.t); say.t = setTimeout(() => toast.textContent = '', 2600); };
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(msg.value); say('Copied. Paste it anywhere.'); }
+    catch(e){ msg.select(); document.execCommand && document.execCommand('copy'); say('Copied.'); }
+  };
+  $('#copyBtn').addEventListener('click', copy);
+  $('#shareBtn').addEventListener('click', async () => {
+    if (navigator.share){ try { await navigator.share({ title: 'Christmas with CCC', text: msg.value }); } catch(e){} }
+    else copy();
+  });
+  const sms = $('#smsBtn');
+  function updateSms(){ sms.href = 'sms:?&body=' + encodeURIComponent(msg.value); }
+  msg.addEventListener('input', updateSms); updateSms();
+
+  /* ---------- gallery ---------- */
+  const PHOTOS = window.XMAS.photos;
+  const gal = $('#gallery'), gA = $('#gRowA'), gB = $('#gRowB');
+  const pin = !reduce;
+  if (!pin) document.body.classList.add('no-pin');
+  let gTop = 0, gDist = 0, dA = 0, dB = 0, gSpan = 1, gk = -1, gLastA = "", gLastB = "";
+  $$('.gcard').forEach((c, i) => c.style.setProperty('--rot', (i % 2 ? 1 : -1) * (0.6 + (i % 3) * 0.4) + 'deg'));
+  function layoutGallery(){
+    if (!pin) return;
+    const W = document.documentElement.clientWidth;
+    const pad = Math.min(72, Math.max(20, W * .05));
+    dA = Math.max(0, gA.scrollWidth - W + pad * 2);
+    dB = Math.max(0, gB.scrollWidth - W + pad * 2);
+    gDist = Math.max(dA, dB);
+    gal.style.height = (innerHeight + gDist * .9) + 'px';
+    gTop = gal.getBoundingClientRect().top + scrollY;
+    gSpan = Math.max(1, gal.offsetHeight - innerHeight);
+    gA.style.paddingLeft = gB.style.paddingLeft = pad + 'px';
+  }
+  function updateGallery(sy, vh){
+    if (!pin) return;
+    if (sy < gTop - vh * 1.2 || sy > gTop + gSpan + vh * 1.2) return;
+    const p = clamp((sy - gTop) / gSpan, 0, 1);
+    const e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+    const target = lerp(p, e, .35);
+    gk = gk < 0 ? target : gk + (target - gk) * .12;
+    if (Math.abs(target - gk) < .0002) gk = target;
+    const a = `translate3d(${(-gk * dA).toFixed(2)}px,0,0)`, b = `translate3d(${(-(1 - gk) * dB).toFixed(2)}px,0,0)`;
+    if (a !== gLastA){ gA.style.transform = a; gLastA = a; }
+    if (b !== gLastB){ gB.style.transform = b; gLastB = b; }
+  }
+  ['load','resize'].forEach(ev => addEventListener(ev, () => { layoutGallery(); }));
+  $$('#gallery img').forEach(img => img.addEventListener('load', () => { clearTimeout(rt); rt = setTimeout(() => { layoutGallery(); buildRoad(); }, 150); }, { once: true }));
+
+  const gio = new IntersectionObserver(es => {
+    if (!es.some(e => e.isIntersecting)) return;
+    $$('#gallery img').forEach(img => { img.loading = 'eager'; if (img.decode) img.decode().catch(() => {}); });
+    gio.disconnect();
+  }, { rootMargin: '1400px 0px' });
+  gio.observe(gal);
+
+  /* lightbox */
+  const lb = $('#lb'), lbImg = $('#lbImg'), lbCount = $('#lbCount');
+  let cur = 0;
+  function show(i){
+    cur = (i + PHOTOS.length) % PHOTOS.length;
+    const ph = PHOTOS[cur];
+    lbImg.style.animation = 'none'; void lbImg.offsetWidth; lbImg.style.animation = '';
+    lbImg.src = ph.src; lbImg.alt = ph.alt;
+    lbCount.textContent = `${cur + 1} / ${PHOTOS.length}`;
+    const nx = new Image(); nx.src = PHOTOS[(cur + 1) % PHOTOS.length].src;
+  }
+  $$('.gcard').forEach(c => c.addEventListener('click', () => {
+    const r = c.getBoundingClientRect();
+    if (!reduce) emit(r.left + r.width / 2, r.top + r.height / 2, 24, true);
+    show(+c.dataset.i);
+    if (lb.showModal) lb.showModal(); else lb.setAttribute('open', '');
+  }));
+  $('.lb-prev').addEventListener('click', () => show(cur - 1));
+  $('.lb-next').addEventListener('click', () => show(cur + 1));
+  $('.lb-close').addEventListener('click', () => lb.close());
+  lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+  lb.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
+  let sx0 = null;
+  lb.addEventListener('pointerdown', e => { sx0 = e.clientX; });
+  lb.addEventListener('pointerup', e => { if (sx0 === null) return; const d = e.clientX - sx0; if (Math.abs(d) > 50) show(cur + (d < 0 ? 1 : -1)); sx0 = null; });
+
+  /* ---------- boot ---------- */
+  function resize(){ DPR = Math.min(devicePixelRatio || 1, 1.5); sizeStars(); sizeDust(); layoutGallery(); buildRoad(); }
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(resize, 120); });
+  resize();
+  const ro = new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(buildRoad, 120); });
+  ro.observe(document.body);
+  addEventListener('load', buildRoad);
+  if (document.fonts) document.fonts.ready.then(buildRoad);
+  requestAnimationFrame(frame);
+})();
+</script>{% endraw %}
+</body>
+</html>
