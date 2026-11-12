@@ -1,9 +1,9 @@
 {
   "eyebrow": "Bring someone",
-  "heading": "The magi didn't *travel alone.*",
-  "lede": "There's always room for one more. Christmas is the easiest invitation of the year. Pick a service, tweak the message and send it to a friend, a neighbor or a coworker.",
+  "heading": "The Magi didn't *travel alone.*",
+  "lede": "There's always room for one more. Christmas is the easiest invitation of the year. Pick a service, tweak the message, and send it to a friend, neighbor, or coworker.",
   "message": "Hey! I'm going to Christmas at Christ Community Church on {service}. It's one hour, really relaxed, with carols and candlelight. Want to come with me? {link}",
   "textPageHeading": "Who are you bringing *this year?*",
-  "textPageLede": "Tap the button and your invite is already written. Just pick a friend and hit send.",
-  "textPageMessage": "I'm going to Christmas at Christ Community Church and would love for you to come with me. Christmas Eve services are Thursday, Dec 24 at 2, 4 and 6 PM, plus Wednesday, Dec 23 at 6 PM. Here are the details: {link}"
+  "textPageLede": "Tap the button, and your invite is already written. Just pick a friend and hit send!",
+  "textPageMessage": "Hey! I'm going to Christmas at Christ Community Church and would love for you to come with me. Christmas Eve services are Wednesday, December 23, at 6:00 PM, and Thursday, December 24, at 2:00, 4:00, and 6:00 PM. Here are the details: {link}"
 }
