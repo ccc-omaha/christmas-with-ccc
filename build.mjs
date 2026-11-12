@@ -109,7 +109,7 @@ const jsonld = {
     ...allServices.map(s => ({
       ...schemaBase.eventTemplate,
       name: s.eventName, startDate: s.startIso, endDate: s.endIso,
-      image: [abs(C.settings.shareImageTall), ...(photos[0] ? [abs("/" + photos[0].src)] : [])],
+      image: schemaBase.eventTemplate.image,
       description: C.settings.eventDescription,
     })),
     { "@type": "FAQPage", mainEntity: (C.faq.items || []).map(f => ({ "@type": "Question", name: f.question, acceptedAnswer: { "@type": "Answer", text: plain(f.answer) } })) },
@@ -143,6 +143,7 @@ write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
     <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image><image:loc>${abs("/assets/google-1x1.jpg")}</image:loc></image:image>
     <image:image><image:loc>${abs(C.settings.shareImageTall)}</image:loc></image:image>
 ${photos.slice(0, 2).map(p => `    <image:image><image:loc>${abs("/" + p.src)}</image:loc></image:image>`).join("\n")}
   </url>

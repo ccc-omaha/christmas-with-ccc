@@ -48,7 +48,8 @@
   "sameAs": [
    "https://www.youtube.com/c/cccomaha",
    "https://cccomaha.org"
-  ]
+  ],
+  "image": "https://christmaswithccc.com/assets/google-1x1.jpg"
  },
  "page": {
   "@type": "WebPage",
@@ -58,7 +59,18 @@
   "about": {
    "@id": "https://christmaswithccc.com/#church"
   },
-  "inLanguage": "en-US"
+  "inLanguage": "en-US",
+  "primaryImageOfPage": {
+   "@type": "ImageObject",
+   "url": "https://christmaswithccc.com/assets/google-16x9.jpg",
+   "width": 1920,
+   "height": 1080
+  },
+  "image": [
+   "https://christmaswithccc.com/assets/google-1x1.jpg",
+   "https://christmaswithccc.com/assets/google-4x3.jpg",
+   "https://christmaswithccc.com/assets/google-16x9.jpg"
+  ]
  },
  "eventTemplate": {
   "@type": "Event",
@@ -86,8 +98,9 @@
    }
   ],
   "image": [
-   "https://christmaswithccc.com/assets/share-4x5.jpg",
-   "https://christmaswithccc.com/assets/gallery/christmas-eve-candlelight-omaha.webp"
+   "https://christmaswithccc.com/assets/google-1x1.jpg",
+   "https://christmaswithccc.com/assets/google-4x3.jpg",
+   "https://christmaswithccc.com/assets/google-16x9.jpg"
   ],
   "description": "A free, one-hour, family-friendly Christmas Eve service in Omaha, NE with carols, candlelight and the story of the birth of Jesus.",
   "isAccessibleForFree": true,
