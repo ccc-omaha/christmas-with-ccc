@@ -1,13 +1,9 @@
 {
-  "eyebrow": "Christmas Eve services in Omaha, NE",
-  "heading": "Two nights. Four services. *One story.*",
-  "lede": "Every service is the same one-hour Christmas experience. Pick the time that works for your crew. All times are Central.",
   "nights": [
     {
       "date": "2026-12-23",
       "dayLabel": "Wednesday",
       "subtitle": "The night before Christmas Eve",
-      "streamNote": "Also streaming live online",
       "services": [
         {
           "time": "6:00 PM",
@@ -18,18 +14,16 @@
           "searchNote": "ASL interpreted on-site",
           "preselect": false
         }
-      ]
+      ],
+      "streamNote": "Also streaming live online"
     },
     {
       "date": "2026-12-24",
       "dayLabel": "Thursday · Christmas Eve",
       "subtitle": "Three services, same experience",
-      "streamNote": "All three also streaming live online",
       "services": [
         {
           "time": "2:00 PM",
-          "notes": [],
-          "searchNote": "",
           "preselect": false
         },
         {
@@ -37,23 +31,24 @@
           "notes": [
             "Childcare for ages 3 & under"
           ],
-          "searchNote": "",
           "preselect": true
         },
         {
           "time": "6:00 PM",
-          "notes": [],
-          "searchNote": "",
           "preselect": false
         }
-      ]
+      ],
+      "streamNote": "All three also streaming live online"
     }
   ],
-  "whereNote": "An easy drive from anywhere in the metro.",
+  "eyebrow": "Christmas Eve services in Omaha, NE",
+  "heading": "Two nights. Four services. *One story.*",
+  "lede": "Every service is the same one-hour Christmas experience. Pick the time that works for your crew. All times are CST.",
+  "whereNote": "An easy drive from anywhere in the Omaha metro.",
   "doorsHeading": "Doors & seating",
-  "doorsText": "Worship Center doors open 30 minutes before each service. Seats are first-come, first-served, and there's plenty of room.",
+  "doorsText": "Worship Center doors open thirty minutes before each service. Seats are first come, first served, and there's plenty of room.",
   "accessHeading": "Accessibility",
-  "accessText": "Wednesday at 6 PM is ASL interpreted and live captioned in the Worship Center.",
+  "accessText": "Wednesday's 6:00 PM service is ASL-interpreted and live-captioned in the Worship Center.",
   "planKicker": "Planning to come?",
   "planHeading": "Tell us you're coming.",
   "planText": "Let us know which service you're planning on, and we'll be ready for you."
