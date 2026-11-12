@@ -26,3 +26,9 @@ Photos: keep uploads under 2 MB; larger ones are shrunk automatically.
 Netlify runs `npm run build` (see `netlify.toml`), which fills the
 templates in `src/` with `content/*.json` and writes the site to `dist/`.
 Static files (images, the Quest game) live in `public/` and are copied as-is.
+
+## Link previews
+One link works everywhere. `netlify/edge-functions/social-preview.js`
+serves the wide share graphic to social crawlers (Facebook, LinkedIn, X,
+Slack...) and the tall 4:5 graphic to iMessage, Android texting and everyone
+else. No need to share /share anymore.
