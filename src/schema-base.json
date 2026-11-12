@@ -62,7 +62,7 @@
  },
  "eventTemplate": {
   "@type": "Event",
-  "name": "Christmas Service in Omaha, NE: Wednesday, Dec 23, 6 PM (ASL interpreted on-site)",
+  "name": "Christmas Service in Omaha, NE: Wednesday, December 23, 6 PM (ASL interpreted on-site)",
   "startDate": "2026-12-23T18:00:00-06:00",
   "endDate": "2026-12-23T19:00:00-06:00",
   "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",

@@ -59,16 +59,16 @@ const nights = (C.services.nights || []).map(n => {
     const off = chicagoOffset(y, mo, d, t.h, t.min);
     const startUtc = new Date(Date.UTC(y, mo - 1, d, t.h, t.min) - off.minutes * 60000);
     const utcStart = startUtc.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-    const label = isEve ? `Christmas Eve at ${t.short}` : `${wd}, ${MONTHS[mo - 1].slice(0, 3)} ${d} at ${t.short}`;
+    const label = isEve ? `Christmas Eve at ${t.short}` : `${wd}, ${MONTHS[mo - 1]} ${d} at ${t.short}`;
     const localIso = (hh) => `${y}-${pad(mo)}-${pad(d)}T${pad(hh)}:${pad(t.min)}:00${off.iso}`;
     return {
       ...s, ...t, notes: (s.notes || []).filter(Boolean), utcStart, label,
       chip: `${wd.slice(0, 3)} ${t.short}`,
       startIso: localIso(t.h), endIso: localIso(t.h + 1),
-      eventName: (isEve ? `Christmas Eve Service in Omaha, NE: ${t.short}` : `Christmas Service in Omaha, NE: ${wd}, ${MONTHS[mo - 1].slice(0, 3)} ${d}, ${t.short}`) + (s.searchNote ? ` (${s.searchNote})` : ""),
+      eventName: (isEve ? `Christmas Eve Service in Omaha, NE: ${t.short}` : `Christmas Service in Omaha, NE: ${wd}, ${MONTHS[mo - 1]} ${d}, ${t.short}`) + (s.searchNote ? ` (${s.searchNote})` : ""),
     };
   });
-  return { ...n, weekday: wd, dateLong: `${MONTHS[mo - 1]} ${d}`, dateShort: `${wd}, ${MONTHS[mo - 1].slice(0, 3)} ${d}`, services };
+  return { ...n, weekday: wd, dateLong: `${MONTHS[mo - 1]} ${d}`, dateShort: `${wd}, ${MONTHS[mo - 1]} ${d}`, services };
 });
 const allServices = nights.flatMap(n => n.services);
 const defaultService = (allServices.find(s => s.preselect) || allServices[0] || {}).label || "";
