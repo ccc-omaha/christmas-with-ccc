@@ -386,10 +386,9 @@ body.no-pin .gcard{scroll-snap-align:center}
 html.is-live{--lb:42px}
 html.is-live .nav{top:var(--lb)}
 @media (min-width:901px){html.is-live .nav ul{visibility:hidden}}
-#live{position:fixed;top:0;left:0;right:0;z-index:96;display:grid;grid-template-rows:auto 0fr;transition:grid-template-rows .7s cubic-bezier(.2,.8,.2,1),transform .5s cubic-bezier(.2,.8,.2,1);transform:translateY(-110%)}
+#live{position:fixed;top:0;left:0;right:0;z-index:96;transition:transform .5s cubic-bezier(.2,.8,.2,1);transform:translateY(-110%)}
 #live[hidden]{display:none}
 html.is-live #live{transform:none}
-#live.open{grid-template-rows:auto 1fr}
 .live-bar{position:relative;height:var(--lb,42px);display:flex;align-items:center;justify-content:center;gap:16px;padding:0 var(--pad);border:0;width:100%;cursor:pointer;color:var(--cream);font:inherit;
   background:linear-gradient(180deg,#4a0632,#2a001b);border-bottom:1px solid rgba(232,200,122,.55);box-shadow:inset 0 1px 0 rgba(232,200,122,.35)}
 .live-bar::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:5px;pointer-events:none;
@@ -402,11 +401,15 @@ html.is-live #live{transform:none}
 .live-bar:hover .live-cta,.live-bar:focus-visible .live-cta{background:rgba(232,200,122,.14)}
 #live.open .live-cta{opacity:.5}
 @media (max-width:640px){.live-txt{display:none}}
-.live-panel{overflow:hidden;min-height:0;background:linear-gradient(180deg,#2a001b,#1a0012)}
-.live-frame{margin:22px auto 30px;width:min(1080px,calc(100vw - 2*var(--pad)),calc((100svh - var(--lb,42px) - 150px)*16/9));aspect-ratio:16/9;padding:6px;border:1px solid rgba(232,200,122,.5);outline:1px solid rgba(232,200,122,.22);outline-offset:5px;background:#000}
+.live-panel{height:0;overflow:hidden;background:linear-gradient(180deg,#2a001b,#1a0012);transition:height .7s cubic-bezier(.2,.8,.2,1)}
+.live-inner{padding:22px 0 30px}
+#live.dragging .live-panel,#live.dragging+#liveShade{transition:none}
+.live-frame{margin:0 auto;width:min(1080px,calc(100vw - 2*var(--pad)),calc((100svh - var(--lb,42px) - 150px)*16/9));aspect-ratio:16/9;padding:6px;border:1px solid rgba(232,200,122,.5);outline:1px solid rgba(232,200,122,.22);outline-offset:5px;background:#000}
 .live-frame iframe{width:100%;height:100%;border:0;display:block}
-.tassel{position:absolute;left:50%;bottom:-74px;width:26px;height:76px;margin-left:-13px;padding:0;border:0;background:none;cursor:pointer;transform-origin:50% 0;animation:tasselSway 3.4s ease-in-out infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.45))}
+.tassel{position:absolute;left:50%;bottom:-74px;width:26px;height:76px;margin-left:-13px;padding:0;border:0;background:none;cursor:grab;touch-action:none;transform-origin:50% 0;animation:tasselSway 3.4s ease-in-out infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.45))}
 .tassel:hover{animation-play-state:paused;transform:translateY(4px)}
+.tassel::before{content:"";position:absolute;inset:-14px -18px}
+#live.dragging .tassel{animation:none;transform:none;cursor:grabbing}
 .tassel svg{width:100%;height:100%;display:block;overflow:visible}
 @keyframes tasselSway{0%,100%{transform:rotate(4deg)}50%{transform:rotate(-4deg)}}
 #liveShade{position:fixed;inset:0;z-index:95;background:rgba(12,0,10,.72);opacity:0;pointer-events:none;transition:opacity .5s}
@@ -420,11 +423,11 @@ html.is-live #live{transform:none}
 <div id="live" hidden>
   <button class="live-bar" id="liveBar" type="button" aria-expanded="false" aria-controls="livePanel">
     <span class="live-lab"><svg viewBox="-110 -110 220 240" aria-hidden="true"><path fill="#e8c87a" d="M0 -100 L3.4 -8.3 L24 -24 L8.3 -3.4 L88 0 L8.3 3.4 L24 24 L3.4 8.3 L0 118 L-3.4 8.3 L-24 24 L-8.3 3.4 L-88 0 L-8.3 -3.4 L-24 -24 L-3.4 -8.3Z"/></svg>{{ online.liveLabel }}</span>
-    <span class="live-txt">{{ online.liveText }}</span>
+    <span class="live-txt" id="liveTxt" data-christmas="{{ online.liveText }}" data-weekly="{{ online.liveTextWeekly }}">{{ online.liveText }}</span>
     <span class="live-cta" id="liveCta" data-open="{{ online.liveCta }}">{{ online.liveCta }}</span>
   </button>
-  <div class="live-panel" id="livePanel" role="region" aria-label="Live stream"><div class="live-frame" id="liveFrame"></div></div>
-  <button class="tassel" id="liveTassel" type="button" tabindex="-1" aria-hidden="true">
+  <div class="live-panel" id="livePanel" role="region" aria-label="Live stream"><div class="live-inner" id="liveInner"><div class="live-frame" id="liveFrame"></div></div></div>
+  <button class="tassel" id="liveTassel" type="button" tabindex="-1" aria-hidden="true" title="Pull to watch">
     <svg viewBox="0 0 26 76">
       <defs><linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#9a7428"/><stop offset=".45" stop-color="#f6dc95"/><stop offset="1" stop-color="#a77d2c"/></linearGradient></defs>
       <path d="M13 0V14" stroke="#e8c87a" stroke-width="1.6"/>
@@ -1202,57 +1205,100 @@ html.is-live #live{transform:none}
 {% if online.liveBarEnabled %}<script>
 // Live bar: shown only while the YouTube channel is live (checked via /api/live),
 // and only during stream windows (Christmas services + weekly times in Pages CMS).
+// Click the bar or tassel, or pull the tassel down, to open the stream.
 // Test any time with ?live=VIDEO_ID or ?live=<any YouTube video link>.
 (() => {
   const CFG = {{ liveCfg | jsonscript }};
-  const root = document.documentElement, box = document.getElementById('live');
-  const bar = document.getElementById('liveBar'), tassel = document.getElementById('liveTassel');
-  const frame = document.getElementById('liveFrame'), shade = document.getElementById('liveShade');
-  const cta = document.getElementById('liveCta');
+  const $ = id => document.getElementById(id);
+  const root = document.documentElement, box = $('live'), bar = $('liveBar'), tassel = $('liveTassel');
+  const panel = $('livePanel'), inner = $('liveInner'), frame = $('liveFrame'), shade = $('liveShade');
+  const cta = $('liveCta'), txt = $('liveTxt');
   const q = new URLSearchParams(location.search).get('live') || '';
   const forced = (q.match(/(?:v=|youtu\.be\/|\/live\/|\/embed\/|\/shorts\/)([\w-]{11})/) || [])[1] || (/^[\w-]{11}$/.test(q) ? q : null);
-  let id = null, timer = null;
+  let id = null, timer = null, isOpen = false;
+
+  // Which stream window are we in? 'christmas', 'weekly' or null.
+  const windowKind = (now = new Date()) => {
+    const t = now.getTime();
+    if (CFG.windows.some(([s, e]) => t >= s && t <= e)) return 'christmas';
+    const p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+      .formatToParts(now).reduce((a, x) => (a[x.type] = x.value, a), {});
+    const d = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(p.weekday), m = +p.hour * 60 + +p.minute;
+    return CFG.weekly.some(w => w.d === d && m >= w.s && m <= w.e) ? 'weekly' : null;
+  };
+  const setText = kind => { txt.textContent = kind === 'weekly' ? txt.dataset.weekly : txt.dataset.christmas; };
 
   const show = vid => {
     if (id === vid) return;
     id = vid; box.hidden = false;
     requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('is-live')));
   };
-  const hide = () => { if (!id || box.classList.contains('open')) return; root.classList.remove('is-live'); id = null; };
+  const hide = () => { if (!id || isOpen) return; root.classList.remove('is-live'); id = null; };
 
-  const open = () => {
+  const full = () => inner.offsetHeight;
+  const loadVideo = () => {
+    if (frame.firstChild || !id) return;
+    const f = document.createElement('iframe');
+    f.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.allowFullscreen = true; f.title = 'Live stream';
+    frame.appendChild(f);
+  };
+  const setOpen = open => {
+    if (open && !id) return;
+    isOpen = open;
+    box.classList.toggle('open', open);
+    panel.style.height = open ? full() + 'px' : '0px';
+    shade.style.opacity = shade.style.pointerEvents = '';
+    bar.setAttribute('aria-expanded', open);
+    cta.textContent = open ? 'Close' : cta.dataset.open;
+    if (open) loadVideo();
+    else setTimeout(() => { if (!isOpen) frame.textContent = ''; }, 700);
+  };
+  bar.addEventListener('click', () => setOpen(!isOpen));
+  shade.addEventListener('click', () => setOpen(false));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen) setOpen(false); });
+  addEventListener('resize', () => { if (isOpen) panel.style.height = full() + 'px'; });
+
+  // Pull the tassel: the window follows your finger; a short pull opens or closes it.
+  let drag = null;
+  tassel.addEventListener('pointerdown', e => {
     if (!id) return;
-    if (!frame.firstChild) {
-      const f = document.createElement('iframe');
-      f.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
-      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-      f.allowFullscreen = true; f.title = 'Live stream';
-      frame.appendChild(f);
-    }
-    box.classList.add('open'); bar.setAttribute('aria-expanded', 'true'); cta.textContent = 'Close';
+    drag = { y: e.clientY, h: panel.offsetHeight, F: full(), moved: false };
+    tassel.setPointerCapture(e.pointerId);
+  });
+  tassel.addEventListener('pointermove', e => {
+    if (!drag) return;
+    const dy = e.clientY - drag.y;
+    if (!drag.moved && Math.abs(dy) < 5) return;
+    if (!drag.moved) { drag.moved = true; box.classList.add('dragging'); }
+    let h = drag.h + dy;
+    if (h > drag.F) h = drag.F + Math.min(40, (h - drag.F) * .25);
+    h = Math.max(0, h);
+    drag.cur = h;
+    if (h > Math.min(100, drag.F * .2)) loadVideo();
+    panel.style.height = h + 'px';
+    shade.style.opacity = Math.min(1, h / drag.F);
+    shade.style.pointerEvents = 'none';
+  });
+  const endDrag = () => {
+    if (!drag) return;
+    const d = drag; drag = null;
+    box.classList.remove('dragging');
+    if (!d.moved) return setOpen(!isOpen);
+    // A short pull is enough: about 100px down opens it, about 100px up closes it.
+    const t = Math.min(100, d.F * .2);
+    setOpen(isOpen ? d.cur > d.F - t : d.cur > t);
   };
-  const close = () => {
-    box.classList.remove('open'); bar.setAttribute('aria-expanded', 'false'); cta.textContent = cta.dataset.open;
-    setTimeout(() => { if (!box.classList.contains('open')) frame.textContent = ''; }, 700);
-  };
-  const toggle = () => box.classList.contains('open') ? close() : open();
-  bar.addEventListener('click', toggle);
-  tassel.addEventListener('click', toggle);
-  shade.addEventListener('click', close);
-  addEventListener('keydown', e => { if (e.key === 'Escape' && box.classList.contains('open')) close(); });
+  tassel.addEventListener('pointerup', endDrag);
+  tassel.addEventListener('pointercancel', endDrag);
 
-  if (forced) return show(forced);
+  if (forced) { setText(windowKind() || 'christmas'); return show(forced); }
 
-  const inWindow = (now = new Date()) => {
-    const t = now.getTime();
-    if (CFG.windows.some(([s, e]) => t >= s && t <= e)) return true;
-    const p = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
-      .formatToParts(now).reduce((a, x) => (a[x.type] = x.value, a), {});
-    const d = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(p.weekday), m = +p.hour * 60 + +p.minute;
-    return CFG.weekly.some(w => w.d === d && m >= w.s && m <= w.e);
-  };
   const check = async () => {
-    if (!inWindow()) return hide();
+    const kind = windowKind();
+    if (!kind) return hide();
+    setText(kind);
     try {
       const r = await fetch('/api/live', { cache: 'no-store' });
       const d = r.ok ? await r.json() : {};
@@ -1264,6 +1310,7 @@ html.is-live #live{transform:none}
   loop();
 })();
 </script>{% endif %}
+
 
 </body>
 </html>

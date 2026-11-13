@@ -242,7 +242,8 @@ content:
           - {name: day, label: Day, type: select, options: {values: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]}, description: "Not shown on the page. The day of the weekly stream."}
           - {name: time, label: Start time, type: string, required: true, pattern: {regex: "^(1[0-2]|[1-9]):[0-5][0-9] (AM|PM)$", message: "Use a format like 9:00 AM"}, description: "Not shown on the page. When the stream starts, Central time, like 9:00 AM."}
       - {name: liveLabel, label: Live bar label, type: string, description: "The small gold all-caps words at the left of the live bar, for example: Live now"}
-      - {name: liveText, label: Live bar message, type: string, description: "The italic line in the middle of the live bar. Hidden on phones to save space."}
+      - {name: liveText, label: Live bar message during Christmas services, type: string, description: "The italic line in the middle of the live bar during the Christmas services in section 1. Hidden on phones to save space."}
+      - {name: liveTextWeekly, label: Live bar message on Sundays, type: string, description: "The italic line in the middle of the live bar during the weekly stream times below. Hidden on phones to save space."}
       - {name: liveCta, label: Live bar button words, type: string, description: "The words at the right of the live bar, for example: Watch here"}
 
   # ---------------------------------------------------------------
