@@ -228,6 +228,11 @@ content:
       - {name: checklistNote, label: Checklist note, description: The small line under the checklist heading., type: string}
       - {name: checklist, label: Checklist items, type: string, list: true, description: "The last item is checked automatically when someone lights the candle."}
       - {name: candleNote, label: Candle note, description: The small note at the bottom of the checklist card., type: string}
+      - {name: liveBarEnabled, label: Live bar on, type: boolean, description: "When on, a gold bar with a tassel appears across the very top of the page only while the YouTube channel below is live. Clicking it slides down the stream. Turn off to hide it even during a stream."}
+      - {name: liveChannelUrl, label: Live bar YouTube channel, type: string, description: "Not shown on the page. The channel the live bar watches, for example https://www.youtube.com/@cccomaha. The bar appears within about a minute of going live."}
+      - {name: liveLabel, label: Live bar label, type: string, description: "The small gold all-caps words at the left of the live bar, for example: Live now"}
+      - {name: liveText, label: Live bar message, type: string, description: "The italic line in the middle of the live bar. Hidden on phones to save space."}
+      - {name: liveCta, label: Live bar button words, type: string, description: "The words at the right of the live bar, for example: Watch here"}
 
   # ---------------------------------------------------------------
   - name: faq

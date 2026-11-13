@@ -381,10 +381,68 @@ body.no-pin .gcard{scroll-snap-align:center}
   .story-lines p{opacity:1}
   #guide-star .twinkle,.cue span.line,.baby-glow,.dot-live{animation:none}
 }
+
+/* ---------- live bar (only appears while YouTube is live) ---------- */
+html.is-live{--lb:42px}
+html.is-live .nav{top:var(--lb)}
+@media (min-width:901px){html.is-live .nav ul{visibility:hidden}}
+#live{position:fixed;top:0;left:0;right:0;z-index:96;display:grid;grid-template-rows:auto 0fr;transition:grid-template-rows .7s cubic-bezier(.2,.8,.2,1),transform .5s cubic-bezier(.2,.8,.2,1);transform:translateY(-110%)}
+#live[hidden]{display:none}
+html.is-live #live{transform:none}
+#live.open{grid-template-rows:auto 1fr}
+.live-bar{position:relative;height:var(--lb,42px);display:flex;align-items:center;justify-content:center;gap:16px;padding:0 var(--pad);border:0;width:100%;cursor:pointer;color:var(--cream);font:inherit;
+  background:linear-gradient(180deg,#4a0632,#2a001b);border-bottom:1px solid rgba(232,200,122,.55);box-shadow:inset 0 1px 0 rgba(232,200,122,.35)}
+.live-bar::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:5px;pointer-events:none;
+  background:radial-gradient(circle,var(--saffron) 0 1.2px,transparent 1.7px) 0 0/12px 5px,linear-gradient(90deg,var(--burgundy),#8c2a14 50%,var(--burgundy));border-bottom:1px solid rgba(232,200,122,.45)}
+.live-lab{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-2)}
+.live-lab svg{width:13px;height:15px;animation:livePulse 1.8s ease-in-out infinite}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.8)}}
+.live-txt{font-family:var(--serif,'Fraunces',serif);font-style:italic;font-size:17px;opacity:.95}
+.live-cta{font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;border:1px solid rgba(232,200,122,.55);border-radius:2px;padding:5px 10px;color:var(--gold-2);transition:background .2s}
+.live-bar:hover .live-cta,.live-bar:focus-visible .live-cta{background:rgba(232,200,122,.14)}
+#live.open .live-cta{opacity:.5}
+@media (max-width:640px){.live-txt{display:none}}
+.live-panel{overflow:hidden;min-height:0;background:linear-gradient(180deg,#2a001b,#1a0012)}
+.live-frame{margin:22px auto 30px;width:min(1080px,calc(100vw - 2*var(--pad)),calc((100svh - var(--lb,42px) - 150px)*16/9));aspect-ratio:16/9;padding:6px;border:1px solid rgba(232,200,122,.5);outline:1px solid rgba(232,200,122,.22);outline-offset:5px;background:#000}
+.live-frame iframe{width:100%;height:100%;border:0;display:block}
+.tassel{position:absolute;left:50%;bottom:-74px;width:26px;height:76px;margin-left:-13px;padding:0;border:0;background:none;cursor:pointer;transform-origin:50% 0;animation:tasselSway 3.4s ease-in-out infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.45))}
+.tassel:hover{animation-play-state:paused;transform:translateY(4px)}
+.tassel svg{width:100%;height:100%;display:block;overflow:visible}
+@keyframes tasselSway{0%,100%{transform:rotate(4deg)}50%{transform:rotate(-4deg)}}
+#liveShade{position:fixed;inset:0;z-index:95;background:rgba(12,0,10,.72);opacity:0;pointer-events:none;transition:opacity .5s}
+#live.open+#liveShade{opacity:1;pointer-events:auto}
+@media (prefers-reduced-motion: reduce){#live,.live-lab svg,.tassel{transition:none;animation:none}}
 </style>{% endraw %}
 </head>
 <body>
 <a class="skip" href="#services">Skip to service times</a>
+{% if online.liveBarEnabled %}
+<div id="live" hidden>
+  <button class="live-bar" id="liveBar" type="button" aria-expanded="false" aria-controls="livePanel">
+    <span class="live-lab"><svg viewBox="-110 -110 220 240" aria-hidden="true"><path fill="#e8c87a" d="M0 -100 L3.4 -8.3 L24 -24 L8.3 -3.4 L88 0 L8.3 3.4 L24 24 L3.4 8.3 L0 118 L-3.4 8.3 L-24 24 L-8.3 3.4 L-88 0 L-8.3 -3.4 L-24 -24 L-3.4 -8.3Z"/></svg>{{ online.liveLabel }}</span>
+    <span class="live-txt">{{ online.liveText }}</span>
+    <span class="live-cta" id="liveCta" data-open="{{ online.liveCta }}">{{ online.liveCta }}</span>
+  </button>
+  <div class="live-panel" id="livePanel" role="region" aria-label="Live stream"><div class="live-frame" id="liveFrame"></div></div>
+  <button class="tassel" id="liveTassel" type="button" tabindex="-1" aria-hidden="true">
+    <svg viewBox="0 0 26 76">
+      <defs><linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#9a7428"/><stop offset=".45" stop-color="#f6dc95"/><stop offset="1" stop-color="#a77d2c"/></linearGradient></defs>
+      <path d="M13 0V14" stroke="#e8c87a" stroke-width="1.6"/>
+      <circle cx="13" cy="17" r="4" fill="url(#tg)"/>
+      <path d="M8.5 22h9l1.5 3h-12z" fill="#6e0a24"/>
+      <path d="M7 25h12c1.2 4.5 1.6 8 1.6 11H5.4c0-3 .4-6.5 1.6-11z" fill="url(#tg)"/>
+      <path d="M5.4 30.5h15.2" stroke="#00626b" stroke-width="1.6"/>
+      <path d="M5 36h16v2.2H5z" fill="#6e0a24"/>
+      <g stroke-width="1.15" stroke-linecap="round">
+        <path d="M6 38.5 3.5 72M8 38.5 6.6 74M10 38.5 9.6 75M12 38.5 12.2 76M14 38.5 14.8 76M16 38.5 17.6 75M18 38.5 20.4 74M20 38.5 22.8 72" stroke="#e0b553"/>
+        <path d="M7 38.5 5 73M9 38.5 8.1 74.5M11 38.5 10.9 75.5M13 38.5 13.5 76M15 38.5 16.2 75.5M17 38.5 19 74.5M19 38.5 21.6 73" stroke="#a7302a"/>
+      </g>
+      <path d="M3.6 66.5h18.8" stroke="#6e0a24" stroke-width="1.4" opacity=".75"/>
+    </svg>
+  </button>
+</div>
+<div id="liveShade" aria-hidden="true"></div>
+{% endif %}
 
 <div id="sky" aria-hidden="true"><div class="glow"></div></div>
 <canvas id="stars" aria-hidden="true"></canvas>
@@ -1141,5 +1199,56 @@ body.no-pin .gcard{scroll-snap-align:center}
   requestAnimationFrame(frame);
 })();
 </script>{% endraw %}
+{% if online.liveBarEnabled %}<script>
+// Live bar: shown only while the YouTube channel is live (checked via /api/live).
+// Test any time with ?live=VIDEO_ID on the URL.
+(() => {
+  const root = document.documentElement, box = document.getElementById('live');
+  const bar = document.getElementById('liveBar'), tassel = document.getElementById('liveTassel');
+  const frame = document.getElementById('liveFrame'), shade = document.getElementById('liveShade');
+  const cta = document.getElementById('liveCta'), forced = new URLSearchParams(location.search).get('live');
+  let id = null, timer = null;
+
+  const show = vid => {
+    id = vid; box.hidden = false;
+    requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('is-live')));
+  };
+  const hide = () => { if (box.classList.contains('open')) return; root.classList.remove('is-live'); id = null; };
+
+  const open = () => {
+    if (!id) return;
+    if (!frame.firstChild) {
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&playsinline=1&rel=0&modestbranding=1`;
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      f.allowFullscreen = true; f.title = 'Live stream';
+      frame.appendChild(f);
+    }
+    box.classList.add('open'); bar.setAttribute('aria-expanded', 'true'); cta.textContent = 'Close';
+  };
+  const close = () => {
+    box.classList.remove('open'); bar.setAttribute('aria-expanded', 'false'); cta.textContent = cta.dataset.open;
+    setTimeout(() => { if (!box.classList.contains('open')) frame.textContent = ''; }, 700);
+  };
+  const toggle = () => box.classList.contains('open') ? close() : open();
+  bar.addEventListener('click', toggle);
+  tassel.addEventListener('click', toggle);
+  shade.addEventListener('click', close);
+  addEventListener('keydown', e => { if (e.key === 'Escape' && box.classList.contains('open')) close(); });
+
+  if (forced) return show(forced);
+  const check = async () => {
+    try {
+      const r = await fetch('/api/live', { cache: 'no-store' });
+      const d = r.ok ? await r.json() : {};
+      d.live && d.id ? (id !== d.id && show(d.id)) : hide();
+    } catch {}
+  };
+  const loop = () => { clearInterval(timer); if (document.visibilityState === 'visible') { check(); timer = setInterval(check, 60000); } };
+  document.addEventListener('visibilitychange', loop);
+  loop();
+})();
+</script>{% endif %}
+
 </body>
 </html>

@@ -12,5 +12,10 @@
     "Invite a few friends or family over",
     "Have a candle ready for the candlelight moment"
   ],
-  "candleNote": "Tap to light. We'll do it together at the end of every service."
+  "candleNote": "Tap to light. We'll do it together at the end of every service.",
+  "liveBarEnabled": true,
+  "liveChannelUrl": "https://www.youtube.com/@cccomaha",
+  "liveLabel": "Live now",
+  "liveText": "Christmas with CCC is streaming",
+  "liveCta": "Watch here"
 }
