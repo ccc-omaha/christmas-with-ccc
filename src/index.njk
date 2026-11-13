@@ -42,6 +42,9 @@
 <script type="application/ld+json">{{ jsonld | jsonscript }}</script>
 
 {% raw %}<style>
+/* Prevent orphaned words */
+h1,h2,h3,h4,blockquote{text-wrap:balance}
+p,li,summary{text-wrap:pretty}
 :root{
   --aubergine:#390025;
   --aubergine-2:#4c0a35;
