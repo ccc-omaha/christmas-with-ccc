@@ -41,3 +41,11 @@ to 75 minutes after each Christmas service and each weekly stream time. Netlify 
 answer for 60 seconds, so YouTube is checked about once a minute in total.
 Test it any time with `https://christmaswithccc.com/?live=` plus a YouTube video ID or link.
 Turn it off in Pages CMS: 5. Watch online → Live bar on.
+
+## Stats
+Private counts at https://christmaswithccc.com/stats/ (needs the STATS_KEY
+environment variable in Netlify; enter that key on the page). `public/t.js`
+counts page views and key clicks with no cookies and nothing personal stored;
+`netlify/functions/t.mjs` saves them to Netlify Blobs and
+`netlify/functions/stats.mjs` adds them up. Open any page with `?notrack=1`
+to stop counting your own visits on that browser.

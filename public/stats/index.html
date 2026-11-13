@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Stats | Christmas with CCC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1d0014;--panel:#2a061f;--line:rgba(232,200,122,.22);--cream:#fbefda;--muted:rgba(251,239,218,.62);--gold:#e8c87a;--gold-d:#c9a040}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--cream);font:15px/1.5 Montserrat,system-ui,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:28px clamp(16px,4vw,40px) 60px}
+header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px}
+h1{font:500 34px/1.1 Fraunces,Georgia,serif;margin:0}
+h1 em{color:var(--gold)}
+.sub{color:var(--muted);font-size:13px;margin-top:6px}
+.range{display:flex;gap:6px}
+.range button{font:600 12px Montserrat;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;border-radius:2px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
+.range button[aria-pressed=true]{color:var(--bg);background:var(--gold);border-color:var(--gold)}
+h2{font:600 11px Montserrat;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin:30px 0 12px}
+.tiles{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+@media (max-width:1000px){.tiles{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:560px){.tiles{grid-template-columns:repeat(2,1fr)}}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:14px 16px}
+.tile .n{font:500 32px/1.1 Fraunces,Georgia,serif;font-variant-numeric:tabular-nums}
+.tile .l{font-size:12.5px;color:var(--muted);margin-top:4px}
+.tile.hero{grid-column:span 2}
+.tile.hero .n{font-size:44px}
+.chart{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:16px 16px 8px}
+.chart svg{display:block;width:100%;height:220px;overflow:visible}
+.tip{position:absolute;pointer-events:none;background:#0f000a;border:1px solid var(--line);border-radius:3px;padding:8px 10px;font-size:12.5px;white-space:nowrap;transform:translate(-50%,-100%);opacity:0;transition:opacity .1s}
+.tip b{display:block;font-weight:600;color:var(--gold)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid rgba(232,200,122,.1)}
+th{font:600 11px Montserrat;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+td.n,th.n{text-align:right}
+td .bar{display:block;height:4px;border-radius:0 4px 4px 0;background:var(--gold-d);margin-top:5px;max-width:100%}
+.empty{color:var(--muted);padding:14px}
+.gate{max-width:420px;margin:12vh auto;text-align:center}
+.gate input{width:100%;padding:12px 14px;font:inherit;background:var(--panel);color:var(--cream);border:1px solid var(--line);border-radius:3px;margin:14px 0}
+.gate button{font:600 13px Montserrat;letter-spacing:.14em;text-transform:uppercase;padding:12px 20px;border:0;border-radius:2px;background:var(--gold);color:var(--bg);cursor:pointer}
+.err{color:#ffb3a1;font-size:13px;min-height:20px}
+.note{color:var(--muted);font-size:12.5px;margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<script>
+(() => {
+  const app = document.getElementById('app');
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const fmt = n => n.toLocaleString('en-US');
+  let key = ''; try { key = localStorage.getItem('ccc-stats-key') || ''; } catch (e) {}
+  let data = null, range = 'season';
+
+  const LABELS = {
+    plan_visit: 'Plan your visit clicks', directions: 'Directions clicks', calendar: 'Added to a calendar',
+    invite: 'Invites sent or copied', watch: 'Watch online clicks', live_open: 'Live stream opens',
+    candle: 'Candles lit', social: 'Social icon clicks', 'quest:start': 'Quest of the Magi games started', 'quest:finish': 'Quest of the Magi games finished'
+  };
+  const DETAIL = {
+    'plan_visit:nav': 'Plan your visit · top bar', 'plan_visit:services': 'Plan your visit · service cards', 'plan_visit:bethlehem': 'Plan your visit · bottom of page',
+    'calendar:google': 'Calendar · Google', 'calendar:ics': 'Calendar · Apple or Outlook',
+    'invite:share': 'Invite · share button', 'invite:text': 'Invite · text button', 'invite:copy': 'Invite · copy button',
+    'invite:nfc-text': 'Invite · seat-back tag, text', 'invite:nfc-copy': 'Invite · seat-back tag, copy',
+    'watch:youtube': 'Watch · YouTube button', 'watch:app': 'Watch · CCC app button',
+    'live_open:tap': 'Live stream · opened by tap', 'live_open:pull': 'Live stream · opened by pulling the tassel',
+    'quest:start': 'Quest · new game', 'quest:continue': 'Quest · continued a saved game', 'quest:finish': 'Quest · finished'
+  };
+  const SOURCES = { direct: 'Direct, texts and apps', google: 'Google', facebook: 'Facebook', instagram: 'Instagram', youtube: 'YouTube', x: 'X', threads: 'Threads', tiktok: 'TikTok', 'cccomaha.org': 'cccomaha.org', nfc: 'Seat-back tags', 'church-center': 'Church Center', bing: 'Bing', duckduckgo: 'DuckDuckGo' };
+  const PAGES = { home: 'Main page', text: 'Seat-back tag page (/text)', quest: 'Quest of the Magi', share: 'Facebook share link (/share)' };
+
+  function gate(msg) {
+    app.innerHTML = `<div class="gate"><h1>Christmas with <em>CCC</em></h1><p class="sub">Enter the stats key to see visits and clicks.</p>
+      <input id="k" type="password" autocomplete="current-password" placeholder="Stats key"><div class="err">${esc(msg || '')}</div><button id="go">View stats</button></div>`;
+    const k = document.getElementById('k'); k.focus();
+    const go = () => { key = k.value.trim(); load(); };
+    document.getElementById('go').onclick = go; k.onkeydown = e => { if (e.key === 'Enter') go(); };
+  }
+
+  async function load() {
+    if (!key) return gate();
+    app.innerHTML = '<p class="sub">Loading…</p>';
+    try {
+      const r = await fetch('/api/stats?key=' + encodeURIComponent(key));
+      const d = await r.json();
+      if (!r.ok) { if (r.status === 401) { try { localStorage.removeItem('ccc-stats-key'); } catch (e) {} } return gate(d.error); }
+      try { localStorage.setItem('ccc-stats-key', key); } catch (e) {}
+      data = d; render();
+    } catch (e) { gate('Could not load stats. Try again.'); }
+  }
+
+  const sum = (days, f) => days.reduce((a, d) => a + f(d), 0);
+  const merge = (days, field) => days.reduce((o, d) => { for (const [k, v] of Object.entries(d[field] || {})) o[k] = (o[k] || 0) + v; return o; }, {});
+  const evTotal = (ev, name) => Object.entries(ev).filter(([k]) => k === name || k.startsWith(name + ':')).reduce((a, [, v]) => a + v, 0);
+
+  function rows(obj, names, total) {
+    const list = Object.entries(obj).sort((a, b) => b[1] - a[1]);
+    if (!list.length) return `<tr><td class="empty" colspan="2">Nothing yet</td></tr>`;
+    const max = list[0][1];
+    return list.map(([k, v]) => `<tr><td>${esc(names[k] || k)}<span class="bar" style="width:${(v / max * 100).toFixed(1)}%"></span></td><td class="n">${fmt(v)}${total ? ` <span style="color:var(--muted)">· ${Math.round(v / total * 100)}%</span>` : ''}</td></tr>`).join('');
+  }
+
+  function render() {
+    const all = data.days;
+    const days = range === '7' ? all.slice(-7) : range === '30' ? all.slice(-30) : all;
+    const ev = merge(days, 'events'), pages = merge(days, 'pages'), src = merge(days, 'sources'), dev = merge(days, 'devices');
+    const uv = sum(days, d => d.uv), pv = sum(days, d => d.pv);
+    const tiles = [
+      ['Visits (each person once a day)', uv, true], ['Page views', pv],
+      [LABELS.plan_visit, evTotal(ev, 'plan_visit')], [LABELS.invite, evTotal(ev, 'invite')],
+      ['Seat-back tag taps', pages.text || 0], [LABELS.calendar, evTotal(ev, 'calendar')],
+      [LABELS.directions, evTotal(ev, 'directions')], [LABELS.live_open, evTotal(ev, 'live_open')],
+      [LABELS.watch, evTotal(ev, 'watch')], [LABELS['quest:start'], (ev['quest:start'] || 0) + (ev['quest:continue'] || 0)],
+      [LABELS['quest:finish'], ev['quest:finish'] || 0],
+    ];
+    const srcTotal = Object.values(src).reduce((a, b) => a + b, 0), devTotal = Object.values(dev).reduce((a, b) => a + b, 0);
+    const detail = Object.fromEntries(Object.entries(ev).filter(([k]) => k.includes(':') || k === 'directions' || k === 'candle'));
+
+    app.innerHTML = `
+      <header>
+        <div><h1>Christmas with <em>CCC</em> stats</h1><div class="sub">${days[0] ? md(days[0].day) : ''} to ${md(data.today)} · Central time · updates live</div></div>
+        <div class="range" role="group" aria-label="Date range">
+          <button data-r="7" aria-pressed="${range === '7'}">Last 7 days</button>
+          <button data-r="30" aria-pressed="${range === '30'}">Last 30 days</button>
+          <button data-r="season" aria-pressed="${range === 'season'}">Since November 1</button>
+        </div>
+      </header>
+      <div class="tiles">${tiles.map(([l, n, hero]) => `<div class="tile${hero ? ' hero' : ''}"><div class="n">${fmt(n)}</div><div class="l">${esc(l)}</div></div>`).join('')}</div>
+      <h2>Visits per day</h2>
+      <div class="chart" id="chart"><svg id="svg" role="img" aria-label="Visits per day"></svg><div class="tip" id="tip"></div></div>
+      <div class="grid2">
+        <div>
+          <h2>Where visitors came from</h2><table><thead><tr><th>Source</th><th class="n">Page views</th></tr></thead><tbody>${rows(src, SOURCES, srcTotal)}</tbody></table>
+          <h2>Pages</h2><table><thead><tr><th>Page</th><th class="n">Views</th></tr></thead><tbody>${rows(pages, PAGES)}</tbody></table>
+          <h2>Devices</h2><table><thead><tr><th>Device</th><th class="n">Page views</th></tr></thead><tbody>${rows(dev, { mobile: 'Phone', desktop: 'Computer', tablet: 'Tablet' }, devTotal)}</tbody></table>
+        </div>
+        <div><h2>What people clicked</h2><table><thead><tr><th>Click</th><th class="n">Count</th></tr></thead><tbody>${rows(detail, { ...DETAIL, directions: 'Directions', candle: 'Candle lit' })}</tbody></table></div>
+      </div>
+      <p class="note">Counts only, with no cookies and nothing personal stored. A visit counts each person once per day. Your own visits count too: open christmaswithccc.com/?notrack=1 on each of your devices to leave them out.</p>`;
+    app.querySelectorAll('.range button').forEach(b => b.onclick = () => { range = b.dataset.r; render(); });
+    chart(days);
+  }
+
+  function chart(days) {
+    const svg = document.getElementById('svg'), tip = document.getElementById('tip'), box = document.getElementById('chart');
+    const W = svg.clientWidth, H = 220, L = 36, B = 22, T = 8;
+    const max = Math.max(4, ...days.map(d => d.uv));
+    const step = Math.pow(10, Math.floor(Math.log10(max))) * (max / Math.pow(10, Math.floor(Math.log10(max))) > 5 ? 2 : 1);
+    const top = Math.ceil(max / step) * step, y = v => T + (H - T - B) * (1 - v / top);
+    const bw = (W - L) / days.length, gap = Math.min(2, bw * .2), w = Math.max(1, bw - gap);
+    let g = '';
+    for (let v = 0; v <= top; v += step) g += `<line x1="${L}" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(232,200,122,.12)"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end" fill="rgba(251,239,218,.55)" font-size="11">${fmt(v)}</text>`;
+    const r = Math.min(4, w / 2);
+    days.forEach((d, i) => {
+      const x = L + i * bw + gap / 2, h = (H - B) - y(d.uv), yy = y(d.uv);
+      if (d.uv > 0) g += `<path d="M${x},${H - B} V${yy + r} Q${x},${yy} ${x + r},${yy} H${x + w - r} Q${x + w},${yy} ${x + w},${yy + r} V${H - B} Z" fill="#c9a040"/>`;
+      g += `<rect class="hit" data-i="${i}" x="${L + i * bw}" y="${T}" width="${bw}" height="${H - T - B}" fill="transparent"/>`;
+    });
+    const lab = days.length <= 10 ? 1 : Math.ceil(days.length / 8);
+    days.forEach((d, i) => { if (i % lab === 0) g += `<text x="${L + i * bw + bw / 2}" y="${H - 5}" text-anchor="middle" fill="rgba(251,239,218,.55)" font-size="11">${short(d.day)}</text>`; });
+    svg.innerHTML = g;
+    svg.querySelectorAll('.hit').forEach(el => {
+      el.onmouseenter = () => {
+        const d = days[+el.dataset.i], bb = box.getBoundingClientRect(), eb = el.getBoundingClientRect();
+        tip.innerHTML = `<b>${long(d.day)}</b>${fmt(d.uv)} visits · ${fmt(d.pv)} page views`;
+        tip.style.left = (eb.left - bb.left + eb.width / 2) + 'px'; tip.style.top = (16 + y(d.uv) - 6) + 'px'; tip.style.opacity = 1;
+      };
+      el.onmouseleave = () => tip.style.opacity = 0;
+    });
+  }
+  const dt = s => new Date(s + 'T12:00:00Z');
+  const short = s => { const d = dt(s); return (d.getUTCMonth() + 1) + '/' + d.getUTCDate(); };
+  const md = s => dt(s).toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' });
+  const long = s => dt(s).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' });
+  addEventListener('resize', () => data && render());
+  load();
+})();
+</script>
+</body>
+</html>

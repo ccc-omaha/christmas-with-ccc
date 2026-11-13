@@ -1215,7 +1215,7 @@ html.is-live #live{transform:none}
   const cta = $('liveCta'), txt = $('liveTxt');
   const q = new URLSearchParams(location.search).get('live') || '';
   const forced = (q.match(/(?:v=|youtu\.be\/|\/live\/|\/embed\/|\/shorts\/)([\w-]{11})/) || [])[1] || (/^[\w-]{11}$/.test(q) ? q : null);
-  let id = null, timer = null, isOpen = false;
+  let id = null, timer = null, isOpen = false, how = 'tap';
 
   // Which stream window are we in? 'christmas', 'weekly' or null.
   const windowKind = (now = new Date()) => {
@@ -1252,10 +1252,10 @@ html.is-live #live{transform:none}
     shade.style.opacity = shade.style.pointerEvents = '';
     bar.setAttribute('aria-expanded', open);
     cta.textContent = open ? 'Close' : cta.dataset.open;
-    if (open) loadVideo();
+    if (open) { loadVideo(); window.cccTrack && cccTrack('live_open', how); }
     else setTimeout(() => { if (!isOpen) frame.textContent = ''; }, 700);
   };
-  bar.addEventListener('click', () => setOpen(!isOpen));
+  bar.addEventListener('click', () => { how = 'tap'; setOpen(!isOpen); });
   shade.addEventListener('click', () => setOpen(false));
   addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen) setOpen(false); });
   addEventListener('resize', () => { if (isOpen) panel.style.height = full() + 'px'; });
@@ -1285,7 +1285,8 @@ html.is-live #live{transform:none}
     if (!drag) return;
     const d = drag; drag = null;
     box.classList.remove('dragging');
-    if (!d.moved) return setOpen(!isOpen);
+    if (!d.moved) { how = 'tap'; return setOpen(!isOpen); }
+    how = 'pull';
     // A short pull is enough: about 100px down opens it, about 100px up closes it.
     const t = Math.min(100, d.F * .2);
     setOpen(isOpen ? d.cur > d.F - t : d.cur > t);
@@ -1312,5 +1313,6 @@ html.is-live #live{transform:none}
 </script>{% endif %}
 
 
+<script src="/t.js" defer></script>
 </body>
 </html>

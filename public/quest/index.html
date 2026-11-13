@@ -1106,6 +1106,7 @@ const MAGI = new Image(); MAGI.src = '../assets/magi-900.webp';
 function resetState(){ state.gifts = { gold:false, frank:false, myrrh:false }; state.flags = {}; }
 function giftsForChapter(n){ if (n >= 1) state.gifts = { gold:true, frank:true, myrrh:true }; if (n >= 1) state.flags.starOut = true; }
 async function startAt(n){
+  window.cccTrack && cccTrack('quest', n ? 'continue' : 'start');
   $('#title').hidden = true; $('#end').hidden = true; audio();
   resetState(); giftsForChapter(n);
   running = true; document.body.classList.add('playing'); checkRotate();
@@ -1113,6 +1114,7 @@ async function startAt(n){
   if (n === 0) await narr('Night after night, the magi studied the sky. Tonight, something is different.');
 }
 function finish(){
+  window.cccTrack && cccTrack('quest', 'finish');
   store.set('qotm-ch', '0'); running = false; document.body.classList.remove('playing');
   setTimeout(() => { $('#end').hidden = false; $('#end').querySelector('.btn').focus(); }, 500);
 }
@@ -1131,5 +1133,6 @@ requestAnimationFrame(loop);
 window.__q = { state, player, get scene(){ return scene; }, get dlg(){ return dlg; }, get choice(){ return choice; }, get mini(){ return mini; }, get card(){ return card; }, get item(){ return item; }, get busy(){ return busy; }, get camX(){ return camX; }, nearest: () => scene && nearest(), goScene, startAt };
 })();
 </script>
+<script src="/t.js" defer></script>
 </body>
 </html>
