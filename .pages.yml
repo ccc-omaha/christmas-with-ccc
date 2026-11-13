@@ -32,6 +32,7 @@ content:
         fields:
           - name: date
             label: Date
+            description: The calendar date of this night. Sets the day name and date shown on its card.
             type: date
             required: true
             options:
@@ -46,6 +47,7 @@ content:
             description: Italic line under the date.
           - name: services
             label: Services
+            description: The service times on this night, earliest first.
             type: object
             list:
               collapsible:
@@ -79,6 +81,7 @@ content:
             description: "Line at the bottom of the card, for example: Also streaming live online"
       - name: eyebrow
         label: Section label
+        description: The small all-caps line above the service times.
         type: string
       - name: heading
         label: Section heading
@@ -86,6 +89,7 @@ content:
         description: Wrap words in *asterisks* for the gold italic.
       - name: lede
         label: Intro paragraph
+        description: The paragraph under the service times heading.
         type: text
       - name: whereNote
         label: '"Where" column note'
@@ -93,24 +97,31 @@ content:
         description: The line under the address.
       - name: doorsHeading
         label: Middle column heading
+        description: The small heading in the middle column under the times.
         type: string
       - name: doorsText
         label: Middle column text
+        description: The text under the middle column heading.
         type: text
       - name: accessHeading
         label: Right column heading
+        description: The small heading in the right column under the times.
         type: string
       - name: accessText
         label: Right column text
+        description: The text under the right column heading.
         type: text
       - name: planKicker
         label: '"Plan your visit" card: small label'
+        description: The small all-caps line at the top of the Plan your visit card.
         type: string
       - name: planHeading
         label: '"Plan your visit" card: heading'
+        description: The big heading on the Plan your visit card.
         type: string
       - name: planText
         label: '"Plan your visit" card: text'
+        description: The paragraph on the Plan your visit card.
         type: text
 
   # ---------------------------------------------------------------
@@ -126,9 +137,11 @@ content:
         description: The dates above it come from Service times automatically.
       - name: scrollCue
         label: Scroll prompt
+        description: The small word next to the line at the bottom of the opening screen, inviting people to scroll.
         type: string
       - name: storyEyebrow
         label: Story label
+        description: The small all-caps line at the start of the story section.
         type: string
       - name: storyLines
         label: Story lines
@@ -137,12 +150,15 @@ content:
         description: The lines that fade in one by one.
       - name: storyBigLine
         label: Story closing line (large)
+        description: The large closing line at the end of the story.
         type: string
       - name: storyVerse
         label: Verse
+        description: The verse under the story.
         type: text
       - name: storyVerseRef
         label: Verse reference
+        description: Shown after the verse, for example Luke 2:11.
         type: string
 
   # ---------------------------------------------------------------
@@ -152,9 +168,9 @@ content:
     path: content/expect.json
     format: json
     fields:
-      - { name: eyebrow, label: Section label, type: string }
-      - { name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic." }
-      - { name: lede, label: Intro paragraph, type: text, description: "Links: [link text](https://example.com)" }
+      - {name: eyebrow, label: Section label, description: The small all-caps line above the What to expect panels., type: string}
+      - {name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic."}
+      - {name: lede, label: Intro paragraph, type: text, description: "Links: [link text](https://example.com)"}
       - name: panels
         label: Panels
         description: The four boxes. Icons stay in this order.
@@ -165,8 +181,8 @@ content:
             collapsed: true
             summary: "{title}"
         fields:
-          - { name: title, label: Title, type: string }
-          - { name: text, label: Text, type: text }
+          - {name: title, label: Title, description: The heading on this panel., type: string}
+          - {name: text, label: Text, description: The paragraph on this panel., type: text}
 
   # ---------------------------------------------------------------
   - name: gallery
@@ -175,8 +191,8 @@ content:
     path: content/gallery.json
     format: json
     fields:
-      - { name: eyebrow, label: Section label, type: string }
-      - { name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic." }
+      - {name: eyebrow, label: Section label, description: The small all-caps line above the photo gallery., type: string}
+      - {name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic."}
       - name: photos
         label: Photos
         description: Photos alternate between the two scrolling rows. Tall photos get the arched frame automatically.
@@ -192,8 +208,8 @@ content:
             options:
               path: public/assets/gallery
             description: "Keep files under 2 MB. Larger photos are shrunk automatically after upload."
-          - { name: alt, label: Description for screen readers and Google, type: string }
-          - { name: caption, label: Caption in the photo viewer, type: string }
+          - {name: alt, label: Description for screen readers and Google, description: One sentence describing the photo. Not shown on the page., type: string}
+          - {name: caption, label: Caption in the photo viewer, description: Shown under the photo when someone opens it full screen., type: string}
 
   # ---------------------------------------------------------------
   - name: online
@@ -202,16 +218,16 @@ content:
     path: content/online.json
     format: json
     fields:
-      - { name: eyebrow, label: Section label, type: string }
-      - { name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic." }
-      - { name: lede, label: Intro paragraph, type: text }
-      - { name: youtubeUrl, label: YouTube link, type: string }
-      - { name: appUrl, label: CCC app link, type: string, description: "On phones, this is swapped for the App Store or Google Play link automatically." }
-      - { name: appNote, label: Note under the buttons, type: text }
-      - { name: checklistHeading, label: Checklist heading, type: string }
-      - { name: checklistNote, label: Checklist note, type: string }
-      - { name: checklist, label: Checklist items, type: string, list: true, description: "The last item is checked automatically when someone lights the candle." }
-      - { name: candleNote, label: Candle note, type: string }
+      - {name: eyebrow, label: Section label, description: The small all-caps line above the Watch online section., type: string}
+      - {name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic."}
+      - {name: lede, label: Intro paragraph, description: The paragraph at the top of the Watch online section., type: text}
+      - {name: youtubeUrl, label: YouTube link, description: Where the watch button goes. Paste the YouTube channel or livestream link., type: string}
+      - {name: appUrl, label: CCC app link, type: string, description: "On phones, this is swapped for the App Store or Google Play link automatically."}
+      - {name: appNote, label: Note under the buttons, description: 'The small note under the watch buttons. Use [link text](https://...) for links.', type: text}
+      - {name: checklistHeading, label: Checklist heading, description: The heading on the watch-at-home checklist card., type: string}
+      - {name: checklistNote, label: Checklist note, description: The small line under the checklist heading., type: string}
+      - {name: checklist, label: Checklist items, type: string, list: true, description: "The last item is checked automatically when someone lights the candle."}
+      - {name: candleNote, label: Candle note, description: The small note at the bottom of the checklist card., type: string}
 
   # ---------------------------------------------------------------
   - name: faq
@@ -220,8 +236,8 @@ content:
     path: content/faq.json
     format: json
     fields:
-      - { name: eyebrow, label: Section label, type: string }
-      - { name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic." }
+      - {name: eyebrow, label: Section label, description: The small all-caps line above the questions., type: string}
+      - {name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic."}
       - name: items
         label: Questions
         description: These also feed Google's FAQ results. If service times change, update the answers here.
@@ -231,9 +247,9 @@ content:
             collapsed: true
             summary: "{question}"
         fields:
-          - { name: question, label: Question, type: string }
-          - { name: answer, label: Answer, type: text }
-      - { name: footnote, label: Note under the questions, type: string, description: "Links: [link text](https://example.com)" }
+          - {name: question, label: Question, description: The line people click to open the answer., type: string}
+          - {name: answer, label: Answer, description: 'Shown when the question is opened. Use **bold** or [link text](https://...).', type: text}
+      - {name: footnote, label: Note under the questions, type: string, description: "Links: [link text](https://example.com)"}
 
   # ---------------------------------------------------------------
   - name: invite
@@ -242,13 +258,13 @@ content:
     path: content/invite.json
     format: json
     fields:
-      - { name: eyebrow, label: Section label, type: string }
-      - { name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic." }
-      - { name: lede, label: Intro paragraph, type: text }
-      - { name: message, label: Invite message, type: text, description: "{service} becomes the service they pick. {link} becomes the site address." }
-      - { name: textPageHeading, label: "Text-a-friend page (/text): heading", type: string }
-      - { name: textPageLede, label: "Text-a-friend page: intro", type: text }
-      - { name: textPageMessage, label: "Text-a-friend page: message", type: text, description: "Lists service times by hand, so update it if times change. {link} becomes the site address." }
+      - {name: eyebrow, label: Section label, description: The small all-caps line above the Invite section., type: string}
+      - {name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic."}
+      - {name: lede, label: Intro paragraph, description: The paragraph at the top of the Invite section., type: text}
+      - {name: message, label: Invite message, type: text, description: "{service} becomes the service they pick. {link} becomes the site address."}
+      - {name: textPageHeading, label: "Text-a-friend page (/text): heading", description: The big heading on the separate text-a-friend page (christmaswithccc.com/text)., type: string}
+      - {name: textPageLede, label: "Text-a-friend page: intro", description: The paragraph under that heading on the text-a-friend page., type: text}
+      - {name: textPageMessage, label: "Text-a-friend page: message", type: text, description: "Lists service times by hand, so update it if times change. {link} becomes the site address."}
 
   # ---------------------------------------------------------------
   - name: closing
@@ -257,11 +273,11 @@ content:
     path: content/closing.json
     format: json
     fields:
-      - { name: eyebrow, label: Section label, type: string }
-      - { name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic." }
-      - { name: lede, label: Paragraph, type: text }
-      - { name: scripture, label: Scripture, type: text }
-      - { name: scriptureRef, label: Scripture reference, type: string }
+      - {name: eyebrow, label: Section label, description: The small all-caps line above the closing section at the bottom of the page., type: string}
+      - {name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic."}
+      - {name: lede, label: Paragraph, description: The paragraph in the closing section., type: text}
+      - {name: scripture, label: Scripture, description: The scripture quote in the closing section., type: text}
+      - {name: scriptureRef, label: Scripture reference, description: 'Shown under the closing scripture, for example Micah 5:2.', type: string}
 
   # ---------------------------------------------------------------
   - name: settings
@@ -270,23 +286,24 @@ content:
     path: content/settings.json
     format: json
     fields:
-      - { name: planVisitUrl, label: '"Plan your visit" form link', type: string, description: Used by all three Plan your visit buttons. }
-      - { name: seoTitle, label: Google title, type: string }
-      - { name: seoDescription, label: Google description, type: text, description: "Shown under the title in Google. Lists service times by hand, so update it if times change." }
-      - { name: shareDescription, label: Text-message and social preview text, type: text }
+      - {name: planVisitUrl, label: '"Plan your visit" form link', type: string, description: Used by all three Plan your visit buttons.}
+      - {name: seoTitle, label: Google title, description: The title in the browser tab and in Google results., type: string}
+      - {name: seoDescription, label: Google description, type: text, description: "Shown under the title in Google. Lists service times by hand, so update it if times change."}
+      - {name: shareDescription, label: Text-message and social preview text, description: 'The text that appears when the link is shared in a text, email or social post.', type: text}
       - name: shareImageTall
         label: Social preview image (tall, 1080 × 1350)
         type: image
         options:
           path: public/assets
         description: The times are part of the graphic, so make a new one if times change.
-      - { name: shareImageTallAlt, label: Tall image description, type: text }
+      - {name: shareImageTallAlt, label: Tall image description, description: One sentence describing the tall share image. Not shown on the page., type: text}
       - name: shareImageWide
         label: Social preview image (wide, 1200 × 630)
+        description: The picture shown when the link is shared on Facebook or in a message. Use 1200 × 630.
         type: image
         options:
           path: public/assets
-      - { name: shareImageWideAlt, label: Wide image description, type: text }
-      - { name: eventDescription, label: Google event description, type: text }
-      - { name: calendarDescription, label: Calendar event description, type: text, description: "What appears in someone's calendar when they tap Add to calendar." }
-      - { name: footerNote, label: Footer note, type: string, description: "Links: [link text](https://example.com)" }
+      - {name: shareImageWideAlt, label: Wide image description, description: One sentence describing the wide share image. Not shown on the page., type: text}
+      - {name: eventDescription, label: Google event description, description: One or two sentences Google shows with the event listing. Not shown on the page., type: text}
+      - {name: calendarDescription, label: Calendar event description, type: text, description: "What appears in someone's calendar when they tap Add to calendar."}
+      - {name: footerNote, label: Footer note, type: string, description: "Links: [link text](https://example.com)"}

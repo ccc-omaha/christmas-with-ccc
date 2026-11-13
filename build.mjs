@@ -20,12 +20,15 @@ const schemaBase = read("src/schema-base.json");
 
 /* ---------- helpers ---------- */
 const esc = t => String(t ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-// Tiny inline formatting for staff: *italic* and [link text](https://...)
+// Tiny inline formatting for staff: **bold**, *italic* and [link text](https://...).
+// The last two words are tied together so a paragraph never ends on one orphaned word.
 const md = t => esc(t)
   .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]*|#[^)\s]*)\)/g, (_, txt, url) =>
     url.startsWith("http") ? `<a href="${url}" target="_blank" rel="noopener">${txt}</a>` : `<a href="${url}">${txt}</a>`)
-  .replace(/\*([^*]+)\*/g, "<em>$1</em>");
-const plain = t => String(t ?? "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*([^*]+)\*/g, "$1");
+  .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+  .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+  .replace(/ ([^\s<>]{1,14})((?:<\/[a-z]+>)*)$/i, "&nbsp;$1$2");
+const plain = t => String(t ?? "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\*+([^*]+)\*+/g, "$1");
 const jsonscript = v => JSON.stringify(v).replace(/</g, "\\u003c").replace(/>/g, "\\u003e").replace(/&/g, "\\u0026");
 
 const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
