@@ -1,6 +1,6 @@
 {
   "eyebrow": "Watch from home",
-  "heading": "Can't be here? *Bring Christmas home.*",
+  "heading": "Can’t be here? *Bring Christmas home.*",
   "lede": "Every service on December 23 and 24 streams live on YouTube and the CCC app and remains available for on-demand viewing afterward.",
   "youtubeUrl": "https://www.youtube.com/c/cccomaha",
   "appUrl": "https://cccomaha.org/app",
@@ -12,13 +12,9 @@
     "Invite a few friends or family over",
     "Have a candle ready for the candlelight moment"
   ],
-  "candleNote": "Tap to light. We'll do it together at the end of every service.",
+  "candleNote": "Tap to light. We’ll do it together at the end of every service.",
   "liveBarEnabled": true,
   "liveChannelUrl": "https://www.youtube.com/@cccomaha",
-  "liveLabel": "Live now",
-  "liveText": "Christmas with CCC is streaming",
-  "liveTextWeekly": "Sunday service is streaming",
-  "liveCta": "Watch here",
   "weeklyStreams": [
     {
       "day": "Sunday",
@@ -28,5 +24,9 @@
       "day": "Sunday",
       "time": "10:45 AM"
     }
-  ]
+  ],
+  "liveLabel": "Live now",
+  "liveText": "Christmas with CCC is streaming",
+  "liveTextWeekly": "Sunday service is streaming",
+  "liveCta": "Watch here"
 }
