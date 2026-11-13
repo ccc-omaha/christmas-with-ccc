@@ -76,14 +76,14 @@ const nights = (C.services.nights || []).map(n => {
 const allServices = nights.flatMap(n => n.services);
 
 /* ---------- live bar schedule ---------- */
-// YouTube is only checked from 5 minutes before to 90 minutes after each
+// YouTube is only checked from 5 minutes before to 75 minutes after each
 // Christmas service and each weekly stream time (Central).
 const liveCfg = {
   on: !!C.online.liveBarEnabled,
   channel: C.online.liveChannelUrl || "",
-  windows: allServices.map(s => { const t = Date.parse(s.startIso); return [t - 5 * 60e3, t + 90 * 60e3]; }),
+  windows: allServices.map(s => { const t = Date.parse(s.startIso); return [t - 5 * 60e3, t + 75 * 60e3]; }),
   weekly: (C.online.weeklyStreams || []).filter(w => w && w.time && WEEKDAYS.includes(w.day))
-    .map(w => { const t = parseTime(w.time), m = t.h * 60 + t.min; return { d: WEEKDAYS.indexOf(w.day), s: m - 5, e: m + 90 }; }),
+    .map(w => { const t = parseTime(w.time), m = t.h * 60 + t.min; return { d: WEEKDAYS.indexOf(w.day), s: m - 5, e: m + 75 }; }),
 };
 const defaultService = (allServices.find(s => s.preselect) || allServices[0] || {}).label || "";
 const whenParts = nights.map(n => `<span style="white-space:nowrap">${esc(n.dateShort)}</span>`);

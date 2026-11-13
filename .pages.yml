@@ -232,7 +232,7 @@ content:
       - {name: liveChannelUrl, label: Live bar YouTube channel, type: string, description: "Not shown on the page. The channel the live bar watches, for example https://www.youtube.com/@cccomaha."}
       - name: weeklyStreams
         label: Live bar weekly stream times
-        description: "Not shown on the page. Besides the Christmas services in section 1 (added automatically), the live bar only checks YouTube from 5 minutes before to 90 minutes after these times, Central."
+        description: "Not shown on the page. Besides the Christmas services in section 1 (added automatically), the live bar only checks YouTube from 5 minutes before to 75 minutes after these times, Central."
         type: object
         list:
           collapsible:
