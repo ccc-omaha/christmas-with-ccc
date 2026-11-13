@@ -74,6 +74,17 @@ const nights = (C.services.nights || []).map(n => {
   return { ...n, weekday: wd, dateLong: `${MONTHS[mo - 1]} ${d}`, dateShort: `${wd}, ${MONTHS[mo - 1]} ${d}`, services };
 });
 const allServices = nights.flatMap(n => n.services);
+
+/* ---------- live bar schedule ---------- */
+// YouTube is only checked from 5 minutes before to 90 minutes after each
+// Christmas service and each weekly stream time (Central).
+const liveCfg = {
+  on: !!C.online.liveBarEnabled,
+  channel: C.online.liveChannelUrl || "",
+  windows: allServices.map(s => { const t = Date.parse(s.startIso); return [t - 5 * 60e3, t + 90 * 60e3]; }),
+  weekly: (C.online.weeklyStreams || []).filter(w => w && w.time && WEEKDAYS.includes(w.day))
+    .map(w => { const t = parseTime(w.time), m = t.h * 60 + t.min; return { d: WEEKDAYS.indexOf(w.day), s: m - 5, e: m + 90 }; }),
+};
 const defaultService = (allServices.find(s => s.preselect) || allServices[0] || {}).label || "";
 const whenParts = nights.map(n => `<span style="white-space:nowrap">${esc(n.dateShort)}</span>`);
 const heroWhen = whenParts.length <= 2 ? whenParts.join(" &amp; ") : whenParts.slice(0, -1).join(", ") + " &amp; " + whenParts.at(-1);
@@ -126,7 +137,7 @@ env.addFilter("jsonscript", v => new nunjucks.runtime.SafeString(jsonscript(v)))
 env.addFilter("nbspdots", t => new nunjucks.runtime.SafeString(esc(t).replace(/ · /g, " &nbsp;·&nbsp; ")));
 
 const ctx = {
-  site: SITE, ...C, nights, allServices, defaultService, heroWhen, photos, shareTall, shareWide, jsonld,
+  site: SITE, ...C, liveCfg, nights, allServices, defaultService, heroWhen, photos, shareTall, shareWide, jsonld,
   jsdata: {
     photos: photos.map(p => ({ src: p.src, alt: p.alt, cap: p.cap })),
     defaultService, inviteMessage: C.invite.message, calendarDescription: C.settings.calendarDescription,
@@ -137,6 +148,7 @@ const write = (rel, html) => { const out = path.join(DIST, rel); fs.mkdirSync(pa
 write("index.html", env.render("index.njk", ctx));
 write("text/index.html", env.render("text.njk", ctx));
 write("share/index.html", env.render("share.njk", ctx));
+write("live.json", JSON.stringify(liveCfg));
 
 const today = new Date().toISOString().slice(0, 10);
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>

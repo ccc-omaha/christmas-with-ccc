@@ -17,5 +17,15 @@
   "liveChannelUrl": "https://www.youtube.com/@cccomaha",
   "liveLabel": "Live now",
   "liveText": "Christmas with CCC is streaming",
-  "liveCta": "Watch here"
+  "liveCta": "Watch here",
+  "weeklyStreams": [
+    {
+      "day": "Sunday",
+      "time": "9:00 AM"
+    },
+    {
+      "day": "Sunday",
+      "time": "10:45 AM"
+    }
+  ]
 }

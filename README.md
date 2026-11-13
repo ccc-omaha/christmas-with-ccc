@@ -36,7 +36,8 @@ else. No need to share /share anymore.
 ## Live bar
 While the YouTube channel in section 5 is live, a bar with a tassel appears
 across the top of the page; clicking it slides down the stream. The page asks
-`/api/live` (`netlify/functions/live.mjs`) once a minute; Netlify caches that
+`/api/live` (`netlify/functions/live.mjs`) once a minute, but only from 5 minutes before
+to 90 minutes after each Christmas service and each weekly stream time. Netlify caches that
 answer for 60 seconds, so YouTube is checked about once a minute in total.
-Test it any time with `https://christmaswithccc.com/?live=VIDEO_ID`.
+Test it any time with `https://christmaswithccc.com/?live=` plus a YouTube video ID or link.
 Turn it off in Pages CMS: 5. Watch online → Live bar on.
