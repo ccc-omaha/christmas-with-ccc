@@ -89,7 +89,7 @@ content:
         description: Wrap words in *asterisks* for the gold italic.
       - name: lede
         label: Intro paragraph
-        description: The paragraph under the service times heading.
+        description: "The paragraph under the service times heading. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."
         type: text
       - name: whereNote
         label: '"Where" column note'
@@ -101,7 +101,7 @@ content:
         type: string
       - name: doorsText
         label: Middle column text
-        description: The text under the middle column heading.
+        description: "The text under the middle column heading. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."
         type: text
       - name: accessHeading
         label: Right column heading
@@ -109,7 +109,7 @@ content:
         type: string
       - name: accessText
         label: Right column text
-        description: The text under the right column heading.
+        description: "The text under the right column heading. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."
         type: text
       - name: planKicker
         label: '"Plan your visit" card: small label'
@@ -121,7 +121,7 @@ content:
         type: string
       - name: planText
         label: '"Plan your visit" card: text'
-        description: The paragraph on the Plan your visit card.
+        description: "The paragraph on the Plan your visit card. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."
         type: text
 
   # ---------------------------------------------------------------
@@ -170,7 +170,7 @@ content:
     fields:
       - {name: eyebrow, label: Section label, description: The small all-caps line above the What to expect panels., type: string}
       - {name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic."}
-      - {name: lede, label: Intro paragraph, type: text, description: "Links: [link text](https://example.com)"}
+      - {name: lede, label: Intro paragraph, type: text, description: "Links: [link text](https://example.com) For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side."}
       - name: panels
         label: Panels
         description: The four boxes. Icons stay in this order.
@@ -182,7 +182,7 @@ content:
             summary: "{title}"
         fields:
           - {name: title, label: Title, description: The heading on this panel., type: string}
-          - {name: text, label: Text, description: The paragraph on this panel., type: text}
+          - {name: text, label: Text, description: "The paragraph on this panel. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side.", type: text}
 
   # ---------------------------------------------------------------
   - name: gallery
@@ -220,10 +220,10 @@ content:
     fields:
       - {name: eyebrow, label: Section label, description: The small all-caps line above the Watch online section., type: string}
       - {name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic."}
-      - {name: lede, label: Intro paragraph, description: The paragraph at the top of the Watch online section., type: text}
+      - {name: lede, label: Intro paragraph, description: "The paragraph at the top of the Watch online section. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side.", type: text}
       - {name: youtubeUrl, label: YouTube link, description: Where the watch button goes. Paste the YouTube channel or livestream link., type: string}
       - {name: appUrl, label: CCC app link, type: string, description: "On phones, this is swapped for the App Store or Google Play link automatically."}
-      - {name: appNote, label: Note under the buttons, description: 'The small note under the watch buttons. Use [link text](https://...) for links.', type: text}
+      - {name: appNote, label: Note under the buttons, description: "The small note under the watch buttons. Use [link text](https://...) for links. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side.", type: text}
       - {name: checklistHeading, label: Checklist heading, description: The heading on the watch-at-home checklist card., type: string}
       - {name: checklistNote, label: Checklist note, description: The small line under the checklist heading., type: string}
       - {name: checklist, label: Checklist items, type: string, list: true, description: "The last item is checked automatically when someone lights the candle."}
@@ -265,7 +265,7 @@ content:
             summary: "{question}"
         fields:
           - {name: question, label: Question, description: The line people click to open the answer., type: string}
-          - {name: answer, label: Answer, description: 'Shown when the question is opened. Use **bold** or [link text](https://...).', type: text}
+          - {name: answer, label: Answer, description: "Shown when the question is opened. For a link, use [link text](https://...). For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side.", type: text}
       - {name: footnote, label: Note under the questions, type: string, description: "Links: [link text](https://example.com)"}
 
   # ---------------------------------------------------------------
@@ -277,10 +277,10 @@ content:
     fields:
       - {name: eyebrow, label: Section label, description: The small all-caps line above the Invite section., type: string}
       - {name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic."}
-      - {name: lede, label: Intro paragraph, description: The paragraph at the top of the Invite section., type: text}
+      - {name: lede, label: Intro paragraph, description: "The paragraph at the top of the Invite section. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side.", type: text}
       - {name: message, label: Invite message, type: text, description: "{service} becomes the service they pick. {link} becomes the site address."}
       - {name: textPageHeading, label: "Text-a-friend page (/text): heading", description: The big heading on the separate text-a-friend page (christmaswithccc.com/text)., type: string}
-      - {name: textPageLede, label: "Text-a-friend page: intro", description: The paragraph under that heading on the text-a-friend page., type: text}
+      - {name: textPageLede, label: "Text-a-friend page: intro", description: "The paragraph under that heading on the text-a-friend page. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side.", type: text}
       - {name: textPageMessage, label: "Text-a-friend page: message", type: text, description: "Lists service times by hand, so update it if times change. {link} becomes the site address."}
 
   # ---------------------------------------------------------------
@@ -292,7 +292,7 @@ content:
     fields:
       - {name: eyebrow, label: Section label, description: The small all-caps line above the closing section at the bottom of the page., type: string}
       - {name: heading, label: Section heading, type: string, description: "Wrap words in *asterisks* for the gold italic."}
-      - {name: lede, label: Paragraph, description: The paragraph in the closing section., type: text}
+      - {name: lede, label: Paragraph, description: "The paragraph in the closing section. For italics, put one star (asterisk) on each side of the words. For bold, put two stars on each side.", type: text}
       - {name: scripture, label: Scripture, description: The scripture quote in the closing section., type: text}
       - {name: scriptureRef, label: Scripture reference, description: 'Shown under the closing scripture, for example Micah 5:2.', type: string}
 
