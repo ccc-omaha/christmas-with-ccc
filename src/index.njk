@@ -197,22 +197,23 @@ p{margin:0 0 16px}
 /* nights: arched windows */
 .nights{display:grid;grid-template-columns:1fr 1.35fr;gap:clamp(18px,2.6vw,34px);margin-top:56px;align-items:stretch}
 @media (max-width:860px){.nights{grid-template-columns:1fr}}
-.night{position:relative;display:flex;flex-direction:column;--pf:rgba(30,6,38,.94)}
+.night{position:relative;display:flex;flex-direction:column;--pf:#200626}
 .arch-top{display:block;width:100%;height:clamp(120px,13vw,180px);overflow:visible}
 .arch-top .fill{fill:var(--pf)}
-.arch-top .ln{fill:none;stroke:#c9a040;stroke-width:1.3}
-.arch-top .ln.in{stroke-opacity:.45}
+.arch-top .ln,.frame-sides .ln{fill:none;stroke:#c9a040;stroke-width:1.3}
+.arch-top .ln.in,.frame-sides .ln.in{stroke-opacity:.45}
 .arch-medal{position:absolute;left:50%;top:clamp(54px,6vw,84px);width:34px;height:34px;transform:translateX(-50%);color:var(--gold-2)}
-/* Side lines sit at the same fractions of the card width as the arch SVG (x=0.65, 12, 388, 399.35 of 400),
-   so the straight sides meet the curved top cleanly at every screen width. */
+/* Side lines are drawn by SVG, the same way as the arch above them (same x values of 400, same stroke),
+   so the straight sides render with identical width and antialiasing and meet the curved top cleanly.
+   CSS gradient lines snap to whole pixels while SVG strokes don't, which is what made the seam visible. */
+.frame-sides{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.frame-sides.in{height:calc(100% - 12px)}
 .night-body{position:relative;flex:1;margin-top:-1px;
-  background:linear-gradient(90deg,transparent calc(.1625% - .65px),#c9a040 0 calc(.1625% + .65px),transparent 0 calc(99.8375% - .65px),#c9a040 0 calc(99.8375% + .65px),transparent 0) 0 0/100% calc(100% - 1.3px) no-repeat,
-    linear-gradient(#c9a040,#c9a040) 50% 100%/calc(99.675% + 1.3px) 1.3px no-repeat,
+  background:linear-gradient(#c9a040,#c9a040) 50% 100%/calc(99.675% + 1.3px) 1.3px no-repeat,
     radial-gradient(90% 55% at 50% 62%, rgba(120,30,85,.28), transparent 72%), var(--pf);
   padding:4px clamp(22px,4%,40px) 34px;text-align:center}
 .night-body::before{content:"";position:absolute;left:0;right:0;top:0;bottom:12px;pointer-events:none;
-  background:linear-gradient(90deg,transparent calc(3% - .65px),rgba(201,160,64,.45) 0 calc(3% + .65px),transparent 0 calc(97% - .65px),rgba(201,160,64,.45) 0 calc(97% + .65px),transparent 0) 0 0/100% calc(100% - 1.3px) no-repeat,
-    linear-gradient(rgba(201,160,64,.45),rgba(201,160,64,.45)) 50% 100%/calc(94% + 1.3px) 1.3px no-repeat}
+  background:linear-gradient(rgba(201,160,64,.45),rgba(201,160,64,.45)) 50% 100%/calc(94% + 1.3px) 1.3px no-repeat}
 .night-body::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:7px;background:repeating-linear-gradient(90deg,#c9a040 0 2px,transparent 2px 7px);opacity:.55}
 .night .day{font-size:12.5px;font-weight:600;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-2);margin:0 0 8px}
 .night .date{font-family:var(--serif);font-size:clamp(38px,4vw,54px);line-height:1;margin:0 0 8px}
@@ -548,7 +549,7 @@ html.is-live #live{transform:none}
         {% for night in nights %}
         <article class="night reveal{% if loop.index0 %} d2{% endif %}">
           <svg class="arch-top" viewBox="0 0 400 150" preserveAspectRatio="none" aria-hidden="true"><path class="fill" d="M0.65 150 V104 C0.65 58 132 52 178 22 C192 13 198 7 200 1 C202 7 208 13 222 22 C268 52 399.35 58 399.35 104 V150 Z"/><path class="ln" vector-effect="non-scaling-stroke" d="M0.65 150 V104 C0.65 58 132 52 178 22 C192 13 198 7 200 1 C202 7 208 13 222 22 C268 52 399.35 58 399.35 104 V150"/><path class="ln in" vector-effect="non-scaling-stroke" d="M12 150 V108 C12 68 138 62 182 34 C193 27 198 21 200 16 C202 21 207 27 218 34 C262 62 388 68 388 108 V150"/></svg><svg class="arch-medal" viewBox="-50 -50 100 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="7" fill="currentColor"/></svg>
-          <div class="night-body">
+          <div class="night-body"><svg class="frame-sides" viewBox="0 0 400 1" preserveAspectRatio="none" aria-hidden="true"><path class="ln" vector-effect="non-scaling-stroke" d="M0.65 0V1M399.35 0V1"/></svg><svg class="frame-sides in" viewBox="0 0 400 1" preserveAspectRatio="none" aria-hidden="true"><path class="ln in" vector-effect="non-scaling-stroke" d="M12 0V1M388 0V1"/></svg>
             <p class="day">{{ night.dayLabel }}</p>
             <p class="date">{{ night.dateLong }}</p>
             <p class="sub">{{ night.subtitle }}</p>
@@ -585,7 +586,7 @@ html.is-live #live{transform:none}
 
       <article class="night door reveal">
         <svg class="arch-top" viewBox="0 0 400 150" preserveAspectRatio="none" aria-hidden="true"><path class="fill" d="M0.65 150 V104 C0.65 58 132 52 178 22 C192 13 198 7 200 1 C202 7 208 13 222 22 C268 52 399.35 58 399.35 104 V150 Z"/><path class="ln" vector-effect="non-scaling-stroke" d="M0.65 150 V104 C0.65 58 132 52 178 22 C192 13 198 7 200 1 C202 7 208 13 222 22 C268 52 399.35 58 399.35 104 V150"/><path class="ln in" vector-effect="non-scaling-stroke" d="M12 150 V108 C12 68 138 62 182 34 C193 27 198 21 200 16 C202 21 207 27 218 34 C262 62 388 68 388 108 V150"/></svg><svg class="arch-medal" viewBox="-50 -50 100 100" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4"><rect x="-30" y="-30" width="60" height="60"/><rect x="-30" y="-30" width="60" height="60" transform="rotate(45)"/></g><circle r="7" fill="currentColor"/></svg>
-        <div class="night-body">
+        <div class="night-body"><svg class="frame-sides" viewBox="0 0 400 1" preserveAspectRatio="none" aria-hidden="true"><path class="ln" vector-effect="non-scaling-stroke" d="M0.65 0V1M399.35 0V1"/></svg><svg class="frame-sides in" viewBox="0 0 400 1" preserveAspectRatio="none" aria-hidden="true"><path class="ln in" vector-effect="non-scaling-stroke" d="M12 0V1M388 0V1"/></svg>
           <p class="day">{{ services.planKicker }}</p>
           <h3>{{ services.planHeading }}</h3>
           <p>{{ services.planText | md }}</p>
